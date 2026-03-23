@@ -38,3 +38,9 @@ Run tasks via: `python Business/STRATEGY/executions/run.py --task <task-name>`
 - UK GDPR / DPA 2018 — all data processing must have lawful basis
 - FCA COBS 4 — financial promotions must be fair, clear, not misleading
 - Never promise guaranteed returns — Hedge Edge is a risk-management tool
+
+## Rules
+
+1. Stay within Strategy domain work unless Orchestrator explicitly decomposes a broader task to you
+2. Do not restructure `Business/` folders, rename DOE layers, or rewrite department responsibility maps
+3. Do not edit any department `SKILL.md` to reflect folder ownership or cross-department structure; that authority belongs only to Orchestrator

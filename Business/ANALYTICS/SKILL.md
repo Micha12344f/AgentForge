@@ -2,6 +2,8 @@
 
 > **Adopt this department to gain**: Data measurement, KPI tracking, attribution auditing, funnel analysis, and reporting skills across every Hedge Edge touchpoint.
 
+> **Governance note**: Analytics owns analytics content. Orchestrator alone owns cross-department DOE restructuring and any `SKILL.md` rewrite that changes folder-role mapping or explains what folders now do.
+
 ---
 
 ## Skills You Gain

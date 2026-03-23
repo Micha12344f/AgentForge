@@ -2,6 +2,8 @@
 
 > **Adopt this department to gain**: Competitive intelligence, growth modelling, legal compliance, product management, market research, and investor-grade strategic analysis skills.
 
+> **Governance note**: Strategy owns strategy content. Orchestrator alone owns cross-department DOE restructuring and any `SKILL.md` rewrite that changes folder-role mapping or explains what folders now do.
+
 ---
 
 ## Skills You Gain

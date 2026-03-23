@@ -28,3 +28,9 @@ Run tasks via: `python Business/FINANCE/executions/run.py --task <task-name>`
 
 1. **SaaS Subscriptions** — Creem.io monthly/annual plans
 2. **IB Commissions** — monthly from BlackBull + Vantage per referred trader volume
+
+## Rules
+
+1. Stay within Finance domain work unless Orchestrator explicitly decomposes a broader task to you
+2. Do not restructure `Business/` folders, rename DOE layers, or rewrite department responsibility maps
+3. Do not edit any department `SKILL.md` to reflect folder ownership or cross-department structure; that authority belongs only to Orchestrator

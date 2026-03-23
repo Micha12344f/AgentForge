@@ -2,6 +2,8 @@
 
 > **Adopt this department to gain**: Revenue tracking, IB commission reconciliation, expense management, financial reporting, and invoicing skills for all Hedge Edge money flows.
 
+> **Governance note**: Finance owns finance content. Orchestrator alone owns cross-department DOE restructuring and any `SKILL.md` rewrite that changes folder-role mapping or explains what folders now do.
+
 ---
 
 ## Skills You Gain

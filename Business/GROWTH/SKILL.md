@@ -2,6 +2,8 @@
 
 > **Adopt this department to gain**: Customer acquisition, email marketing, social media management, content creation, community building, lead qualification, CRM management, and sales pipeline skills.
 
+> **Governance note**: Growth owns growth content. Orchestrator alone owns cross-department DOE restructuring and any `SKILL.md` rewrite that changes folder-role mapping or explains what folders now do.
+
 ---
 
 ## Skills You Gain

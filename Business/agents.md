@@ -23,6 +23,12 @@ Every department follows the same **D·O·E** pattern:
 
 Each department's `SKILL.md` is the entry point. Read it to understand what skills you gain by adopting that department.
 
+## Governance Model
+
+- **Orchestrator owns structure**: Only Orchestrator may change cross-department DOE structure, move files between departments, or rewrite `SKILL.md` files to describe new folder ownership and what each folder now does.
+- **Department agents own content**: Analytics, Finance, Growth, and Strategy can improve directives, executions, and resources inside their domain, but they do not own cross-department structural edits.
+- **Structural source of truth**: When the workspace layout changes, update `Business/agents.md`, `Business/ORCHESTRATOR/SKILL.md`, and the affected department `SKILL.md` files through Orchestrator.
+
 ---
 
 ## Department Map

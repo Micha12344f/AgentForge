@@ -8,6 +8,12 @@
 
 The Orchestrator does not perform domain work — it routes, decomposes, coordinates, monitors, and deploys. Every inbound request passes through here first.
 
+## Governance
+
+- **DOE owner**: Orchestrator is the only department allowed to reorganise files across `Business/` so the Directives, Executions, Resources, and `SKILL.md` pattern stays coherent.
+- **SKILL.md owner**: Orchestrator is the only department allowed to rewrite department `SKILL.md` files when folder structure changes, responsibilities move, or comments need to explain what each folder now does.
+- **Department boundary**: Other department agents may update domain content inside their lane, but they do not own cross-department structure, folder mapping, or department skill-governance docs.
+
 ### Skill 1 — Agent Routing & Intent Classification
 - **Directive**: `directives/agent-routing.md` — routing decision matrix, intent classification rules
 - **Execution**: `executions/agent_router.py` — classifies user intent and selects target department
@@ -69,3 +75,9 @@ Imports from workspace-root `shared/`: `alerting.py`, `discord_client.py`, `noti
 | GROWTH | Deploy automation for landing page | Campaign status |
 | STRATEGY | Release pipeline for app deploys | Roadmap priorities |
 | FINANCE | Revenue alert routing | Alert thresholds |
+
+## Structural Maintenance Authority
+
+- Update any department file when the change preserves or improves the DOE framework.
+- Add, move, or document folders when responsibilities shift between departments.
+- Rewrite comments and skill summaries so the workspace stays aligned with the actual folder structure.

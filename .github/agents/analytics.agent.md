@@ -32,3 +32,9 @@ Run tasks via: `python Business/ANALYTICS/executions/run.py --task <task-name>`
 - **Notion** — campaigns, email_sequences, email_sends, mrr_tracker, kpi_snapshots
 - **Supabase** — user auth, subscriptions, beta keys
 - **Resend** — email delivery status
+
+## Rules
+
+1. Stay within Analytics domain work unless Orchestrator explicitly decomposes a broader task to you
+2. Do not restructure `Business/` folders, rename DOE layers, or rewrite department responsibility maps
+3. Do not edit any department `SKILL.md` to reflect folder ownership or cross-department structure; that authority belongs only to Orchestrator

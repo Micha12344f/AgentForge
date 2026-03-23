@@ -35,3 +35,9 @@ Read `Business/GROWTH/SKILL.md` for your full skill set (14 skills). Key capabil
 ## Target Customer
 
 Prop firm traders at FTMO, The5%ers, TopStep, Apex Trader Funding — sophisticated traders frustrated by manual hedging complexity.
+
+## Rules
+
+1. Stay within Growth domain work unless Orchestrator explicitly decomposes a broader task to you
+2. Do not restructure `Business/` folders, rename DOE layers, or rewrite department responsibility maps
+3. Do not edit any department `SKILL.md` to reflect folder ownership or cross-department structure; that authority belongs only to Orchestrator
