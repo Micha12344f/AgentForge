@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hedge Edge | Automated Prop Firm Hedging Tool for MT5 Traders</title>
+    <meta name="description" content="Hedge Edge automatically mirrors positions on a personal broker account when you trade on a prop firm challenge. Protect your capital on FTMO, The5%ers, Apex, TopStep and more. MT5 EA included." />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://hedgedge.info/" />
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Wistia video player -->
+    <script src="https://fast.wistia.com/embed/medias/fnui5hp47h.jsonp" async></script>
+    <script src="https://fast.wistia.com/assets/external/E-v1.js" async></script>
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://hedgedge.info/" />
+    <meta property="og:title" content="Hedge Edge | Automated Prop Firm Hedging Tool" />
+    <meta property="og:description" content="Automatically hedge your prop firm challenge with a personal broker account. Recover failed challenge fees. Works with FTMO, The5%ers, Apex Trader Funding and more." />
+    <meta property="og:image" content="https://hedgedge.info/og-image.png" />
+    <meta property="og:site_name" content="Hedge Edge" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Hedge Edge | Automated Prop Firm Hedging Tool" />
+    <meta name="twitter:description" content="Automatically hedge your prop firm challenge. Protect capital, recover fees. MT5 EA + desktop app." />
+    <meta name="twitter:image" content="https://hedgedge.info/og-image.png" />
+
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6VJ74PHHZ0"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-6VJ74PHHZ0');
+    </script>
+
+    <!-- UTM Attribution Capture (localStorage -> Supabase at signup) -->
+    <script>
+      (function() {
+        var params = new URLSearchParams(window.location.search);
+        var utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+        var hasUtm = false;
+        var utmData = {};
+        var sanitize = function(v) { return v.replace(/[{}]/g, ''); };
+        utmKeys.forEach(function(key) {
+          var val = params.get(key);
+          if (val) { utmData[key] = sanitize(val); hasUtm = true; }
+        });
+        // Organic / referral fallback when no explicit UTM params
+        if (!hasUtm && document.referrer) {
+          try {
+            var refHost = new URL(document.referrer).hostname.toLowerCase();
+            if (refHost !== window.location.hostname) {
+              var engines = {google:1,bing:1,duckduckgo:1,yahoo:1,baidu:1,yandex:1};
+              var matched = Object.keys(engines).find(function(e) { return refHost.indexOf(e) !== -1; });
+              if (matched) {
+                utmData.utm_source = matched;
+                utmData.utm_medium = 'organic';
+              } else {
+                utmData.utm_source = refHost;
+                utmData.utm_medium = 'referral';
+              }
+              hasUtm = true;
+            }
+          } catch(e) {}
+        }
+        if (hasUtm) {
+          utmData.landed_at = new Date().toISOString();
+          // NOTE: key must be 'landing_url' to match utm.ts legacy parser
+          utmData.landing_url = window.location.pathname.replace(/\}+$/, '');
+          localStorage.setItem('hedge_utm', JSON.stringify(utmData));
+        }
+      })();
+    </script>
+
+    <!-- Real-time Pageview Tracking (Supabase) -->
+    <script>
+      (function() {
+        var SUPABASE_URL = 'https://qgaikasjcfyfjcxezfqk.supabase.co';
+        var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFnYWlrYXNqY2Z5ZmpjeGV6ZnFrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkxMDUyMzMsImV4cCI6MjA4NDY4MTIzM30.7VJvTTLWvTVs7IDMUaMLONuoBUOS-LT0CoqmFOplR4Y';
+        var params = new URLSearchParams(window.location.search);
+        // Read organic/referral UTMs set by the capture IIFE above
+        var storedUtm = {};
+        try { storedUtm = JSON.parse(localStorage.getItem('hedge_utm') || '{}'); } catch(e) {}
+        // Referrer domain extraction
+        var refDomain = null;
+        try { if (document.referrer) refDomain = new URL(document.referrer).hostname.toLowerCase(); } catch(e) {}
+        var payload = {
+          path: window.location.pathname.replace(/\}+$/, ''),
+          referrer: document.referrer || null,
+          referrer_domain: refDomain,
+          utm_source: params.get('utm_source') || storedUtm.utm_source || null,
+          utm_medium: params.get('utm_medium') || storedUtm.utm_medium || null,
+          utm_campaign: params.get('utm_campaign') || storedUtm.utm_campaign || null,
+          user_agent: navigator.userAgent ? navigator.userAgent.substring(0, 512) : null
+        };
+        fetch(SUPABASE_URL + '/rest/v1/page_views', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify(payload)
+        }).catch(function() {});
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

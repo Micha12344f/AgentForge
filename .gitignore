@@ -1,0 +1,4 @@
+.env
+Business/*/resources/.env
+!.env.example
+!Business/*/resources/.env.example
