@@ -1,0 +1,48 @@
+{
+  "title": "Compare The Spreads between Prop Firms | Prop Firm Match",
+  "table_rows": 16,
+  "pagination_links": 0,
+  "button_count": 76,
+  "select_count": 0,
+  "internal_links": 125,
+  "button_texts": [
+    "Forex",
+    "Futures",
+    "Log in",
+    "Sign Up",
+    "Sign Up",
+    "Previous slide",
+    "Next slide",
+    "MATCH...",
+    "MATCH",
+    "MATCH",
+    "MATCH",
+    "MATCH",
+    "MATCH",
+    "MATCH",
+    "MATCH",
+    "MATCH...",
+    "MATCH",
+    "MATCH",
+    "MATCH",
+    "MATCH",
+    "MATCH",
+    "MATCH",
+    "20MAT..."
+  ],
+  "tables": [
+    {
+      "headers": [
+        "FIRM",
+        "PLATFORM",
+        "EUR/USD",
+        "USD/JPY",
+        "GBP/USD",
+        "XAU/USD",
+        "US30",
+        "BTC/USD"
+      ],
+      "rows": 16
+    }
+  ]
+}

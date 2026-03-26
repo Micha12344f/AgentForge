@@ -53,6 +53,10 @@ INTERNAL_TASKS: dict[str, dict] = {
         "script": os.path.join(_AGENT_DIR, "status_aggregator.py"),
         "description": "Aggregate status across all agents and Notion databases",
     },
+    "vps-monitor": {
+        "script": os.path.join(_AGENT_DIR, "vps_monitor.py"),
+        "description": "Check hedge-vps status, WSL cron, remote logs, and bot alerts",
+    },
     "link-track": {
         "script": os.path.join(_AGENT_DIR, "..", "..", "GROWTH", "executions", "Marketing", "link_tracker.py"),
         "description": "Generate UTM-tracked Short.io links — delegated from Marketing Agent",
@@ -358,7 +362,7 @@ Examples:
     parser.add_argument("--list-internal", action="store_true",
                         help="Show Orchestrator internal tasks")
     parser.add_argument("--internal-task", metavar="TASK",
-                        help="Run an Orchestrator internal task (route, coordinate, decompose, status)")
+                        help="Run an Orchestrator internal task (route, coordinate, decompose, status, vps-monitor)")
     parser.add_argument("--list-tasks", metavar="AGENT",
                         help="Show available tasks for an agent")
     parser.add_argument("--agent", metavar="AGENT",

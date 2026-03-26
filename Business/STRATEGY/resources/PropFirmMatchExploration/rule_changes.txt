@@ -1,0 +1,604 @@
+LIVE
+LIVE Futures Trading
+London & New York Session with Zach & Luna
+Watch Now
+Forex
+Futures
+We're Hiring
+Log in
+Sign Up
+Home
+Offers
+Challenges
+Best Sellers
+Reviews
+Favorite Firms
+Prop Firm Rules
+Spreads
+Payouts
+Brokers
+
+Exclusive March Forex Offers
+
+Previous slide
+Next slide
+Blueberry Funded
+
+3.7
+
+35%
+OFF
+
+MATCH...
+The5ers
+
+4.8
+
+5%
+OFF
+
+MATCH
+BrightFunded
+
+4.5
+
+15%
+OFF
+
+MATCH
+FundedNext
+
+4.4
+
+7%
+OFF
+
+MATCH
+ThinkCapital
+
+4.2
+
+20%
+OFF
+
+MATCH
+NEW
+Moneta Funded
+
+Less than
+
+20 reviews
+
+30%
+OFF
+
+MATCH
+NEW
+Atmos Funded
+
+Less than
+
+20 reviews
+
+35%
+OFF
+
+MATCH
+Finotive Funding
+
+4.2
+
+25%
+OFF
+
+MATCH
+QT Funded
+
+3.9
+
+60%
+OFF
+
+MATCH...
+Maven
+
+4.3
+
+4%
+OFF
+
+MATCH
+FundedElite
+
+4.3
+
+30%
+OFF
+
+MATCH
+Top One Trader
+
+4.4
+
+77.7%
+OFF
+
+MATCH
+Blue Guardian
+
+4.3
+
+35%
+OFF
+
+MATCH
+Trade The Pool
+
+Less than
+
+20 reviews
+
+10%
+OFF
+
+MATCH
+AquaFunded
+
+4.3
+
+40%
+OFF
+
+MATCH
+Funded Trading Plus
+
+4.2
+
+20%
+OFF
+
+20MAT...
+ATFunded
+
+Less than
+
+20 reviews
+
+20%
+OFF
+
+MATCH
+Instant Funding
+
+3.8
+
+15%
+OFF
+
+MATCH
+Hantec Trader
+
+4.4
+
+30%
+OFF
+
+MATCH
+Crypto Fund Trader
+
+4.2
+
+7%
+OFF
+
+MATCH
+Lark Funding
+
+4.5
+
+5%
+OFF
+
+MATCH
+
+Most Popular Futures Prop Firms
+
+Tradeify
+
+4.8
+
+30%
+OFF
+
+MATCH
+My Funded Futures
+
+4.6
+
+50%
+OFF
+
+MATCH
+Alpha Futures
+
+4.6
+
+15%
+OFF
+
+MATCH
+Prop Firm Rules
+
+In the prop trading industry, rules can vary significantly from one firm to another based on their risk management policies. This section provides key rules for each firm and highlights any significant rule changes along with the specific dates of those changes.
+
+Filter
+Key rules
+Rule Changes
+EA’s, Copy Trading, and Platforms
+Rules 145
+
+FTMO
+
+4.6
+
+184
+
+FTMO has  removed the $200,000 Swing account option from its 2-Step Challenge lineup. The account size is no longer available for purchase, with the Swing offering now capped at $100K. Traders who previously held a $200K Swing funded account have being migrated to a Standard account type.
+
+Changed: March 14, 2026
+
+Blueberry Funded
+
+3.7
+
+274
+
+35% OFF
++ FREE ACCOUNT
+Code
+MATCHPRIME
+
+Blueberry Funded has updated their trading rules and program offerings.
+
+Removed rules:
+
+Lot Size Rules
+Chasing Losses
+One-Sided Bets
+All-In Trading
+Position Stacking
+Martingale / Grid Trading
+
+New rule introduced:
+
+1.5% Risk Per Trade Idea (Funded accounts only)
+
+Program update:
+Rapid Challenge has been discontinued
+
+This update reflects a simplification of trading rules
+
+Read More
+
+Changed: March 11, 2026
+
+FundingPips
+
+4.3
+
+960
+
+20% OFF
+Code
+MATCH
+
+FundingPips Rule Structure Revision & Exposure Adjustments
+
+FundingPips has announced a series of rule modifications effective at Market Open on Monday, 23 February. The update focuses on simplifying rule enforcement and reducing subjective oversight.
+
+Key Changes
+
+1. Removal of Subjective Rule Enforcement
+Subjective evaluations related to trading behavior (e.g., toxic trading flow reviews) have been removed. Traders are now assessed strictly based on defined hard limits.
+
+2. Lot Exposure Restrictions (Master Accounts)
+Previous daily and overall lot exposure limits on Master accounts have been removed. No fixed lot-size cap is now stated.
+
+3. Risk Warning Adjustments
+The frequency of risk warnings has been reduced, aligned with the simplified rule structure.
+
+4. News Trading Rule Update
+News trading restrictions have been standardized:
+Trading is restricted 5 minutes before and 5 minutes after scheduled news events.
+No execution-time exceptions.
+Violations result in profit deduction only, not account breach.
+Applies uniformly across all programs & reward cycles, including On-Demand accounts.
+
+5. Risk Per Trade (Master Accounts)
+Risk per trade idea has been adjusted based on account size:
+Accounts below $50K: Maximum 3% per trade idea.
+Accounts $50K and above: Maximum 2% per trade idea.
+
+The update removes subjective rule enforcement, eliminates stated lot exposure caps for Master accounts, standardizes news trading restrictions, and adjusts risk-per-trade parameters based on account size. Changes take effect at market open on 23 February.
+
+Read More
+
+Changed: February 22, 2026
+
+Hantec Trader
+
+4.4
+
+23
+
+30% OFF
++ FREE ACCOUNT
+Code
+MATCH
+
+Hantec Trader has announced updates across all programs (applicable to new purchases/journeys only).
+
+All Programs – Key Changes
+Profit Split:
+Previous: 75% default
+Updated: 80% default
+The 90% add-on remains unchanged
+
+News Trading:
+Funded accounts: No opening/closing trades 3 minutes before or after high-impact news events (ForexFactory Red Folder).
+Challenge accounts: No restrictions
+Maximum Open Risk (funded accounts only):
+
+New rule: 3% maximum open risk at any given time (Instant Lite: 1%)
+Losses cannot exceed 3% of starting balance across single or multiple positions
+
+Payout Structure:
+Payout on demand has been removed
+Standard payout cycle: 14 days from first trade (Instant & Funded accounts)
+With Bi-Weekly add-on: 7 days
+
+Enhanced Accounts
+Minimum Profitable Days (New Requirement):
+3 profitable days with at least 0.5% profit
+Applies to Stage 1, Stage 2, and Funded accounts
+
+Instant Lite Updates
+Consistency Score:
+Previous: 25%
+Updated: 20%
+
+Minimum Profitable Days (Withdrawal Requirement):
+5 days with at least 0.5% profit
+Profitable days reset after each payout cycle
+
+These updates apply only to new purchases and new journeys. Existing accounts and ongoing journeys are not impacted.
+
+Read More
+
+Changed: February 22, 2026
+
+E8 Markets
+
+4.8
+
+449
+
+10% OFF
+Code
+MATCH
+
+E8 Markets has updated their program offerings.
+Newly launched program: E8 Crypto Static
+This update reflects the introduction of a new crypto-based program under E8 Markets.
+
+Changed: February 10, 2026
+
+Instant Funding
+
+3.8
+
+329
+
+15% OFF
++ FREE ACCOUNT
+Code
+MATCH
+
+Instant Funding has updated their program offerings.
+
+Newly launched program: IF Micro Pro
+
+This update reflects the introduction of the IF Micro Pro program.
+
+Changed: January 28, 2026
+
+E8 Markets
+
+4.8
+
+449
+
+10% OFF
+Code
+MATCH
+
+E8 Markets has updated their program offerings.
+Newly launched program: E8 One Crypto
+This update reflects an addition of a dedicated crypto program
+
+Changed: January 21, 2026
+
+FundedNext
+
+4.4
+
+710
+
+7% OFF
+Code
+MATCH
+
+FundedNext Weekend Holding Rule Change
+
+FundedNext has updated its weekend holding rules Retroactively: Weekend holding and positions/Pending orders over market rollovers longer than 2 hours are no longer permitted on funded and instant funding accounts.
+
+This restriction applies only to funded phases; weekend holding and over market rollovers longer than 2 hours still allowed during the challenge phase.
+
+Changed: January 16, 2026
+
+Finotive Funding
+
+4.2
+
+115
+
+25% OFF
++ FREE ACCOUNT
+Code
+MATCH
+
+Finotive Funding has updated their trading platform availability.
+
+Previous platform: MT5 only
+Updated platforms: MT5 and MatchTrader
+
+Additional update:
+US traders are now welcome to use Finotive Funding via MatchTrader. This update reflects expanded platform access and regional availability
+
+Changed: January 10, 2026
+
+Finotive Funding
+
+4.2
+
+115
+
+25% OFF
++ FREE ACCOUNT
+Code
+MATCH
+
+Finotive Funding has updated their commission structure across both Evaluation and Funding stages.
+
+Previous structure:
+
+Evaluation stage:
+Commission-free trading on all assets
+
+Funding stage:
+• Forex (Challenge & Instant): 0.0040%
+• Forex (Pro): $3/lot
+• Indices: 0.0040%
+• Energy:
+NGAS, UKOIL – 0.0040%
+USOIL – 0.0050%
+• Metals:
+XAU, XAG, XPD – 0.0050%
+XPT – 0.0040%
+• Crypto: 0.06%
+• Equities & ETFs: Commission-free
+
+Updated structure (now applies to Evaluation and Funding stages):
+
+Forex:
+Challenge & Instant – $5/lot
+Pro – $4/lot
+Indices & Stocks: $0
+
+Metals:
+Challenge & Instant – $6/lot
+Pro – $5/lot
+
+Crypto:
+Challenge & Instant – 0.06%
+Pro – 0.045%
+
+This update introduces commissions to the Evaluation phase and aligns pricing across both stages.
+
+Read More
+
+Changed: December 26, 2025
+
+Previous
+1
+2
+More pages
+15
+Next
+
+STAY CONNECTED
+
+Subscribe For The Latest In Prop Trading News And Deals
+
+Subscribe
+
+PROP FIRMS
+
+All Prop Firms
+
+Compare Challenges
+
+Best Sellers
+
+Favorite Firms
+
+Announcements
+
+Prop Firm Rules
+
+Reviews
+
+Payouts
+
+Trader Leaderboard
+
+Demo Accounts
+
+Unlisted Firms
+
+OFFERS
+
+Exclusive Offers
+
+Extra Account Promo
+
+All Current Offers
+
+RESOURCES
+
+High Impact News
+
+Blog
+
+Prop Firm Features
+
+Awards
+
+PROGRAMS
+
+Loyalty Program
+
+Affiliate Program
+
+COMPANY
+
+About Us
+
+Careers
+
+Prop Firm Business
+
+Press
+
+Sitemap
+
+GET HELP
+
+Contact Us
+
+How it Works
+
+© 2026 Prop Firm Match. All rights reserved.
+
+Privacy Policy
+Terms & Conditions

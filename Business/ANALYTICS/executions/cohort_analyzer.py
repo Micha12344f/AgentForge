@@ -16,6 +16,10 @@ import sys
 import os
 import argparse
 from datetime import datetime, timezone, timedelta
+
+if sys.stdout.encoding and sys.stdout.encoding.lower().startswith("cp"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 from collections import defaultdict
 
 _AGENT_DIR = os.path.dirname(os.path.abspath(__file__))

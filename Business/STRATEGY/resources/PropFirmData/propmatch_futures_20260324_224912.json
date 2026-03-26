@@ -1,0 +1,548 @@
+{
+  "scraped_at": "2026-03-24T22:49:12.650139+00:00",
+  "source": "propfirmmatch.com",
+  "type": "futures_challenges",
+  "total_challenges": 15,
+  "challenges": [
+    {
+      "firm": "Tradeify",
+      "firm_slug": "tradeify",
+      "rating": 4.8,
+      "reviews": 149,
+      "account_size": 50000,
+      "steps": 1,
+      "steps_label": "1 Step",
+      "profit_targets": [
+        3000.0
+      ],
+      "daily_drawdown_pct": null,
+      "max_drawdown_pct": 2000.0,
+      "pt_dd_ratio": "1:0.67",
+      "profit_split_pct": 90.0,
+      "payout_timing": "5 days with Minimum profits of $150",
+      "fee_discounted": 97.3,
+      "fee_original": 139.0,
+      "fee_assumed": 139.0,
+      "fee_assumption": "original_no_discount",
+      "currency": "USD",
+      "asset_class": "futures",
+      "activation_fee": "None",
+      "max_contract_size": {
+        "minis": 4,
+        "micros": 40
+      },
+      "max_loss_type": "EOD Trailing",
+      "max_payout_amount": "$1,500",
+      "min_payout_threshold": "$3,000",
+      "consistency_rule": {
+        "eval": "None",
+        "funded": "35%"
+      },
+      "loyalty_pts": 101
+    },
+    {
+      "firm": "My Funded Futures",
+      "firm_slug": "my-funded-futures",
+      "rating": 4.6,
+      "reviews": 208,
+      "account_size": 50000,
+      "steps": 1,
+      "steps_label": "1 Step",
+      "profit_targets": [
+        3000.0
+      ],
+      "daily_drawdown_pct": null,
+      "max_drawdown_pct": 2000.0,
+      "pt_dd_ratio": "1:0.67",
+      "profit_split_pct": 80.0,
+      "payout_timing": "5 winning days of $150 minimum",
+      "fee_discounted": 107.0,
+      "fee_original": 107.0,
+      "fee_assumed": 107.0,
+      "fee_assumption": "original_no_discount",
+      "currency": "USD",
+      "asset_class": "futures",
+      "activation_fee": "None",
+      "max_contract_size": {
+        "minis": 5,
+        "micros": 50
+      },
+      "max_loss_type": "EOD Trailing",
+      "max_payout_amount": "$5,000",
+      "min_payout_threshold": "$250",
+      "consistency_rule": {
+        "eval": "50%",
+        "funded": "None"
+      },
+      "loyalty_pts": 141
+    },
+    {
+      "firm": "Alpha Futures",
+      "firm_slug": "alpha-futures",
+      "rating": 4.6,
+      "reviews": 37,
+      "account_size": 50000,
+      "steps": 1,
+      "steps_label": "1 Step",
+      "profit_targets": [
+        3000.0
+      ],
+      "daily_drawdown_pct": null,
+      "max_drawdown_pct": 2000.0,
+      "pt_dd_ratio": "1:0.67",
+      "profit_split_pct": 70.0,
+      "payout_timing": "Every 14 days, provided the 40% Consistency Rule",
+      "fee_discounted": 67.15,
+      "fee_original": 79.0,
+      "fee_assumed": 79.0,
+      "fee_assumption": "original_no_discount",
+      "currency": "USD",
+      "asset_class": "futures",
+      "activation_fee": "$149.00",
+      "max_contract_size": {
+        "minis": 5,
+        "micros": 50
+      },
+      "max_loss_type": "EOD Trailing",
+      "max_payout_amount": "$15,000",
+      "min_payout_threshold": "None",
+      "consistency_rule": {
+        "eval": "50%",
+        "funded": "40%"
+      },
+      "loyalty_pts": 148
+    },
+    {
+      "firm": "Apex Trader Funding",
+      "firm_slug": "apex-trader-funding",
+      "rating": 3.8,
+      "reviews": 95,
+      "account_size": 50000,
+      "steps": 1,
+      "steps_label": "1 Step",
+      "profit_targets": [
+        3000.0
+      ],
+      "daily_drawdown_pct": null,
+      "max_drawdown_pct": 2000.0,
+      "pt_dd_ratio": "1:0.6",
+      "profit_split_pct": 100.0,
+      "payout_timing": "Weekly | Minimum of 5 trading days",
+      "fee_discounted": 19.7,
+      "fee_original": 131.33,
+      "fee_assumed": 131.33,
+      "fee_assumption": "original_no_discount",
+      "currency": "USD",
+      "asset_class": "futures",
+      "activation_fee": "$79.00",
+      "max_contract_size": {
+        "minis": 6,
+        "micros": 60
+      },
+      "max_loss_type": "Intraday Trailing",
+      "max_payout_amount": "$1,500",
+      "min_payout_threshold": "$500+ safety net",
+      "consistency_rule": {
+        "eval": "None",
+        "funded": "50%"
+      },
+      "loyalty_pts": 0
+    },
+    {
+      "firm": "Top One Futures",
+      "firm_slug": "top-one-futures",
+      "rating": 4.7,
+      "reviews": 66,
+      "account_size": 50000,
+      "steps": 1,
+      "steps_label": "1 Step",
+      "profit_targets": [
+        3000.0
+      ],
+      "daily_drawdown_pct": null,
+      "max_drawdown_pct": 2000.0,
+      "pt_dd_ratio": "1:0.67",
+      "profit_split_pct": 90.0,
+      "payout_timing": "Profit Requirement and Consistency Rule Met",
+      "fee_discounted": 68.25,
+      "fee_original": 105.0,
+      "fee_assumed": 105.0,
+      "fee_assumption": "original_no_discount",
+      "currency": "USD",
+      "asset_class": "futures",
+      "activation_fee": "$149.00",
+      "max_contract_size": {
+        "minis": 3,
+        "micros": 30
+      },
+      "max_loss_type": "EOD Trailing",
+      "max_payout_amount": "$2,500",
+      "min_payout_threshold": "$3,000",
+      "consistency_rule": {
+        "eval": "None",
+        "funded": "25%"
+      },
+      "loyalty_pts": 46
+    },
+    {
+      "firm": "FundedNext Futures",
+      "firm_slug": "fundednext-futures",
+      "rating": 4.4,
+      "reviews": 51,
+      "account_size": 50000,
+      "steps": 1,
+      "steps_label": "1 Step",
+      "profit_targets": [
+        3000.0
+      ],
+      "daily_drawdown_pct": null,
+      "max_drawdown_pct": 2000.0,
+      "pt_dd_ratio": "1:0.67",
+      "profit_split_pct": 80.0,
+      "payout_timing": "50% profit split after every 5 benchmark days, 100% after 30 or more benchmark days",
+      "fee_discounted": 69.99,
+      "fee_original": 99.99,
+      "fee_assumed": 99.99,
+      "fee_assumption": "original_no_discount",
+      "currency": "USD",
+      "asset_class": "futures",
+      "activation_fee": "None",
+      "max_contract_size": {
+        "minis": 3,
+        "micros": 9
+      },
+      "max_loss_type": "EOD Trailing",
+      "max_payout_amount": "$1,200",
+      "min_payout_threshold": "$250",
+      "consistency_rule": {
+        "eval": "40%",
+        "funded": "None"
+      },
+      "loyalty_pts": 58
+    },
+    {
+      "firm": "NEW",
+      "firm_slug": "lucid-trading",
+      "rating": null,
+      "reviews": null,
+      "account_size": 50000,
+      "steps": 1,
+      "steps_label": "1 Step",
+      "profit_targets": [
+        3000.0
+      ],
+      "daily_drawdown_pct": null,
+      "max_drawdown_pct": 2000.0,
+      "pt_dd_ratio": "1:0.6",
+      "profit_split_pct": 90.0,
+      "payout_timing": "Every 5 Days",
+      "fee_discounted": 65.0,
+      "fee_original": 130.0,
+      "fee_assumed": 130.0,
+      "fee_assumption": "original_no_discount",
+      "currency": "USD",
+      "asset_class": "futures",
+      "activation_fee": "None",
+      "max_contract_size": {
+        "minis": 4,
+        "micros": 40
+      },
+      "max_loss_type": "EOD Trailing",
+      "max_payout_amount": "$2,000",
+      "min_payout_threshold": "$500",
+      "consistency_rule": {
+        "eval": "50%",
+        "funded": "None"
+      },
+      "loyalty_pts": 107
+    },
+    {
+      "firm": "Topstep",
+      "firm_slug": "topstep",
+      "rating": 4.5,
+      "reviews": 106,
+      "account_size": 50000,
+      "steps": 1,
+      "steps_label": "1 Step",
+      "profit_targets": [
+        3000.0
+      ],
+      "daily_drawdown_pct": null,
+      "max_drawdown_pct": 2000.0,
+      "pt_dd_ratio": "1:0.67",
+      "profit_split_pct": 90.0,
+      "payout_timing": "Funded Standard Path: 5 Winning days ($150 per winning day to qualify for payout) | Funded Consistency Path: at least 3 Trading days (Meet consistency)",
+      "fee_discounted": 49.0,
+      "fee_original": 49.0,
+      "fee_assumed": 49.0,
+      "fee_assumption": "original_no_discount",
+      "currency": "USD",
+      "asset_class": "futures",
+      "activation_fee": "$149.00",
+      "max_contract_size": {
+        "minis": 5,
+        "micros": 50
+      },
+      "max_loss_type": "EOD Trailing",
+      "max_payout_amount": "$5,000",
+      "min_payout_threshold": "None",
+      "consistency_rule": {
+        "eval": "50%",
+        "funded": "None"
+      },
+      "loyalty_pts": 81
+    },
+    {
+      "firm": "Take Profit Trader",
+      "firm_slug": "take-profit-trader",
+      "rating": 3.3,
+      "reviews": 15,
+      "account_size": 50000,
+      "steps": 1,
+      "steps_label": "1 Step",
+      "profit_targets": [
+        3000.0
+      ],
+      "daily_drawdown_pct": null,
+      "max_drawdown_pct": 2000.0,
+      "pt_dd_ratio": "1:0.67",
+      "profit_split_pct": 80.0,
+      "payout_timing": "After clearing the buffer zone",
+      "fee_discounted": 102.0,
+      "fee_original": 170.0,
+      "fee_assumed": 170.0,
+      "fee_assumption": "original_no_discount",
+      "currency": "USD",
+      "asset_class": "futures",
+      "activation_fee": "$130.00",
+      "max_contract_size": {
+        "minis": 6,
+        "micros": 60
+      },
+      "max_loss_type": "EOD Trailing",
+      "max_payout_amount": "None",
+      "min_payout_threshold": "None",
+      "consistency_rule": {
+        "eval": "50%",
+        "funded": "None"
+      },
+      "loyalty_pts": 168
+    },
+    {
+      "firm": "Blue Guardian Futures",
+      "firm_slug": "blue-guardian-futures",
+      "rating": 4.0,
+      "reviews": 84,
+      "account_size": 50000,
+      "steps": 1,
+      "steps_label": "1 Step",
+      "profit_targets": [
+        4000.0
+      ],
+      "daily_drawdown_pct": null,
+      "max_drawdown_pct": 2000.0,
+      "pt_dd_ratio": "1:0.5",
+      "profit_split_pct": 100.0,
+      "payout_timing": "14 days, provided 5 profitable days is met",
+      "fee_discounted": 35.7,
+      "fee_original": 119.0,
+      "fee_assumed": 119.0,
+      "fee_assumption": "original_no_discount",
+      "currency": "USD",
+      "asset_class": "futures",
+      "activation_fee": "$99.00",
+      "max_contract_size": {
+        "minis": 5,
+        "micros": 50
+      },
+      "max_loss_type": "EOD Trailing",
+      "max_payout_amount": "$1,350",
+      "min_payout_threshold": "7% buffer zone",
+      "consistency_rule": {
+        "eval": "30%",
+        "funded": "30%"
+      },
+      "loyalty_pts": 59
+    },
+    {
+      "firm": "AquaFutures",
+      "firm_slug": "aquafutures",
+      "rating": 3.9,
+      "reviews": 68,
+      "account_size": 50000,
+      "steps": 1,
+      "steps_label": "1 Step",
+      "profit_targets": [
+        3000.0
+      ],
+      "daily_drawdown_pct": null,
+      "max_drawdown_pct": 2500.0,
+      "pt_dd_ratio": "1:0.83",
+      "profit_split_pct": 100.0,
+      "payout_timing": "7 Days",
+      "fee_discounted": 40.0,
+      "fee_original": 100.0,
+      "fee_assumed": 100.0,
+      "fee_assumption": "original_no_discount",
+      "currency": "USD",
+      "asset_class": "futures",
+      "activation_fee": "None",
+      "max_contract_size": {
+        "minis": 3,
+        "micros": 30
+      },
+      "max_loss_type": "EOD Trailing",
+      "max_payout_amount": "$1,500",
+      "min_payout_threshold": "6% buffer zone",
+      "consistency_rule": {
+        "eval": "40%",
+        "funded": "40%"
+      },
+      "loyalty_pts": 66
+    },
+    {
+      "firm": "E8 Futures",
+      "firm_slug": "e8-futures",
+      "rating": 4.6,
+      "reviews": 12,
+      "account_size": 50000,
+      "steps": 1,
+      "steps_label": "1 Step",
+      "profit_targets": [
+        3000.0
+      ],
+      "daily_drawdown_pct": null,
+      "max_drawdown_pct": 2000.0,
+      "pt_dd_ratio": "1:0.67",
+      "profit_split_pct": 80.0,
+      "payout_timing": "On Demand (Rules Apply)",
+      "fee_discounted": 135.0,
+      "fee_original": 150.0,
+      "fee_assumed": 150.0,
+      "fee_assumption": "original_no_discount",
+      "currency": "USD",
+      "asset_class": "futures",
+      "activation_fee": "None",
+      "max_contract_size": {
+        "minis": 4,
+        "micros": null
+      },
+      "max_loss_type": "EOD Trailing",
+      "max_payout_amount": "$1,250",
+      "min_payout_threshold": "$100",
+      "consistency_rule": {
+        "eval": "None",
+        "funded": "35%"
+      },
+      "loyalty_pts": 66
+    },
+    {
+      "firm": "TradeDay",
+      "firm_slug": "tradeday",
+      "rating": 4.8,
+      "reviews": 11,
+      "account_size": 50000,
+      "steps": 1,
+      "steps_label": "1 Step",
+      "profit_targets": [
+        3000.0
+      ],
+      "daily_drawdown_pct": null,
+      "max_drawdown_pct": 2000.0,
+      "pt_dd_ratio": "1:0.67",
+      "profit_split_pct": 80.0,
+      "payout_timing": "On Demand; After clearing the Buffer Zone",
+      "fee_discounted": 87.5,
+      "fee_original": 125.0,
+      "fee_assumed": 125.0,
+      "fee_assumption": "original_no_discount",
+      "currency": "USD",
+      "asset_class": "futures",
+      "activation_fee": "$139.00",
+      "max_contract_size": {
+        "minis": 5,
+        "micros": 50
+      },
+      "max_loss_type": "Trailing",
+      "max_payout_amount": "$20,000",
+      "min_payout_threshold": "Equivalent to max drawdown",
+      "consistency_rule": {
+        "eval": "30%",
+        "funded": "None"
+      },
+      "loyalty_pts": 98
+    },
+    {
+      "firm": "The Trading Pit Futures",
+      "firm_slug": "the-trading-pit-futures",
+      "rating": null,
+      "reviews": null,
+      "account_size": 50000,
+      "steps": 1,
+      "steps_label": "1 Step",
+      "profit_targets": [
+        3000.0
+      ],
+      "daily_drawdown_pct": null,
+      "max_drawdown_pct": 2000.0,
+      "pt_dd_ratio": "1:0.67",
+      "profit_split_pct": 80.0,
+      "payout_timing": "5 profitable days of 200$, then 5 profitable days of 200$, then every 7 days for profits over $200",
+      "fee_discounted": 89.1,
+      "fee_original": 99.0,
+      "fee_assumed": 99.0,
+      "fee_assumption": "original_no_discount",
+      "currency": "USD",
+      "asset_class": "futures",
+      "activation_fee": "$129.00",
+      "max_contract_size": {
+        "minis": 5,
+        "micros": 50
+      },
+      "max_loss_type": "EOD Trailing",
+      "max_payout_amount": "$5,000 or 50% of realized profits, whichever is lower",
+      "min_payout_threshold": "$1,000",
+      "consistency_rule": {
+        "eval": "40%",
+        "funded": "None"
+      },
+      "loyalty_pts": 114
+    },
+    {
+      "firm": "Earn2Trade",
+      "firm_slug": "earn2trade",
+      "rating": 4.7,
+      "reviews": 13,
+      "account_size": 50000,
+      "steps": 1,
+      "steps_label": "1 Step",
+      "profit_targets": [
+        3000.0
+      ],
+      "daily_drawdown_pct": null,
+      "max_drawdown_pct": 2000.0,
+      "pt_dd_ratio": "1:0.67",
+      "profit_split_pct": 80.0,
+      "payout_timing": "7 Days",
+      "fee_discounted": 68.0,
+      "fee_original": 170.0,
+      "fee_assumed": 170.0,
+      "fee_assumption": "original_no_discount",
+      "currency": "USD",
+      "asset_class": "futures",
+      "activation_fee": "$139.00",
+      "max_contract_size": {
+        "minis": 6,
+        "micros": 60
+      },
+      "max_loss_type": "Trailing",
+      "max_payout_amount": "$4,000",
+      "min_payout_threshold": "None",
+      "consistency_rule": {
+        "eval": "30%",
+        "funded": "30%"
+      },
+      "loyalty_pts": 54
+    }
+  ]
+}

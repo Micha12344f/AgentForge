@@ -22,6 +22,10 @@ Use it when the user needs:
 This is broader than `email-marketing-analytics.md`. That directive surfaces raw metrics.
 This directive combines raw metrics with the actual template copy stored on the Notion page.
 
+Operational note:
+
+- Audit implementations must be written against live `email_sequences` rows and Notion block content, not legacy skill-local reader paths.
+
 ---
 
 ## Execution Script
@@ -32,9 +36,9 @@ Primary script:
 
 Supporting readers:
 
-- `Business/ANALYTICS/executions/email_analytics/templates.py`
-- `Business/ANALYTICS/executions/email_analytics/campaigns.py`
+- `shared.notion_client.query_db("email_sequences")` for template rows and rollup metrics
 - `shared.notion_client.get_notion()` for retrieving Notion page blocks
+- `Business/GROWTH/executions/Marketing/email_marketing/templates.py` for the operational template model used elsewhere in the workspace
 
 ---
 

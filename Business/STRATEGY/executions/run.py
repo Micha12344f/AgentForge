@@ -151,6 +151,27 @@ TASKS: dict[str, dict] = {
         "script": os.path.join(_AGENT_DIR, "Product", "app_deployer.py"),
         "description": "Hedge Edge Electron app deploy pipeline — bump, build, release, verify",
     },
+    # ── Prop Firm Hedge Arbitrage ─────────────
+    "propmatch-explore": {
+        "script": os.path.join(_AGENT_DIR, "propmatch_site_explorer.py"),
+        "description": "Map PropFirmMatch surfaces and explore challenge filters before scraper work",
+    },
+    "propmatch-explore-deep": {
+        "script": os.path.join(_AGENT_DIR, "propmatch_deep_explorer.py"),
+        "description": "Run deeper PropFirmMatch discovery across pagination, firm pages, and rules",
+    },
+    "propmatch-custom-table": {
+        "script": os.path.join(_AGENT_DIR, "propmatch_custom_table_explorer.py"),
+        "description": "Inspect PropFirmMatch custom table columns after manual login",
+    },
+    "propmatch-scrape": {
+        "script": os.path.join(_AGENT_DIR, "propmatch_scraper.py"),
+        "description": "Scrape PropMatch challenge data for hedge arbitrage modelling",
+    },
+    "hedge-model": {
+        "script": os.path.join(_AGENT_DIR, "hedge_arbitrage_model.py"),
+        "description": "Run hedge arbitrage model on scraped PropMatch data",
+    },
 }
 
 

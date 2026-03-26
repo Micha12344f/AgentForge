@@ -60,6 +60,7 @@ Business/
 | `shared/` | Python API clients used by all departments (Notion, Supabase, Discord, Resend, etc.) |
 | `tmp/` | Temporary scratchpad scripts — not persistent |
 | `.github/agents/` | VS Code Copilot agent definitions (one per department/role) |
+| `.github/skills/` | Repo-local Copilot skills for reusable workflows |
 | `.env` | Master environment variables (all API keys) |
 
 ---
@@ -70,6 +71,13 @@ Business/
 2. **Pick a skill** → Follow the directive, run the execution, consult the resource
 3. **Cross-department work** → Orchestrator routes multi-agent requests
 4. **Shared clients** → All departments import from root `shared/` package
+
+### GROWTH Sub-Department Layout
+
+- `Business/GROWTH/directives/Marketing` and `Business/GROWTH/directives/Sales` hold SOPs by funnel stage
+- `Business/GROWTH/executions/Marketing` and `Business/GROWTH/executions/Sales` hold runnable workflows by sub-department
+- `Business/GROWTH/resources/Marketing` and `Business/GROWTH/resources/Sales` hold human-facing references by sub-department
+- `Business/GROWTH/resources/.env` remains the shared runtime override file for Growth workflows
 
 ---
 
@@ -85,4 +93,4 @@ Business/
 | Railway | Cron container, email service | `shared/Email-Send-Service/` |
 | Vercel | Landing page hosting | `.env` |
 | GitHub | Code, releases, CI/CD | `.env` |
-| VPS (hedge-vps) | Always-on services | SSH via Cloudflare tunnel (NEVER Tailscale) |
+| VPS (hedge-vps) | Always-on services, Twitter bots, mention bot | SSH via Cloudflare tunnel to Windows host + WSL Docker (NEVER Tailscale) |

@@ -1,0 +1,86 @@
+{
+  "promoted_from": "tmp/propmatch_site_map.json",
+  "explored_at": "2026-03-24T01:41:42.719191+00:00",
+  "pages": {
+    "home": {
+      "url": "https://propfirmmatch.com/",
+      "title": "Best Prop Trading Firms 2026 | Prop Firm Match",
+      "table_rows": 10,
+      "pagination_links": 0,
+      "button_count": 131,
+      "select_count": 0,
+      "internal_links": 85,
+      "screenshot": "001_home.png"
+    },
+    "challenges": {
+      "url": "https://propfirmmatch.com/prop-firm-challenges",
+      "title": "Prop Firm Challenges: Insights & Analytics | Prop Firm Match",
+      "table_rows": 10,
+      "pagination_links": 7,
+      "button_count": 124,
+      "select_count": 0,
+      "internal_links": 68,
+      "screenshot": "002_challenges.png"
+    },
+    "best_sellers": {
+      "url": "https://propfirmmatch.com/best-sellers?type=all",
+      "title": "Prop Firm Rankings & Best Sellers | Prop Firm Match",
+      "table_rows": 0,
+      "pagination_links": 0,
+      "button_count": 54,
+      "select_count": 0,
+      "internal_links": 56,
+      "screenshot": "003_best_sellers.png"
+    },
+    "all_firms": {
+      "url": "https://propfirmmatch.com/all-prop-firms?tab=all",
+      "title": "List of All Prop Firms in One Place | Prop Firm Match",
+      "table_rows": 10,
+      "pagination_links": 6,
+      "button_count": 121,
+      "select_count": 0,
+      "internal_links": 76,
+      "screenshot": "004_all_firms.png"
+    },
+    "rules": {
+      "url": "https://propfirmmatch.com/prop-firm-rules",
+      "title": "Prop Firm Rules Explained | Trade Smart with Prop Firm Match",
+      "table_rows": 0,
+      "pagination_links": 6,
+      "button_count": 87,
+      "select_count": 0,
+      "internal_links": 77,
+      "screenshot": "005_rules.png"
+    },
+    "rule_changes": {
+      "url": "https://propfirmmatch.com/prop-firm-rule-changes",
+      "title": "Prop Firm Rule Changes | Prop Firm Match",
+      "table_rows": 0,
+      "pagination_links": 5,
+      "button_count": 83,
+      "select_count": 0,
+      "internal_links": 74,
+      "screenshot": "006_rules_changes.png"
+    },
+    "ea_copy_platforms": {
+      "url": "https://propfirmmatch.com/prop-firm-ea-copy-trading-platforms",
+      "title": "EA's, Copy Trading, & Platforms | Prop Firm Match",
+      "table_rows": 0,
+      "pagination_links": 6,
+      "button_count": 87,
+      "select_count": 0,
+      "internal_links": 77,
+      "screenshot": "007_rules_ea_copy.png"
+    },
+    "reviews": {
+      "url": "https://propfirmmatch.com/prop-firm-reviews",
+      "title": "Verified Prop Firm Reviews & Ratings | Prop Firm Match",
+      "table_rows": 14,
+      "pagination_links": 0,
+      "button_count": 72,
+      "select_count": 0,
+      "internal_links": 89,
+      "screenshot": "008_reviews.png"
+    }
+  }
+}

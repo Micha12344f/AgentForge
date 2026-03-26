@@ -138,32 +138,30 @@ def parse_timestamp(ts):
     return dt
 
 
-def parse_stage_number(stage_val):
-    """Extract highest completed email number from Pipeline stage.
+def _extract_sent_seq_ids(pipeline_stage_val):
+    """Return set of email_sequence page IDs (no dashes) already sent to this lead.
 
-    Returns int >= 0 (0 = none sent) or -1 (complete).
+    Pipeline stage is a rollup of Email Logs → Email Sequence. extract_raw returns
+    the array items, each being a list of relation dicts: [[{'id': '...'}], ...].
+    Handles both the extract_raw form (list of lists) and the raw Notion form
+    (list of {'type': 'relation', 'relation': [...]} dicts).
     """
-    if isinstance(stage_val, list):
-        max_num = 0
-        for s in stage_val:
-            n = _parse_single_stage(s)
-            if n == -1:
-                return -1
-            max_num = max(max_num, n)
-        return max_num
-    return _parse_single_stage(stage_val)
-
-
-def _parse_single_stage(stage):
-    if not stage or str(stage).lower() in ("not started", "new", "none"):
-        return 0
-    stage = str(stage)
-    if stage.lower() in ("complete", "completed", "done"):
-        return -1
-    if stage.lower() in ("welcome", "welcome sent"):
-        return 0
-    match = re.search(r"(\d+)", stage)
-    return int(match.group(1)) if match else 0
+    sent = set()
+    if not pipeline_stage_val or not isinstance(pipeline_stage_val, list):
+        return sent
+    for item in pipeline_stage_val:
+        if isinstance(item, list):
+            # extract_raw form: [[{'id': 'abc-123'}], ...]
+            for rel in item:
+                if isinstance(rel, dict) and rel.get("id"):
+                    sent.add(rel["id"].replace("-", ""))
+        elif isinstance(item, dict):
+            if item.get("type") == "relation":
+                # raw Notion form: [{'type': 'relation', 'relation': [{'id': '...'}]}, ...]
+                for rel in item.get("relation", []):
+                    if rel.get("id"):
+                        sent.add(rel["id"].replace("-", ""))
+    return sent
 
 
 def load_template_body(page_id):
@@ -343,17 +341,22 @@ def step6_determine_next_email(send_queue, dry_run):
         lead = item["lead"]
         campaign = item["campaign"]
         cid = campaign["id"]
-        current_num = parse_stage_number(lead["pipeline_stage"])
-
-        if current_num == -1:
-            continue
-
-        next_num = current_num + 1
         sequences = campaign_sequences.get(cid, [])
-        next_seq = next((seq for seq in sequences if seq["number"] == next_num), None)
+
+        # Set-based lookup: first sequence whose ID is not in the already-sent set.
+        # This is independent of template numbering — works across gaps, renames,
+        # and reordering. The rollup gives us exactly the sent sequence IDs.
+        sent_ids = _extract_sent_seq_ids(lead["pipeline_stage"])
+        next_seq = next(
+            (seq for seq in sequences if seq["id"].replace("-", "") not in sent_ids),
+            None,
+        )
 
         if not next_seq:
-            log.info("  Done: %s - no Email %d in '%s'", lead["email"], next_num, campaign["name"])
+            log.info(
+                "  Done: %s — all %d sequences sent for '%s'",
+                lead["email"], len(sequences), campaign["name"],
+            )
             if not dry_run:
                 update_row(lead["id"], "email_sends", {"Pipeline Stage": "Complete"})
             continue

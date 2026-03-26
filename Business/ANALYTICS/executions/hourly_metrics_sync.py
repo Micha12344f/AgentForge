@@ -23,6 +23,10 @@ import os
 import sys
 import time
 import argparse
+
+if sys.stdout.encoding and sys.stdout.encoding.lower().startswith("cp"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 import traceback
 from datetime import datetime, timezone, timedelta
 from typing import Any, Optional

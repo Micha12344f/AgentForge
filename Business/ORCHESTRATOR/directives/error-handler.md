@@ -19,12 +19,24 @@
 4. **Resolve**: Apply fix or rollback
 5. **Document**: Log in `resources/incident_log.md`
 
+## Preferred Entry Point
+
+For hedge-vps incidents, start with the unified monitor instead of ad hoc SSH commands:
+
+```powershell
+python Business/ORCHESTRATOR/executions/vps_monitor.py --action status
+python Business/ORCHESTRATOR/executions/vps_monitor.py --action errors --lines 60
+```
+
 ## Health Check Scripts
 
 | Script | What It Monitors |
 |--------|-----------------|
-| `tw_health_check.py` | Twitter bot container |
-| `tw_log_analyzer.py` | Twitter bot logs |
-| `tw_cron_inspector.py` | Twitter cron jobs |
+| `vps_monitor.py --action status` | hedge-vps reachability, WSL Docker state, latest lifecycle log |
+| `vps_monitor.py --action cron` | Active WSL cron schedule and legacy Windows task state |
+| `vps_monitor.py --action logs --target lifecycle` | Twitter bot lifecycle start/stop log |
+| `vps_monitor.py --action logs --target main` | Main Twitter reply bot Docker logs |
+| `vps_monitor.py --action logs --target mention` | Mention bot Docker logs |
+| `vps_monitor.py --action logs --target alerts` | Discord bot-alerts history |
 | `read_bot_alerts.py` | Discord bot alerts |
-| `vps_health.py` | VPS system health |
+| `vps_monitor.py --action errors` | Combined bot logs and alert triage view |

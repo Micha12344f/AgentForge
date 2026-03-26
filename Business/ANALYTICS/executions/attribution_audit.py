@@ -2,6 +2,11 @@
 """Attribution audit — diagnose why conversions show as direct traffic."""
 
 import sys
+
+if sys.stdout.encoding and sys.stdout.encoding.lower().startswith("cp"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+
 from collections import Counter
 from datetime import datetime, timedelta, timezone
 from pathlib import Path

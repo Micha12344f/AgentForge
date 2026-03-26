@@ -5,6 +5,7 @@ Sends emails via Resend API.
 """
 
 import os
+import re
 import requests
 from typing import Optional
 from dotenv import load_dotenv
@@ -13,6 +14,20 @@ _ws_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 load_dotenv(os.path.join(_ws_root, ".env"))
 
 BASE_URL = "https://api.resend.com"
+
+
+def _sanitize_tag_token(value: str) -> str:
+    cleaned = re.sub(r"[^A-Za-z0-9_-]+", "-", value).strip("-")
+    return cleaned or "tag"
+
+
+def _sanitize_tags(tags: list[dict]) -> list[dict[str, str]]:
+    sanitized: list[dict[str, str]] = []
+    for tag in tags:
+        name = _sanitize_tag_token(str(tag.get("name", "tag")))
+        value = _sanitize_tag_token(str(tag.get("value", "tag")))
+        sanitized.append({"name": name, "value": value})
+    return sanitized
 
 
 def _headers() -> dict:
@@ -40,7 +55,7 @@ def send_email(
     if reply_to:
         payload["reply_to"] = reply_to
     if tags:
-        payload["tags"] = tags
+        payload["tags"] = _sanitize_tags(tags)
     r = requests.post(f"{BASE_URL}/emails", headers=_headers(), json=payload, timeout=10)
     r.raise_for_status()
     return r.json()

@@ -23,6 +23,8 @@ Notion API ────┘
 
 ## Error Handling
 
-- All pipelines log to `shared/log_config.py`
-- Failures alert via `shared/alerting.py` → Discord webhook
-- Retry logic via `shared/retry_executor.py`
+- Failures alert via `shared/alerting.py` to Discord.
+- Dispatcher-initiated runs use `shared/retry_executor.py` for subprocess and function retries.
+- Runtime readiness is checked via `shared/api_registry.py` before orchestration status reporting.
+- Pipelines should degrade gracefully when a single upstream is unavailable, returning partial reports rather than failing the entire analytics run.
+- On Windows terminals, scripts should reconfigure stdout/stderr to UTF-8 when the active encoding is a `cp*` code page, preventing `UnicodeEncodeError` during warning output.

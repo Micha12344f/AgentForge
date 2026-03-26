@@ -17,6 +17,10 @@ import argparse
 import math
 from datetime import datetime, timezone
 
+if sys.stdout.encoding and sys.stdout.encoding.lower().startswith("cp"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+
 _AGENT_DIR = os.path.dirname(os.path.abspath(__file__))
 _WORKSPACE = os.path.abspath(os.path.join(_AGENT_DIR, *(['..'] * 3)))
 sys.path.insert(0, _WORKSPACE)
@@ -69,8 +73,8 @@ def list_tests() -> None:
             status = row.get("Status", "Unknown")
             print(f"  [{status}] {name}")
     except Exception as e:
-        print(f"  ⚠️  Could not query landing_page_tests: {e}")
-        print("  (Database may need to be recreated in Notion)")
+        print(f"  [WARN] Could not query landing_page_tests: {e}")
+        print("  (Database may not exist or is not shared with the Notion integration)")
 
 
 def create_test(name: str) -> None:
@@ -103,16 +107,19 @@ def main():
         list_tests()
     elif args.action == "create":
         if not args.name:
-            print("❌ --name required for create action")
+            print("[ERROR] --name required for create action")
             sys.exit(1)
         create_test(args.name)
     elif args.action == "analyze":
         if not args.name:
-            print("❌ --name required for analyze action")
+            print("[ERROR] --name required for analyze action")
             sys.exit(1)
         analyze_test(args.name)
 
-    log_task("Analytics", "ab-test", args.action, "success")
+    try:
+        log_task("Analytics", "ab-test", args.action, "success")
+    except Exception:
+        pass
 
 
 if __name__ == "__main__":

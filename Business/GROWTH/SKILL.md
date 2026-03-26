@@ -8,7 +8,9 @@
 
 ## Skills You Gain
 
-GROWTH houses two sub-departments — **Marketing** (awareness to lead) and **Sales** (lead to customer). Every skill below is a directive + execution pair you can invoke.
+GROWTH houses two sub-departments — **Marketing** (awareness to lead) and **Sales** (lead to customer). Directives, executions, and human-facing resources are organised under matching `Marketing/` and `Sales/` subfolders.
+
+`resources/.env` remains at the department resource root as the shared runtime override file for all Growth workflows.
 
 ---
 
@@ -74,10 +76,13 @@ GROWTH houses two sub-departments — **Marketing** (awareness to lead) and **Sa
 - `executions/Marketing/run.py` — Marketing task dispatcher
 - `executions/Sales/run.py` — Sales task dispatcher
 
-## Resource
+## Resources
 
-- `resources/growth-reference.md` — growth strategy reference document
+- `resources/Marketing/marketing-reference.md` — marketing toolchain, systems, and Notion database map
+- `resources/Marketing/env-reference.md` — marketing environment variables and integrations
 - `resources/Marketing/Attribution_Tracking_Pipeline.ipynb` — interactive attribution notebook
+- `resources/Sales/sales-reference.md` — sales toolchain, systems, and CRM database map
+- `resources/Sales/env-reference.md` — sales environment variables and integrations
 
 ## Shared Dependencies
 

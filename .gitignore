@@ -2,3 +2,7 @@
 Business/*/resources/.env
 !.env.example
 !Business/*/resources/.env.example
+
+# Local-only Python environment and scratch workspace data
+.venv/
+tmp/

@@ -16,7 +16,14 @@
 | Cron scheduler | Railway | (internal) |
 | Email sends | Railway | (internal) |
 | Support bot | VPS | ssh.hedgedge.info |
-| Twitter bot | VPS Docker | ssh.hedgedge.info |
+| Twitter bot | VPS Windows host + WSL Docker | ssh.hedgedge.info |
+| Mention bot | VPS WSL Docker | ssh.hedgedge.info |
+
+## Operational Notes
+
+- Prefer `Business/ORCHESTRATOR/executions/vps_monitor.py` for status, cron, log, and alert checks.
+- `ssh hedge-vps` lands on a Windows host; the active Twitter bot schedule runs inside WSL Ubuntu.
+- Windows Task Scheduler entries exist for the Twitter bot, but the WSL cron files and lifecycle logs are the primary source of truth.
 
 ## Cloudflare
 

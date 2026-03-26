@@ -2,25 +2,41 @@
 
 > Full-funnel conversion reporting from first visit to paying customer.
 
-## Funnel Stages
+## Current Operational Funnel Stages
 
 ```
-Visitor → Sign-up → Beta Claim → Active User → Checkout → Subscriber
-  (GA4)   (Supabase)  (Supabase)  (App usage)  (Creem.io)  (Creem.io)
+Email funnel:   Sent → Delivered → Opened → Clicked → Replied
+Signup funnel:  Lead → Demo Booked → Demo Completed → Trial → Paid
 ```
 
-## Conversion Points
+## Current Data Sources
 
 | Stage Transition | Data Source | Metric |
 |-----------------|-------------|--------|
-| Visitor → Sign-up | GA4 + Supabase | Registration conversion rate |
-| Sign-up → Beta Claim | Supabase `beta_keys` | Beta activation rate |
-| Beta Claim → Active | Supabase sessions | 7-day activation rate |
-| Active → Checkout | Creem.io events | Purchase intent rate |
-| Checkout → Subscriber | Creem.io | Checkout completion rate |
+| Sent → Delivered | Notion `email_sends` | Delivery rate |
+| Delivered → Opened | Notion `email_sends` | Open rate |
+| Opened → Clicked | Notion `email_sends` | Click rate |
+| Clicked → Replied | Notion `email_sends` | Reply rate |
+| Lead → Demo Booked | Notion `leads_crm` and `demo_log` | Demo-booking rate |
+| Demo Booked → Demo Completed | Notion `demo_log` | Show-up rate |
+| Demo Completed → Trial | Not yet wired in current execution | Placeholder |
+| Trial → Paid | Not yet wired in current execution | Placeholder |
+
+## Current Execution Behavior
+
+- `Business/ANALYTICS/executions/funnel_calculator.py` currently computes the email funnel from `email_sends`.
+- The same script computes the signup funnel from `leads_crm` and `demo_log`.
+- `trial` and `paid` are placeholders in the current execution and must not be presented as live metrics until Supabase/Creem wiring is added.
+- `daily_analytics.py` may include funnel-adjacent rollups, but the visitor-to-paid system is not yet fully automated in code.
 
 ## Reporting Cadence
 
 - Daily funnel snapshot in `daily_analytics.py`
 - Weekly cohort analysis (by sign-up week)
 - Monthly board-ready funnel visualization
+
+## Guardrails
+
+- Do not describe the visitor-to-paid funnel as fully operational unless the `trial` and `paid` stages are actually populated.
+- Label placeholder stages clearly in reports.
+- Prefer code-truth over desired architecture: document unwired stages as planned, not live.

@@ -20,6 +20,10 @@ Usage (Marketing — hot lead discovery):
 import sys
 import os
 import re
+
+if sys.stdout.encoding and sys.stdout.encoding.lower().startswith("cp"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 import argparse
 import requests
 from datetime import datetime, timezone, timedelta

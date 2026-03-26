@@ -11,10 +11,25 @@
 
 ## Railway Services
 
-1. Push to main branch → Railway auto-deploys
-2. Check service logs for startup errors
-3. Verify cron scheduler is running
-4. Test email send pipeline
+### Existing service deploy
+
+1. Confirm the workspace is linked to the correct active project: `railway status`
+2. If the link is stale or deleted, inspect projects with: `railway list --json`
+3. Deploy explicitly to the intended service: `railway up --service "<service-name>" -c`
+4. Check runtime logs: `railway logs --service "<service-name>" --latest --lines 100`
+5. Verify health server or startup message
+6. Verify cron scheduler or worker boot path
+
+### New service creation
+
+1. Link to the active project first: `railway link --project <project-id>`
+2. Create the new service: `railway add --service "<service-name>"`
+3. Load required variables without triggering intermediate deploys: `railway variable set --service "<service-name>" --skip-deploys "KEY=value"`
+4. Ensure local-only large folders are excluded from upload context (`.venv/`, `tmp/`, screenshots, caches)
+5. Deploy the new service explicitly: `railway up --service "<service-name>" -c -m "<message>"`
+6. Confirm the container booted successfully from logs
+
+See `resources/railway-service-methodology.md` for the full Railway service discovery and deployment playbook.
 
 ## VPS Services
 

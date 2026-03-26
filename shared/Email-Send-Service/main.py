@@ -2,7 +2,7 @@
 """
 Email Send Service — Entry Point
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-APScheduler runs email_send at 09:00 and 21:00 UTC.
+APScheduler runs email_send at 07:00 and 19:00 GMT/UTC.
 HTTP health check on $PORT for Railway probes.
 """
 
@@ -25,6 +25,8 @@ logging.basicConfig(
     datefmt="%Y-%m-%d %H:%M:%S",
 )
 log = logging.getLogger("email-send-service")
+
+SCHEDULE_HOURS_UTC = "7,19"
 
 
 # ──────────────────────────────────────────────
@@ -108,7 +110,7 @@ def _run_email_send():
 def main():
     log.info("=" * 55)
     log.info("Email Send Service starting")
-    log.info("Schedule: 09:00 + 21:00 UTC daily")
+    log.info("Schedule: 07:00 + 19:00 GMT daily")
     log.info("=" * 55)
 
     _start_health_server()
@@ -117,9 +119,9 @@ def main():
 
     scheduler.add_job(
         _run_email_send,
-        trigger=CronTrigger(hour="9,21", minute=0),
+        trigger=CronTrigger(hour=SCHEDULE_HOURS_UTC, minute=0),
         id="email-send",
-        name="Email Send → daily 09:00 + 21:00 UTC",
+        name="Email Send → daily 07:00 + 19:00 GMT",
         misfire_grace_time=600,
     )
 

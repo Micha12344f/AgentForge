@@ -6,6 +6,40 @@ Common issues encountered during the deployment workflow and how to fix them.
 
 ## Build Issues
 
+### Railway says the project is deleted or the expected service cannot be found
+
+**Cause**: The workspace is linked to an old or deleted Railway project.
+
+**Fix**:
+```powershell
+railway status
+railway list --json
+railway link --project <active-project-id>
+```
+Use `deletedAt == null` as the active-project filter.
+
+### Railway upload fails with `413 Payload Too Large`
+
+**Cause**: The deploy archive includes large local-only directories such as `.venv/` or `tmp/`.
+
+**Fix**:
+1. Exclude the large local directories in `.gitignore`
+2. Retry deploy with:
+```powershell
+railway up --service "<service-name>" -c
+```
+
+### Railway build succeeds but the service does not boot correctly
+
+**Cause**: Missing environment variables or runtime import issues.
+
+**Fix**:
+```powershell
+railway variable list --service "<service-name>" -k
+railway logs --service "<service-name>" --latest --lines 100
+```
+Set any missing boot-critical variables, then redeploy.
+
 ### `electron:compile` fails with TypeScript errors
 
 **Cause**: Type errors in `electron/*.ts` files.
@@ -29,6 +63,51 @@ npm run electron:compile 2>&1
 **Cause**: Build silently failed or wrote to a different directory.
 
 **Fix**: Check `release/builder-debug.yml` for the actual error. Also inspect `release/builder-effective-config.yaml` for the resolved config.
+
+---
+
+## VPS Monitoring Issues
+
+### Twitter bot looks down, but it may be in cooldown
+
+**Cause**: The main Twitter bot runs on a 3-hour WSL cron cadence with 2-hour active windows and 1-hour cooldowns.
+
+**Fix**:
+```powershell
+python Business/ORCHESTRATOR/executions/vps_monitor.py --action status
+python Business/ORCHESTRATOR/executions/vps_monitor.py --action logs --target lifecycle --lines 80
+```
+If the lifecycle log shows a recent `stop complete`, the downtime may be expected.
+
+### Windows Task Scheduler says the Twitter tasks never ran
+
+**Cause**: Legacy Windows task entries are still present, but the active schedule runs inside WSL cron.
+
+**Fix**:
+```powershell
+python Business/ORCHESTRATOR/executions/vps_monitor.py --action cron
+python Business/ORCHESTRATOR/executions/vps_monitor.py --action tasks
+```
+Use the root crontab and lifecycle log as the source of truth.
+
+### `docker` fails on the Windows host
+
+**Cause**: The Twitter bot control path runs through WSL Docker, not direct Windows Docker CLI access.
+
+**Fix**:
+```powershell
+python Business/ORCHESTRATOR/executions/vps_monitor.py --action status
+python Business/ORCHESTRATOR/executions/vps_monitor.py --action logs --target main --lines 40
+```
+The monitor script targets WSL Docker correctly.
+
+### Need a single incident view for logs and alerts
+
+**Fix**:
+```powershell
+python Business/ORCHESTRATOR/executions/vps_monitor.py --action errors --lines 60
+```
+This pulls lifecycle logs, main bot logs, mention bot logs, and Discord alerts into one view.
 
 ---
 

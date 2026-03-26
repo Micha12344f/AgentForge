@@ -1,0 +1,49 @@
+{
+  "title": "Best Prop Trading Firms 2026 | Prop Firm Match",
+  "table_rows": 10,
+  "pagination_links": 0,
+  "button_count": 134,
+  "select_count": 0,
+  "internal_links": 151,
+  "button_texts": [
+    "Forex",
+    "Futures",
+    "Log in",
+    "Sign Up",
+    "Sign Up",
+    "Previous slide",
+    "Next slide",
+    "MATCH...",
+    "MATCH",
+    "MATCH",
+    "MATCH",
+    "MATCH",
+    "MATCH",
+    "MATCH",
+    "MATCH",
+    "MATCH...",
+    "MATCH",
+    "MATCH",
+    "MATCH",
+    "MATCH",
+    "MATCH",
+    "MATCH",
+    "20MAT..."
+  ],
+  "tables": [
+    {
+      "headers": [
+        "FIRM",
+        "RANK\n/\nREVIEWS",
+        "COUNTRY",
+        "YEARS IN OPERATION",
+        "ASSETS",
+        "PLATFORMS",
+        "MAX ALLOCATIONS",
+        "PROMO",
+        "ACTIONS"
+      ],
+      "rows": 10
+    }
+  ]
+}

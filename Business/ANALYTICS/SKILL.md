@@ -55,7 +55,25 @@ When you adopt the Analytics department, you can execute the following skills by
 
 ## Shared Dependencies
 
-All execution scripts import from the workspace-root `shared/` package: `notion_client.py`, `supabase_client.py`, `resend_client.py`, `alerting.py`.
+All execution scripts import from the workspace-root `shared/` package. The analytics runtime currently depends on:
+
+- `notion_client.py` — Notion database reads/writes, schema-aware updates, task logging
+- `supabase_client.py` — profiles, subscriptions, attribution, page_views, license telemetry
+- `google_analytics_client.py` — GA4 Data API reports and Measurement Protocol helpers
+- `resend_client.py` — email sends, audiences, contacts, webhook utilities
+- `shortio_client.py` — link inventory and click statistics
+- `creem_client.py` — subscription status and billing feed pulls
+- `alerting.py` — Discord alert routing for KPI and pipeline failures
+- `llm_router.py`, `groq_client.py`, `gemini_client.py`, `openrouter_client.py` — AI narrative generation for KPI/report summaries
+- `api_registry.py`, `retry_executor.py` — dispatcher readiness checks and resilient execution
+
+Related cross-department dependency:
+
+- `Business/GROWTH/executions/Marketing/email_marketing/email_system.py` exports `enrich_notion_from_resend()` for analytics-side email enrichment during daily/hourly rollups.
+
+Operational note:
+
+- Analytics scripts should include a Windows-safe UTF-8 stdout/stderr reconfiguration guard to avoid `UnicodeEncodeError` on cp1252 terminals.
 
 ## Cross-Department Links
 

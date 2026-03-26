@@ -1,0 +1,49 @@
+{
+  "title": "List of All Prop Firms in One Place | Prop Firm Match",
+  "table_rows": 10,
+  "pagination_links": 6,
+  "button_count": 124,
+  "select_count": 0,
+  "internal_links": 130,
+  "button_texts": [
+    "Forex",
+    "Futures",
+    "Log in",
+    "Sign Up",
+    "Sign Up",
+    "Previous slide",
+    "Next slide",
+    "MATCH...",
+    "MATCH",
+    "MATCH",
+    "MATCH",
+    "MATCH",
+    "MATCH",
+    "MATCH",
+    "MATCH",
+    "MATCH...",
+    "MATCH",
+    "MATCH",
+    "MATCH",
+    "MATCH",
+    "MATCH",
+    "MATCH",
+    "20MAT..."
+  ],
+  "tables": [
+    {
+      "headers": [
+        "FIRM",
+        "RANK\n/\nREVIEWS",
+        "COUNTRY",
+        "YEARS IN OPERATION",
+        "ASSETS",
+        "PLATFORMS",
+        "MAX ALLOCATIONS",
+        "PROMO",
+        "ACTIONS"
+      ],
+      "rows": 10
+    }
+  ]
+}

@@ -18,6 +18,11 @@ import argparse
 import json
 import os
 import sys
+
+if sys.stdout.encoding and sys.stdout.encoding.lower().startswith("cp"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 

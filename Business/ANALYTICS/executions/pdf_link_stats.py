@@ -10,6 +10,10 @@ Usage:
 
 import os, sys
 
+if sys.stdout.encoding and sys.stdout.encoding.lower().startswith("cp"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+
 _WS = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), *(['..'] * 3)))
 sys.path.insert(0, _WS)
 

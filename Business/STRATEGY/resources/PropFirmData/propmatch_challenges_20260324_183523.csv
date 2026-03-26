@@ -1,0 +1,225 @@
+firm,firm_slug,rating,reviews,account_size,steps,steps_label,profit_targets,daily_drawdown_pct,max_drawdown_pct,pt_dd_ratio,profit_split_pct,payout_timing,fee_discounted,fee_original,fee_assumed,fee_assumption,currency,asset_class,drawdown_type,loyalty_pts
+The5ers,the-5-ers,4.8,1111,100000,2,2 Steps,8.0% / 5.0%,5.0,10.0,1:0.77,80.0,14 Days,545.0,545.0,545.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,285
+BrightFunded,brightfunded,4.5,99,100000,2,2 Steps,8.0% / 5.0%,5.0,10.0,1:0.77,80.0,"30 days, subsequently 14 days | 14 days & 7 days payout with add-ons",495.0,495.0,495.0,original_no_discount,EUR,forex,Balance/Equity - Highest at EOD,347
+FundingPips,funding-pips,4.3,960,100000,2,2 Steps,6.0% / 6.0%,3.0,6.0,1:0.5,80.0,Daily Payouts (80% Split with 35% consistency score applicable during the evaluation only) | Weekly (80% Split),399.0,399.0,399.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,351
+FundedNext,fundednext,4.4,710,100000,2,2 Steps,8.0% / 4.0%,4.0,8.0,1:0.67,80.0,"First payout is 21 Days, then 14 Days. On demand (available anytime if you hit 5% and above, you can request withdrawal immediately). Available till 8th of August",399.99,399.99,399.99,original_no_discount,USD,forex,Balance Based,205
+Alpha Capital,alpha-capital-group,4.4,840,100000,2,2 Steps,6.0% / 6.0%,3.0,6.0,1:0.5,80.0,14 days or on demand payout,427.0,427.0,427.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,329
+Goat Funded Trader,goat-funded-trader,4.4,719,100000,2,2 Steps,8.0% / 6.0%,4.0,10.0,1:0.71,80.0,Bi-weekly | First Payout on demand as add-on with a 40% profit split,458.0,458.0,458.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,378
+Blueberry Funded,blueberry-funded,3.7,274,100000,2,2 Steps,10.0% / 5.0%,5.0,10.0,1:0.67,80.0,14 Days,590.0,590.0,590.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,681
+Maven,maven-trading,4.3,666,100000,2,2 Steps,8.0% / 5.0%,4.0,8.0,1:0.62,80.0,10 Business days,440.0,440.0,440.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,581
+NEW,moneta-funded,,,100000,2,2 Steps,5.0% / 10.0%,5.0,10.0,1:0.67,88.0,14 days,650.0,650.0,650.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,751
+AquaFunded,aquafunded,4.3,222,100000,2,2 Steps,10.0% / 5.0%,5.0,10.0,1:0.67,90.0,14 Days,429.0,429.0,429.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,472
+Top One Trader,top-one-trader,4.4,145,100000,2,2 Steps,10.0% / 5.0%,4.0,8.0,1:0.53,80.0,"Bi-weekly payouts | On Demand payouts with add-on, minimum profitable days and all payout rules still applies.",998.0,998.0,998.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,697
+For Traders,for-traders,4.5,221,100000,2,2 Steps,8.0% / 5.0%,4.0,8.0,1:0.62,80.0,14 Days,569.0,569.0,569.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,469
+QT Funded,qt-funded,3.9,656,100000,2,2 Steps,6.0% / 6.0%,4.0,8.0,1:0.67,80.0,On Demand,432.0,432.0,432.0,original_no_discount,USD,forex,Balance Based,285
+Finotive Funding,finotive-funding,4.2,115,100000,2,2 Steps,7.5% / 5.0%,4.5,9.0,1:0.8,80.0,"Payout on demand, then every 7 Days",699.0,699.0,699.0,original_no_discount,USD,forex,Balance Based,288
+FTMO,ftmo,4.6,184,100000,2,2 Steps,10.0% / 5.0%,5.0,10.0,1:0.67,80.0,14 days from the first day of trading,540.0,540.0,540.0,original_no_discount,EUR,forex,Balance Based,140
+Blue Guardian,blue-guardian,4.3,213,100000,2,2 Steps,10.0% / 4.0%,4.0,10.0,1:0.71,85.0,14 Days,464.0,464.0,464.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,383
+Fintokei,fintokei,,,100000,2,2 Steps,8.0% / 6.0%,5.0,10.0,1:0.71,80.0,14 days,529.0,529.0,529.0,original_no_discount,EUR,forex,Equity Based,201
+FundedElite,fundedelite,4.3,99,100000,2,2 Steps,10.0% / 5.0%,4.0,8.0,1:0.53,80.0,"Standard: First payout after 21 days, then every 14 days (customizable)",299.0,299.0,299.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,345
+ThinkCapital,thinkcapital,4.2,54,100000,2,2 Steps,9.0% / 5.0%,4.0,7.0,1:0.62,80.0,Biweekly,499.0,499.0,499.0,original_no_discount,USD,forex,Equity Based,659
+City Traders Imperium,city-traders-imperium,4.4,52,100000,2,2 Steps,10.0% / 5.0%,5.0,10.0,1:0.67,80.0,First payout on demand | Monthly thereafter during the last 5 days of each month,689.0,689.0,689.0,original_no_discount,USD,forex,Balance Based,531
+Funded Trading Plus,funded-trading-plus,4.2,65,100000,2,2 Steps,7.0% / 7.0%,4.0,8.0,1:0.57,80.0,10 Calender Days,549.0,549.0,549.0,original_no_discount,USD,forex,Balance Based,483
+Instant Funding,instant-funding,3.8,329,100000,2,2 Steps,8.0% / 4.0%,4.0,10.0,1:0.83,60.0,"5–13 days: 60%, 14–27 days: 80% or 28 days or later: 95%",419.0,419.0,419.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,210
+ATFunded,atfunded,,,100000,2,2 Steps,8.0% / 5.0%,4.0,10.0,1:0.77,75.0,First payout: 30 days after placing 1st trade | Subsequent Payouts: Bi-weekly,460.0,460.0,460.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,607
+Crypto Fund Trader,crypto-fund-trader,4.2,100,100000,2,2 Steps,8.0% / 5.0%,5.0,10.0,1:0.77,80.0,15 trading days or 30 days,660.0,660.0,660.0,original_no_discount,USD,forex,Balance Based,1013
+Nordic Funder,nordic-funder,,,100000,2,2 Steps,10.0% / 5.0%,4.0,8.0,1:0.5,80.0,Once every 30 days,525.0,525.0,525.0,original_no_discount,USD,forex,Balance Based,1040
+FXIFY,fxify,3.9,102,100000,2,2 Steps,10.0% / 5.0%,4.0,10.0,1:0.67,80.0,"First payout on-demand, 30 days thereafter | 14 Days Payout with Add-On",549.0,549.0,549.0,original_no_discount,USD,forex,Balance Based,845
+The Trading Pit,the-trading-pit,3.8,23,100000,2,2 Steps,8.0% / 5.0%,5.0,10.0,1:0.77,80.0,"14 days, minimum payout $100",569.0,569.0,569.0,original_no_discount,USD,forex,Balance Based,845
+Hantec Trader,hantec-trader,4.4,23,100000,2,2 Steps,8.0% / 4.0%,4.0,8.0,1:0.67,80.0,14 Days,499.0,499.0,499.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,576
+QT Funded3.9656QT Funded,qt-funded,,,100000,2,2 Steps,8.0% / 5.0%,4.0,8.0,1:0.77,80.0,First payout is on a 21 day cycle and then 14 days for the subsequent Payouts,446.25,525.0,525.0,original_no_discount,USD,forex,Balance Based,736
+Finotive Funding4.2115Finotive Funding,finotive-funding,,,100000,2,2 Steps,7.5% / 5.0%,5.0,10.0,1:0.8,80.0,"Payout on demand, then every 7 Days",558.0,744.0,744.0,original_no_discount,USD,forex,Balance Based,307
+FTMO4.6184FTMO,ftmo,,,100000,2,2 Steps,10.0% / 5.0%,5.0,10.0,1:0.67,80.0,14 days from the first day of trading,439.0,540.0,540.0,original_no_discount,EUR,forex,Balance Based,140
+Blue Guardian4.3213Blue Guardian,blue-guardian,,,100000,2,2 Steps,8.0% / 4.0%,4.0,8.0,1:0.67,85.0,14 Days,376.35,579.0,579.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,621
+FundedElite4.399FundedElite,fundedelite,,,100000,2,2 Steps,8.0% / 5.0%,5.0,8.0,1:0.62,80.0,"Standard: First payout after 21 days, then every 14 days (customizable)",363.3,519.0,519.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,599
+ThinkCapital4.254ThinkCapital,thinkcapital,,,100000,2,2 Steps,9.0% / 5.0%,4.0,7.0,1:0.62,80.0,Biweekly,558.4,698.0,698.0,original_no_discount,USD,forex,Balance Based,921
+Instant Funding3.8329Instant Funding,instant-funding,,,100000,2,2 Steps,8.0% / 5.0%,5.0,10.0,1:0.77,80.0,On Demand,439.0,439.0,439.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,220
+Crypto Fund Trader4.2100Crypto Fund Trader,crypto-fund-trader,,,100000,2,2 Steps,8.0% / 5.0%,5.0,10.0,1:0.77,0.0,Payout on demand (account closes after first payout).,899.0,899.0,899.0,original_no_discount,USD,forex,Balance Based,1483
+FXIFY3.9102FXIFY,fxify,,,100000,2,2 Steps,10.0% / 5.0%,4.0,10.0,1:0.67,80.0,14 days for 80% Profit split or 30 days for 100% profit split,384.3,549.0,549.0,original_no_discount,USD,forex,Balance Based,845
+Hantec Trader4.423Hantec Trader,hantec-trader,,,100000,2,2 Steps,10.0% / 5.0%,5.0,10.0,1:0.67,80.0,14 Days,419.3,599.0,599.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,692
+The5ers,the-5-ers,4.8,1111,5000,2,2 Steps,8.0% / 5.0%,5.0,10.0,1:0.77,80.0,14 Days,22.0,22.0,22.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,11
+BrightFunded,brightfunded,4.5,99,5000,2,2 Steps,8.0% / 5.0%,5.0,10.0,1:0.77,80.0,"30 days, subsequently 14 days | 14 days & 7 days payout with add-ons",55.0,55.0,55.0,original_no_discount,EUR,forex,Balance/Equity - Highest at EOD,39
+FundingPips,funding-pips,4.3,960,5000,2,2 Steps,6.0% / 6.0%,3.0,6.0,1:0.5,80.0,Daily Payouts (80% Split with 35% consistency score applicable during the evaluation only) | Weekly (80% Split),29.0,29.0,29.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,26
+FundedNext,fundednext,4.4,710,5000,2,2 Steps,8.0% / 4.0%,4.0,8.0,1:0.67,80.0,"First payout is 21 Days, then 14 Days. On demand (available anytime if you hit 5% and above, you can request withdrawal immediately). Available till 8th of August",32.99,32.99,32.99,original_no_discount,USD,forex,Balance Based,17
+Alpha Capital,alpha-capital-group,4.4,840,5000,2,2 Steps,6.0% / 6.0%,3.0,6.0,1:0.5,80.0,14 days or on demand payout,40.0,40.0,40.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,31
+Goat Funded Trader,goat-funded-trader,4.4,719,5000,2,2 Steps,8.0% / 6.0%,4.0,10.0,1:0.71,80.0,Bi-weekly | First Payout on demand as add-on with a 40% profit split,36.0,36.0,36.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,30
+Blueberry Funded,blueberry-funded,3.7,274,5000,2,2 Steps,10.0% / 5.0%,4.0,10.0,1:0.67,80.0,14 Days,25.0,25.0,25.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,29
+Maven,maven-trading,4.3,666,2000,2,2 Steps,8.0% / 5.0%,4.0,8.0,1:0.62,80.0,10 Business days,19.0,19.0,19.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,24
+NEW,moneta-funded,,,5000,2,2 Steps,5.0% / 10.0%,5.0,10.0,1:0.67,88.0,14 days,49.0,49.0,49.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,57
+AquaFunded,aquafunded,4.3,222,5000,2,2 Steps,10.0% / 5.0%,5.0,10.0,1:0.67,90.0,14 days,29.0,29.0,29.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,32
+Top One Trader,top-one-trader,4.4,145,5000,2,2 Steps,10.0% / 5.0%,4.0,8.0,1:0.53,80.0,"Bi-weekly payouts | On Demand payouts with add-on, minimum profitable days and all payout rules still applies.",78.0,78.0,78.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,29
+For Traders,for-traders,4.5,221,6000,2,2 Steps,8.0% / 5.0%,4.0,8.0,1:0.62,80.0,14 Days,67.0,67.0,67.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,55
+QT Funded,qt-funded,3.9,656,5000,2,2 Steps,8.0% / 5.0%,4.0,8.0,1:0.77,80.0,First payout is on a 21 day cycle and then 14 days for the subsequent Payouts,47.5,47.5,47.5,original_no_discount,USD,forex,Balance Based,67
+Finotive Funding,finotive-funding,4.2,115,5000,2,2 Steps,7.5% / 5.0%,4.5,9.0,1:0.8,80.0,"Payout on demand, then every 7 Days",29.0,29.0,29.0,original_no_discount,USD,forex,Balance Based,12
+FTMO,ftmo,4.6,184,10000,2,2 Steps,10.0% / 5.0%,5.0,10.0,1:0.67,80.0,14 days from the first day of trading,89.0,89.0,89.0,original_no_discount,EUR,forex,Balance Based,28
+Blue Guardian,blue-guardian,4.3,213,5000,2,2 Steps,10.0% / 4.0%,4.0,10.0,1:0.71,85.0,14 Days,36.0,36.0,36.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,30
+Breakout,breakout,4.7,44,5000,2,2 Steps,5.0% / 10.0%,4.0,6.0,1:0.4,80.0,Daily,49.99,49.99,49.99,original_no_discount,USD,forex,Balance Based,10
+Fintokei,fintokei,,,10000,2,2 Steps,8.0% / 6.0%,5.0,10.0,1:0.71,80.0,14 days,99.0,99.0,99.0,original_no_discount,EUR,forex,Equity Based,38
+FundedElite,fundedelite,4.3,99,5000,2,2 Steps,10.0% / 5.0%,4.0,8.0,1:0.53,80.0,"Standard: First payout after 21 days, then every 14 days (customizable)",19.0,19.0,19.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,22
+ThinkCapital,thinkcapital,4.2,54,5000,2,2 Steps,9.0% / 5.0%,4.0,7.0,1:0.62,80.0,Biweekly,59.0,59.0,59.0,original_no_discount,USD,forex,Equity Based,78
+City Traders Imperium,city-traders-imperium,4.4,52,5000,2,2 Steps,10.0% / 5.0%,5.0,10.0,1:0.67,80.0,First payout on demand | Monthly thereafter during the last 5 days of each month,49.0,49.0,49.0,original_no_discount,USD,forex,Balance Based,38
+Funded Trading Plus,funded-trading-plus,4.2,65,10000,2,2 Steps,7.0% / 7.0%,4.0,8.0,1:57,80.0,10 Calender Days,89.0,89.0,89.0,original_no_discount,USD,forex,Balance Based,78
+Instant Funding,instant-funding,3.8,329,5000,2,2 Steps,8.0% / 5.0%,5.0,10.0,1:0.77,80.0,On Demand,39.0,39.0,39.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,20
+ATFunded,atfunded,,,5000,2,2 Steps,8.0% / 5.0%,4.0,10.0,1:0.77,75.0,First payout: 30 days after placing 1st trade | Subsequent Payouts: Bi-weekly,35.0,35.0,35.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,46
+Crypto Fund Trader,crypto-fund-trader,4.2,100,5000,2,2 Steps,8.0% / 5.0%,5.0,10.0,1:0.77,0.0,Payout on demand (account closes after first payout).,45.0,45.0,45.0,original_no_discount,USD,forex,Balance Based,74
+Nordic Funder,nordic-funder,,,5000,2,2 Steps,10.0% / 5.0%,4.0,8.0,1:0.5,80.0,Once every 30 days,60.0,60.0,60.0,original_no_discount,USD,forex,Balance Based,119
+FXIFY,fxify,3.9,102,5000,2,2 Steps,10.0% / 5.0%,4.0,10.0,1:0.67,80.0,14 days for 80% Profit split or 30 days for 100% profit split,59.0,59.0,59.0,original_no_discount,USD,forex,Balance Based,91
+Audacity Capital,audacity-capital,4.0,41,5000,2,2 Steps,10.0% / 5.0%,7.5,15.0,1:0.83,75.0,Bi-weekly,49.0,49.0,49.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,17
+The Trading Pit,the-trading-pit,3.8,23,5000,2,2 Steps,8.0% / 5.0%,5.0,10.0,1:0.77,80.0,"14 days, minimum payout $100",49.0,49.0,49.0,original_no_discount,USD,forex,Balance Based,73
+Hantec Trader,hantec-trader,4.4,23,5000,2,2 Steps,8.0% / 4.0%,4.0,8.0,1:0.67,80.0,14 Days,49.0,49.0,49.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,57
+The5ers,the-5-ers,4.8,1111,25000,2,2 Steps,8.0% / 5.0%,5.0,10.0,1:0.77,80.0,14 Days,195.0,195.0,195.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,102
+The5ers,the-5-ers,4.8,1111,50000,2,2 Steps,8.0% / 5.0%,5.0,10.0,1:0.77,80.0,14 Days,309.0,309.0,309.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,161
+The5ers,the-5-ers,4.8,1111,10000,2,2 Steps,8.0% / 5.0%,5.0,10.0,1:0.77,80.0,14 Days,78.0,78.0,78.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,41
+BrightFunded,brightfunded,4.5,99,200000,2,2 Steps,8.0% / 5.0%,5.0,10.0,1:0.77,80.0,"30 days, subsequently 14 days | 14 days & 7 days payout with add-ons",975.0,975.0,975.0,original_no_discount,EUR,forex,Balance/Equity - Highest at EOD,684
+BrightFunded,brightfunded,4.5,99,10000,2,2 Steps,8.0% / 5.0%,5.0,10.0,1:0.77,80.0,"30 days, subsequently 14 days | 14 days & 7 days payout with add-ons",95.0,95.0,95.0,original_no_discount,EUR,forex,Balance/Equity - Highest at EOD,67
+BrightFunded,brightfunded,4.5,99,50000,2,2 Steps,8.0% / 5.0%,5.0,10.0,1:0.77,80.0,"30 days, subsequently 14 days | 14 days & 7 days payout with add-ons",295.0,295.0,295.0,original_no_discount,EUR,forex,Balance/Equity - Highest at EOD,207
+BrightFunded,brightfunded,4.5,99,25000,2,2 Steps,8.0% / 5.0%,5.0,10.0,1:0.77,80.0,"30 days, subsequently 14 days | 14 days & 7 days payout with add-ons",195.0,195.0,195.0,original_no_discount,EUR,forex,Balance/Equity - Highest at EOD,137
+FundingPips,funding-pips,4.3,960,50000,2,2 Steps,6.0% / 6.0%,3.0,6.0,1:0.5,80.0,Daily Payouts (80% Split with 35% consistency score applicable during the evaluation only) | Weekly (80% Split),219.0,219.0,219.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,193
+FundingPips,funding-pips,4.3,960,25000,2,2 Steps,8.0% / 5.0%,5.0,10.0,1:0.77,80.0,"Weekly (60% Split), On-Demand (90%), Bi-weekly (80% Split), Monthly (100% Split)",156.0,156.0,156.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,137
+FundingPips,funding-pips,4.3,960,10000,2,2 Steps,6.0% / 6.0%,3.0,6.0,1:0.5,80.0,Daily Payouts (80% Split with 35% consistency score applicable during the evaluation only) | Weekly (80% Split),55.0,55.0,55.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,48
+FundingPips,funding-pips,4.3,960,200000,2,2 Steps,6.0% / 6.0%,3.0,6.0,1:0.5,80.0,Daily Payouts (80% Split with 35% consistency score applicable during the evaluation only) | Weekly (80% Split),798.0,798.0,798.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,702
+FundedNext,fundednext,4.4,710,50000,2,2 Steps,8.0% / 5.0%,5.0,10.0,1:0.77,80.0,"First payout is 21 days, then every 14 days.",299.99,299.99,299.99,original_no_discount,USD,forex,Balance Based,153
+FundedNext,fundednext,4.4,710,25000,2,2 Steps,8.0% / 5.0%,5.0,10.0,1:0.77,80.0,"First payout is 21 days, then every 14 days.",199.99,199.99,199.99,original_no_discount,USD,forex,Balance Based,102
+FundedNext,fundednext,4.4,710,15000,2,2 Steps,8.0% / 5.0%,5.0,10.0,1:0.77,80.0,"First payout is 21 days, then every 14 days.",119.99,119.99,119.99,original_no_discount,USD,forex,Balance Based,61
+FundedNext,fundednext,4.4,710,10000,2,2 Steps,8.0% / 4.0%,4.0,8.0,1:0.67,80.0,"First payout is 21 Days, then 14 Days. On demand (available anytime if you hit 5% and above, you can request withdrawal immediately). Available till 8th of August",59.99,59.99,59.99,original_no_discount,USD,forex,Balance Based,31
+FundedNext,fundednext,4.4,710,6000,2,2 Steps,8.0% / 5.0%,5.0,10.0,1:0.77,80.0,"First payout is 21 days, then every 14 days.",59.99,59.99,59.99,original_no_discount,USD,forex,Balance Based,31
+FundedNext,fundednext,4.4,710,200000,2,2 Steps,8.0% / 5.0%,5.0,10.0,1:0.77,80.0,"First payout is 21 days, then every 14 days.",1099.99,1099.99,1099.99,original_no_discount,USD,forex,Balance Based,563
+Alpha Capital,alpha-capital-group,4.4,840,200000,2,2 Steps,6.0% / 6.0%,3.0,6.0,1:0.5,80.0,14 days or on demand payout,847.0,847.0,847.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,652
+Alpha Capital,alpha-capital-group,4.4,840,25000,2,2 Steps,8.0% / 5.0%,4.0,8.0,1:0.67,80.0,"14-day payout or on-demand payout, with the conditions of the 40% Best Day Rule and a minimum of 2% gross profit achieved.",247.0,247.0,247.0,original_no_discount,USD,forex,Balance Based,190
+Alpha Capital,alpha-capital-group,4.4,840,50000,2,2 Steps,10.0% / 5.0%,5.0,10.0,1:0.67,80.0,14 days or on demand payout,297.0,297.0,297.0,original_no_discount,USD,forex,Balance Based,229
+Alpha Capital,alpha-capital-group,4.4,840,10000,2,2 Steps,6.0% / 6.0%,3.0,6.0,1:0.5,80.0,14 days or on demand payout,40.0,40.0,40.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,44
+Goat Funded Trader,goat-funded-trader,4.4,719,200000,2,2 Steps,10.0% / 5.0%,5.0,10.0,1:0.67,80.0,Bi-weekly | First Payout on demand as add-on with a 40% profit split,1174.0,1174.0,1174.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,969
+Goat Funded Trader,goat-funded-trader,4.4,719,150000,2,2 Steps,8.0% / 6.0%,4.0,10.0,1:0.71,80.0,Bi-weekly | First Payout on demand as add-on with a 40% profit split,728.0,728.0,728.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,601
+Goat Funded Trader,goat-funded-trader,4.4,719,50000,2,2 Steps,10.0% / 5.0%,5.0,10.0,1:0.67,80.0,Bi-weekly | First Payout on demand as add-on with a 40% profit split,338.0,338.0,338.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,279
+Goat Funded Trader,goat-funded-trader,4.4,719,25000,2,2 Steps,8.0% / 4.0%,4.0,8.0,1:0.67,80.0,Bi-weekly | First Payout on demand as add-on with a 40% profit split,238.0,238.0,238.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,196
+Goat Funded Trader,goat-funded-trader,4.4,719,15000,2,2 Steps,10.0% / 5.0%,5.0,10.0,1:0.67,80.0,Bi-weekly | First Payout on demand as add-on with a 40% profit split,208.0,208.0,208.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,172
+Goat Funded Trader,goat-funded-trader,4.4,719,8000,2,2 Steps,10.0% / 5.0%,5.0,10.0,1:0.67,80.0,Bi-weekly | First Payout on demand as add-on with a 40% profit split,108.0,108.0,108.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,89
+The5ers4.81111The5ers,the-5-ers,,,20000,3,3 Steps,6.0% / 6.0% / 6.0%,,5.0,1:0.42,50.0,14 Days,20.9,22.0,22.0,original_no_discount,USD,forex,-,12
+Alpha Capital4.4840Alpha Capital,alpha-capital-group,,,10000,3,3 Steps,8.0% / 4.0% / 4.0%,4.0,6.0,1:0.37,80.0,14 days or on demand payout,40.0,40.0,40.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,44
+Goat Funded Trader4.4719Goat Funded Trader,goat-funded-trader,,,10000,3,3 Steps,6.0% / 6.0% / 6.0%,4.0,8.0,1:0.44,80.0,Bi-weekly | First Payout on demand as add-on with a 40% profit split,32.5,65.0,65.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,54
+Maven4.3666Maven,maven-trading,,,2000,3,3 Steps,3.0% / 3.0% / 3.0%,2.0,3.0,1:0.33,80.0,10 Business days,12.48,13.0,13.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,16
+AquaFunded4.3223AquaFunded,aquafunded,,,10000,3,3 Steps,6.0% / 6.0% / 6.0%,4.0,8.0,1:0.44,90.0,14 Days,38.5,77.0,77.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,85
+For Traders4.5222For Traders,for-traders,,,6000,3,3 Steps,4.0% / 4.0% / 6.0%,3.0,5.0,1:0.42,80.0,14 Days,11.5,23.0,23.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,19
+Blue Guardian,blue-guardian,4.3,213,5000,3,3 Steps,6.0% / 6.0% / 6.0%,4.0,8.0,1:0.44,85.0,14 Days,30.0,30.0,30.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,25
+Fintokei,fintokei,,,5000,3,3 Steps,2.0% / 3.0% / 6.0%,3.0,6.0,1:0.55,50.0,14 days,44.0,44.0,44.0,original_no_discount,EUR,forex,Equity Based,17
+Lark Funding,lark-funding,4.5,72,10000,3,3 Steps,5.0% / 4.0% / 3.0%,,5.0,1:0.42,80.0,14 Days,105.0,105.0,105.0,original_no_discount,USD,forex,-,165
+ThinkCapital,thinkcapital,4.2,54,5000,3,3 Steps,7.0% / 6.0% / 5.0%,4.0,8.0,1:0.44,80.0,Biweekly,39.0,39.0,39.0,original_no_discount,USD,forex,Balance Based,51
+Nordic Funder,nordic-funder,,,5000,3,3 Steps,5.0% / 5.0% / 5.0%,5.0,5.0,1:0.3,80.0,Once every 30 days,42.0,42.0,42.0,original_no_discount,USD,forex,Balance Based,83
+FXIFY,fxify,3.9,102,5000,3,3 Steps,5.0% / 5.0% / 5.0%,5.0,5.0,1:0.33,80.0,"First payout on-demand, 30 days thereafter | 14 Days Payout with Add-On",39.0,39.0,39.0,original_no_discount,USD,forex,Balance Based,60
+The5ers,the-5-ers,4.8,1111,250000,3,3 Steps,6.0% / 6.0% / 6.0%,,5.0,1:0.42,50.0,14 Days,225.0,225.0,225.0,original_no_discount,USD,forex,-,118
+The5ers,the-5-ers,4.8,1111,100000,3,3 Steps,6.0% / 6.0% / 6.0%,,5.0,1:0.42,50.0,14 Days,95.0,95.0,95.0,original_no_discount,USD,forex,-,50
+Alpha Capital,alpha-capital-group,4.4,840,50000,3,3 Steps,8.0% / 4.0% / 4.0%,4.0,6.0,1:0.37,80.0,14 days or on demand payout,247.0,247.0,247.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,231
+Alpha Capital,alpha-capital-group,4.4,840,100000,3,3 Steps,8.0% / 4.0% / 4.0%,4.0,6.0,1:0.37,80.0,14 days or on demand payout,397.0,397.0,397.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,371
+Alpha Capital,alpha-capital-group,4.4,840,200000,3,3 Steps,8.0% / 4.0% / 4.0%,4.0,6.0,1:0.37,80.0,14 days or on demand payout,697.0,697.0,697.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,652
+Alpha Capital,alpha-capital-group,4.4,840,25000,3,3 Steps,8.0% / 4.0% / 4.0%,4.0,6.0,1:0.37,80.0,14 days or on demand payout,157.0,157.0,157.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,147
+Goat Funded Trader,goat-funded-trader,4.4,719,50000,3,3 Steps,6.0% / 6.0% / 6.0%,4.0,8.0,1:0.44,80.0,Bi-weekly | First Payout on demand as add-on with a 40% profit split,225.0,225.0,225.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,186
+Goat Funded Trader,goat-funded-trader,4.4,719,25000,3,3 Steps,6.0% / 6.0% / 6.0%,4.0,8.0,1:0.44,80.0,Bi-weekly | First Payout on demand as add-on with a 40% profit split,145.0,145.0,145.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,120
+Goat Funded Trader4.4719Goat Funded Trader,goat-funded-trader,,,25000,3,3 Steps,6.0% / 6.0% / 6.0%,4.0,8.0,1:0.44,80.0,Bi-weekly | First Payout on demand as add-on with a 40% profit split,72.5,145.0,145.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,120
+Goat Funded Trader4.4719Goat Funded Trader,goat-funded-trader,,,200000,3,3 Steps,6.0% / 6.0% / 6.0%,4.0,8.0,1:0.44,80.0,Bi-weekly | First Payout on demand as add-on with a 40% profit split,332.5,665.0,665.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,549
+Goat Funded Trader4.4719Goat Funded Trader,goat-funded-trader,,,15000,3,3 Steps,6.0% / 6.0% / 6.0%,4.0,8.0,1:0.44,80.0,Bi-weekly | First Payout on demand as add-on with a 40% profit split,42.5,85.0,85.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,70
+Maven4.3666Maven,maven-trading,,,20000,3,3 Steps,3.0% / 3.0% / 3.0%,2.0,3.0,1:0.33,80.0,10 Business days,72.96,76.0,76.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,96
+Maven4.3666Maven,maven-trading,,,10000,3,3 Steps,3.0% / 3.0% / 3.0%,2.0,3.0,1:0.33,80.0,10 Business days,36.48,38.0,38.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,48
+Maven4.3666Maven,maven-trading,,,5000,3,3 Steps,3.0% / 3.0% / 3.0%,2.0,3.0,1:0.33,80.0,10 Business days,16.32,17.0,17.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,22
+Maven4.3666Maven,maven-trading,,,100000,3,3 Steps,3.0% / 3.0% / 3.0%,2.0,3.0,1:0.33,80.0,10 Business days,287.04,299.0,299.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,379
+Maven,maven-trading,4.3,666,50000,3,3 Steps,3.0% / 3.0% / 3.0%,2.0,3.0,1:0.33,80.0,10 Business days,190.0,190.0,190.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,241
+AquaFunded,aquafunded,4.3,223,200000,3,3 Steps,6.0% / 6.0% / 6.0%,4.0,8.0,1:0.44,90.0,14 Days,677.0,677.0,677.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,745
+AquaFunded,aquafunded,4.3,223,25000,3,3 Steps,6.0% / 6.0% / 6.0%,4.0,8.0,1:0.44,90.0,14 Days,157.0,157.0,157.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,173
+AquaFunded,aquafunded,4.3,223,50000,3,3 Steps,6.0% / 6.0% / 6.0%,4.0,8.0,1:0.44,90.0,14 Days,237.0,237.0,237.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,261
+AquaFunded,aquafunded,4.3,223,100000,3,3 Steps,6.0% / 6.0% / 6.0%,4.0,8.0,1:0.44,90.0,14 Days,377.0,377.0,377.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,415
+For Traders,for-traders,4.5,222,50000,3,3 Steps,4.0% / 4.0% / 6.0%,3.0,5.0,1:0.42,80.0,14 Days,235.0,235.0,235.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,194
+For Traders,for-traders,4.5,222,100000,3,3 Steps,4.0% / 4.0% / 6.0%,3.0,5.0,1:0.42,80.0,14 Days,349.0,349.0,349.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,288
+For Traders,for-traders,4.5,222,15000,3,3 Steps,4.0% / 4.0% / 6.0%,3.0,5.0,1:0.42,80.0,14 days,79.0,79.0,79.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,65
+For Traders,for-traders,4.5,222,25000,3,3 Steps,4.0% / 4.0% / 6.0%,3.0,5.0,1:0.42,80.0,14 Days,149.0,149.0,149.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,123
+Blue Guardian,blue-guardian,4.3,213,200000,3,3 Steps,6.0% / 6.0% / 6.0%,4.0,8.0,1:0.44,85.0,14 Days,667.0,667.0,667.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,550
+Blue Guardian,blue-guardian,4.3,213,100000,3,3 Steps,6.0% / 6.0% / 6.0%,4.0,8.0,1:0.44,85.0,14 Days,367.0,367.0,367.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,303
+Blue Guardian,blue-guardian,4.3,213,10000,3,3 Steps,6.0% / 6.0% / 6.0%,4.0,8.0,1:0.44,85.0,14 Days,67.0,67.0,67.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,55
+Blue Guardian,blue-guardian,4.3,213,50000,3,3 Steps,6.0% / 6.0% / 6.0%,4.0,8.0,1:0.44,85.0,14 Days,227.0,227.0,227.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,187
+Blue Guardian4.3213Blue Guardian,blue-guardian,,,25000,3,3 Steps,6.0% / 6.0% / 6.0%,4.0,8.0,1:0.44,85.0,14 Days,73.5,147.0,147.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,121
+FintokeiLess than20 reviewsFintokei,fintokei,,,20000,3,3 Steps,2.0% / 3.0% / 6.0%,3.0,6.0,1:0.55,50.0,14 days,119.0,119.0,119.0,original_no_discount,EUR,forex,Equity Based,45
+Fintokei,fintokei,,,50000,3,3 Steps,2.0% / 3.0% / 6.0%,3.0,6.0,1:0.55,50.0,14 days,244.0,244.0,244.0,original_no_discount,EUR,forex,Equity Based,93
+Fintokei,fintokei,,,100000,3,3 Steps,2.0% / 3.0% / 6.0%,3.0,6.0,1:0.55,50.0,14 days,419.0,419.0,419.0,original_no_discount,EUR,forex,Equity Based,159
+Lark Funding,lark-funding,4.5,72,200000,3,3 Steps,5.0% / 4.0% / 3.0%,,5.0,1:0.42,80.0,14 Days,750.0,750.0,750.0,original_no_discount,USD,forex,-,1176
+Lark Funding,lark-funding,4.5,72,25000,3,3 Steps,5.0% / 4.0% / 3.0%,,5.0,1:0.42,80.0,14 Days,175.0,175.0,175.0,original_no_discount,USD,forex,-,274
+Lark Funding,lark-funding,4.5,72,50000,3,3 Steps,5.0% / 4.0% / 3.0%,,5.0,1:0.42,80.0,14 Days,280.0,280.0,280.0,original_no_discount,USD,forex,-,439
+Lark Funding,lark-funding,4.5,72,100000,3,3 Steps,5.0% / 4.0% / 3.0%,,5.0,1:0.42,80.0,14 Days,370.0,370.0,370.0,original_no_discount,USD,forex,-,580
+ThinkCapital,thinkcapital,4.2,54,25000,3,3 Steps,7.0% / 6.0% / 5.0%,4.0,8.0,1:0.44,80.0,Biweekly,139.0,139.0,139.0,original_no_discount,USD,forex,Balance Based,183
+ThinkCapital,thinkcapital,4.2,54,10000,3,3 Steps,7.0% / 6.0% / 5.0%,4.0,8.0,1:0.62,80.0,Biweekly,79.0,79.0,79.0,original_no_discount,USD,forex,Balance Based,104
+ThinkCapital,thinkcapital,4.2,54,50000,3,3 Steps,7.0% / 6.0% / 5.0%,4.0,8.0,1:0.44,80.0,Biweekly,199.0,199.0,199.0,original_no_discount,USD,forex,Balance Based,263
+ThinkCapital,thinkcapital,4.2,54,100000,3,3 Steps,7.0% / 6.0% / 5.0%,4.0,8.0,1:0.44,80.0,Biweekly,349.0,349.0,349.0,original_no_discount,USD,forex,Balance Based,461
+Nordic Funder,nordic-funder,,,50000,3,3 Steps,5.0% / 5.0% / 5.0%,5.0,5.0,1:0.3,80.0,Once every 30 days,241.5,241.5,241.5,original_no_discount,USD,forex,Balance Based,478
+Nordic Funder,nordic-funder,,,100000,3,3 Steps,5.0% / 5.0% / 5.0%,5.0,5.0,1:0.3,80.0,Once every 30 days,367.5,367.5,367.5,original_no_discount,USD,forex,Balance Based,728
+Nordic Funder,nordic-funder,,,200000,3,3 Steps,5.0% / 5.0% / 5.0%,5.0,5.0,1:0.3,80.0,Once every 30 days,700.0,700.0,700.0,original_no_discount,USD,forex,Balance Based,1386
+Nordic Funder,nordic-funder,,,250000,3,3 Steps,5.0% / 5.0% / 5.0%,5.0,5.0,1:0.3,80.0,Once every 30 days,857.5,857.5,857.5,original_no_discount,USD,forex,Balance Based,1698
+Nordic Funder,nordic-funder,,,500000,3,3 Steps,5.0% / 5.0% / 5.0%,5.0,5.0,1:0.3,80.0,Once every 30 days,1932.0,1932.0,1932.0,original_no_discount,USD,forex,Balance Based,3825
+Nordic Funder,nordic-funder,,,10000,3,3 Steps,5.0% / 5.0% / 5.0%,5.0,5.0,1:0.3,80.0,Once every 30 days,77.0,77.0,77.0,original_no_discount,USD,forex,Balance Based,152
+Nordic Funder,nordic-funder,,,25000,3,3 Steps,5.0% / 5.0% / 5.0%,5.0,5.0,1:0.3,80.0,Once every 30 days,175.0,175.0,175.0,original_no_discount,USD,forex,Balance Based,347
+FXIFY,fxify,3.9,102,100000,3,3 Steps,5.0% / 5.0% / 5.0%,5.0,5.0,1:0.33,80.0,"First payout on-demand, 30 days thereafter | 14 Days Payout with Add-On",399.0,399.0,399.0,original_no_discount,USD,forex,Balance Based,614
+FXIFY,fxify,3.9,102,15000,3,3 Steps,5.0% / 5.0% / 5.0%,5.0,5.0,1:0.33,80.0,"First payout on-demand, 30 days thereafter | 14 Days Payout with Add-On",79.0,79.0,79.0,original_no_discount,USD,forex,Balance Based,122
+FXIFY,fxify,3.9,102,10000,3,3 Steps,5.0% / 5.0% / 5.0%,5.0,5.0,1:0.33,80.0,"First payout on-demand, 30 days thereafter | 14 Days Payout with Add-On",59.0,59.0,59.0,original_no_discount,USD,forex,Balance Based,91
+FXIFY,fxify,3.9,102,50000,3,3 Steps,5.0% / 5.0% / 5.0%,5.0,5.0,1:0.33,80.0,"First payout on-demand, 30 days thereafter | 14 Days Payout with Add-On",249.0,249.0,249.0,original_no_discount,USD,forex,Balance Based,383
+FXIFY,fxify,3.9,102,400000,3,3 Steps,5.0% / 5.0% / 5.0%,5.0,5.0,1:0.33,80.0,"First payout on-demand, 30 days thereafter | 14 Days Payout with Add-On",1599.0,1599.0,1599.0,original_no_discount,USD,forex,Balance Based,2462
+FXIFY,fxify,3.9,102,200000,3,3 Steps,5.0% / 5.0% / 5.0%,5.0,5.0,1:0.33,80.0,"First payout on-demand, 30 days thereafter | 14 Days Payout with Add-On",799.0,799.0,799.0,original_no_discount,USD,forex,Balance Based,1230
+FXIFY,fxify,3.9,102,25000,3,3 Steps,5.0% / 5.0% / 5.0%,5.0,5.0,1:0.33,80.0,"First payout on-demand, 30 days thereafter | 14 Days Payout with Add-On",149.0,149.0,149.0,original_no_discount,USD,forex,Balance Based,229
+FundingPips,funding-pips,4.3,960,5000,1,Instant,,3.0,5.0,None,95.0,Bi-weekly,69.0,69.0,69.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,61
+FundedNext,fundednext,4.4,710,2000,1,Instant,,,6.0,None,70.0,On demand (With condition) & Biweekly,59.99,59.99,59.99,original_no_discount,USD,forex,-,31
+Goat Funded Trader,goat-funded-trader,4.4,719,5000,1,Instant,,,4.0,None,80.0,Bi-weekly | First Payout on demand as add-on with a 40% profit split,68.0,68.0,68.0,original_no_discount,USD,forex,-,56
+Blueberry Funded,blueberry-funded,3.7,274,25000,1,Instant,,2.0,4.0,None,80.0,14 days,42.5,42.5,42.5,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,49
+Maven,maven-trading,4.3,666,2000,1,Instant,,2.0,3.0,None,80.0,Immediate,13.0,13.0,13.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,16
+NEW,moneta-funded,,,5000,1,Instant,,3.0,6.0,None,88.0,14 days,105.0,105.0,105.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,121
+AquaFunded,aquafunded,4.3,223,5000,1,Instant,,3.0,6.0,None,90.0,14 Days,60.0,60.0,60.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,66
+Top One Trader,top-one-trader,4.4,145,5000,1,Instant,,2.5,5.0,None,80.0,14 Days,94.0,94.0,94.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,35
+For Traders,for-traders,4.5,222,3000,1,Instant,,3.0,5.0,None,70.0,14 Days,46.0,46.0,46.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,76
+QT Funded,qt-funded,3.9,656,5000,1,Instant,,3.0,6.0,None,80.0,14 days,52.0,52.0,52.0,original_no_discount,USD,forex,Balance Based,43
+Finotive Funding,finotive-funding,4.2,115,5000,1,Instant,,3.0,6.0,None,70.0,"Payout on demand, then every 14 Days",65.0,65.0,65.0,original_no_discount,USD,forex,Balance Based,27
+Blue Guardian,blue-guardian,4.3,214,5000,1,Instant,,3.0,5.0,None,90.0,"On demand with a minimum withdrawal of $100 and a 15% Daily Consistency Rule, maximum withdrawal of 5% of the account size.",27.0,27.0,27.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,25
+FundedElite,fundedelite,4.3,99,7000,1,Instant,,3.0,6.0,None,70.0,Standard: 21 days,159.0,159.0,159.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,184
+Lark Funding,lark-funding,4.5,72,5000,1,Instant,,5.0,8.0,None,90.0,On-Demand then 30days,200.0,200.0,200.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,314
+City Traders Imperium,city-traders-imperium,4.4,52,5000,1,Instant,10.0%,,6.0,1:0.6,70.0,From Level 2: First payout on demand | Bi-weekly thereafter on the 14th/15th & the last 2 days of each month,89.0,89.0,89.0,original_no_discount,USD,forex,-,69
+Funded Trading Plus,funded-trading-plus,4.2,65,5000,1,Instant,,6.0,6.0,None,80.0,First payout on-demand | Subsequent payouts every 7 days | 3 days with add-on,249.0,249.0,249.0,original_no_discount,USD,forex,Balance Based,219
+Instant Funding,instant-funding,3.8,329,2000,1,Instant,,2.0,4.0,None,90.0,After 24hrs,25.0,25.0,25.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,8
+Crypto Fund Trader,crypto-fund-trader,4.2,100,5000,1,Instant,,4.0,6.0,None,50.0,On demand after reaching 10% profit or 15 trading days or 30 days without 10% profit,125.0,125.0,125.0,original_no_discount,USD,forex,Balance Based,192
+FXIFY,fxify,3.9,102,5000,1,Instant,,3.0,4.0,None,80.0,10 Trading days,19.0,19.0,19.0,original_no_discount,USD,forex,Balance Based,42
+Audacity Capital4.041Audacity Capital,audacity-capital,,,3000,1,Instant,10.0%,5.0,10.0,None,50.0,Payout on demand when you hit the 10% profit target,143.1,159.0,159.0,original_no_discount,USD,forex,Trailing Highest Balance/Equity,57
+Darwinex ZeroLess than20 reviewsDarwinex Zero,darwinex-zero,,,100000,1,Instant,,,100.0,None,15.0,3 months,1995.0,1995.0,1995.0,original_no_discount,USD,forex,-,1367
+Hantec Trader4.423Hantec Trader,hantec-trader,,,1000,1,Instant,,3.0,5.0,None,80.0,14 Days,17.1,19.0,19.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,28
+FundingPips4.3960FundingPips,funding-pips,,,25000,1,Instant,,3.0,5.0,None,95.0,Bi-weekly,159.2,199.0,199.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,175
+FundingPips,funding-pips,4.3,960,200000,1,Instant,,3.0,5.0,None,95.0,Bi-weekly,998.0,998.0,998.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,878
+FundingPips,funding-pips,4.3,960,100000,1,Instant,,3.0,5.0,None,95.0,Bi-weekly,499.0,499.0,499.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,439
+FundingPips,funding-pips,4.3,960,50000,1,Instant,,3.0,5.0,None,95.0,Bi-weekly,299.0,299.0,299.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,263
+FundingPips,funding-pips,4.3,960,10000,1,Instant,,3.0,5.0,None,95.0,Bi-weekly,99.0,99.0,99.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,87
+FundedNext,fundednext,4.4,710,20000,1,Instant,,,6.0,None,70.0,On demand (With condition) & Biweekly,599.99,599.99,599.99,original_no_discount,USD,forex,-,307
+FundedNext,fundednext,4.4,710,10000,1,Instant,,,6.0,None,70.0,On demand (With condition) & Biweekly,299.99,299.99,299.99,original_no_discount,USD,forex,-,153
+FundedNext,fundednext,4.4,710,5000,1,Instant,,,6.0,None,70.0,On demand (With condition) & Biweekly,149.99,149.99,149.99,original_no_discount,USD,forex,-,77
+Goat Funded Trader,goat-funded-trader,4.4,719,100000,1,Instant,,,4.0,None,80.0,Bi-weekly | First Payout on demand as add-on with a 40% profit split,858.0,858.0,858.0,original_no_discount,USD,forex,-,708
+Goat Funded Trader,goat-funded-trader,4.4,719,150000,1,Instant,,3.0,6.0,None,80.0,Bi-weekly,1198.0,1198.0,1198.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,988
+Goat Funded Trader,goat-funded-trader,4.4,719,200000,1,Instant,,3.0,6.0,None,80.0,Bi-weekly,1708.0,1708.0,1708.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,1409
+Goat Funded Trader,goat-funded-trader,4.4,719,25000,1,Instant,,,4.0,None,80.0,Bi-weekly | First Payout on demand as add-on with a 40% profit split,328.0,328.0,328.0,original_no_discount,USD,forex,-,271
+Goat Funded Trader,goat-funded-trader,4.4,719,10000,1,Instant,,3.0,6.0,None,80.0,Bi-weekly,158.0,158.0,158.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,130
+Goat Funded Trader,goat-funded-trader,4.4,719,15000,1,Instant,,3.0,6.0,None,80.0,Bi-weekly,228.0,228.0,228.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,188
+Goat Funded Trader,goat-funded-trader,4.4,719,50000,1,Instant,,3.0,6.0,None,80.0,Bi-weekly,488.0,488.0,488.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,403
+Goat Funded Trader,goat-funded-trader,4.4,719,250000,1,Instant,,3.0,6.0,None,80.0,Bi-weekly,2088.0,2088.0,2088.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,1723
+Goat Funded Trader,goat-funded-trader,4.4,719,300000,1,Instant,,3.0,6.0,None,80.0,Bi-weekly,2398.0,2398.0,2398.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,1978
+Goat Funded Trader,goat-funded-trader,4.4,719,400000,1,Instant,,3.0,6.0,None,80.0,Bi-weekly,2998.0,2998.0,2998.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,2473
+Blueberry Funded,blueberry-funded,3.7,274,5000,1,Instant,,2.0,4.0,None,80.0,14 days,95.0,95.0,95.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,110
+Blueberry Funded,blueberry-funded,3.7,274,10000,1,Instant,,2.0,4.0,None,80.0,14 days,145.0,145.0,145.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,167
+Blueberry Funded,blueberry-funded,3.7,274,100000,1,Instant,,2.0,4.0,None,80.0,14 days,850.0,850.0,850.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,982
+Blueberry Funded,blueberry-funded,3.7,274,50000,1,Instant,,2.0,4.0,None,80.0,14 days,420.0,420.0,420.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,485
+Maven,maven-trading,4.3,666,20000,1,Instant,,2.0,3.0,None,80.0,10 Business days,68.0,68.0,68.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,86
+Maven,maven-trading,4.3,666,10000,1,Instant,,2.0,3.0,None,80.0,Immediate,38.0,38.0,38.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,48
+Maven,maven-trading,4.3,666,5000,1,Instant,,2.0,3.0,None,80.0,10 Business days,19.0,19.0,19.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,24
+Maven,maven-trading,4.3,666,100000,1,Instant,,2.0,3.0,None,80.0,10 Business days,380.0,380.0,380.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,482
+Maven,maven-trading,4.3,666,50000,1,Instant,,2.0,3.0,None,80.0,Immediate,190.0,190.0,190.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,241
+NEW,moneta-funded,,,100000,1,Instant,,3.0,6.0,None,88.0,14 days,735.0,735.0,735.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,849
+NEW,moneta-funded,,,50000,1,Instant,,3.0,6.0,None,88.0,14 days,465.0,465.0,465.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,537
+NEW,moneta-funded,,,10000,1,Instant,,3.0,6.0,None,88.0,14 days,190.0,190.0,190.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,219
+NEW,moneta-funded,,,25000,1,Instant,,3.0,6.0,None,88.0,14 days,290.0,290.0,290.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,335
+AquaFunded,aquafunded,4.3,223,10000,1,Instant,,3.0,6.0,None,90.0,14 Days,155.0,155.0,155.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,171
+AquaFunded,aquafunded,4.3,223,25000,1,Instant,,,3.0,None,90.0,14 Days,317.0,317.0,317.0,original_no_discount,USD,forex,-,349
+AquaFunded,aquafunded,4.3,223,400000,1,Instant,,3.0,6.0,None,90.0,14 Days,2699.0,2699.0,2699.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,2969
+AquaFunded,aquafunded,4.3,223,300000,1,Instant,,3.0,6.0,None,90.0,14 days,2099.0,2099.0,2099.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,2309
+AquaFunded,aquafunded,4.3,223,200000,1,Instant,,,3.0,None,90.0,14 Days,1265.0,1265.0,1265.0,original_no_discount,USD,forex,-,1392
+AquaFunded,aquafunded,4.3,223,100000,1,Instant,,,3.0,None,90.0,14 Days,767.0,767.0,767.0,original_no_discount,USD,forex,-,844
+AquaFunded,aquafunded,4.3,223,150000,1,Instant,,3.0,6.0,None,90.0,14 Days,980.0,980.0,980.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,1078
+Top One Trader,top-one-trader,4.4,145,25000,1,Instant,,2.5,5.0,None,80.0,14 Days,296.0,296.0,296.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,158
+Top One Trader,top-one-trader,4.4,145,10000,1,Instant,,3.0,6.0,None,60.0,Every 30 Days with add-on option to upgrade to instant payout after hitting consistency.,226.0,226.0,226.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,120
+Top One Trader,top-one-trader,4.4,145,50000,1,Instant,,2.5,5.0,None,80.0,14 Days,410.0,410.0,410.0,original_no_discount,USD,forex,Balance/Equity - Highest at EOD,219

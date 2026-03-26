@@ -18,6 +18,10 @@ import os
 import argparse
 from datetime import datetime, timezone
 
+if sys.stdout.encoding and sys.stdout.encoding.lower().startswith("cp"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+
 _AGENT_DIR = os.path.dirname(os.path.abspath(__file__))
 _WORKSPACE = os.path.abspath(os.path.join(_AGENT_DIR, *(['..'] * 3)))
 sys.path.insert(0, _WORKSPACE)

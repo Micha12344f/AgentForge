@@ -42,14 +42,19 @@ description: |
 
 ## Execution Scripts
 
-All data-access scripts live in:
-`Hedge Edge Business/IDE 1/agents/ANALYTICS/.agents/GROWTH ANALYTICS/Google Analytics/execution/`
+Current GA4 access in this workspace lives in:
+
+- `shared/google_analytics_client.py` — canonical GA4 client
+- `Business/ANALYTICS/executions/web_analytics/ga4_config.py` — re-export module for notebook/script imports
+- `Business/ANALYTICS/executions/daily_analytics.py` — daily GA4 rollup usage
+- `Business/ANALYTICS/executions/hourly_metrics_sync.py` — hourly GA4 usage
 
 | File | Purpose |
 |------|---------|
-| `config.py` | Path setup; loads `.env` and re-exports GA4 client functions |
-| `report.py` | Pulls and prints a comprehensive GA4 website analytics report |
-| `trends.py` | Pulls daily trend data over configurable date ranges |
+| `shared/google_analytics_client.py` | GA4 client, daily summary helpers, Measurement Protocol |
+| `executions/web_analytics/ga4_config.py` | Re-exports GA4 client functions for local analytics imports |
+| `executions/daily_analytics.py` | Pulls daily website summary into KPI snapshots |
+| `executions/hourly_metrics_sync.py` | Pulls GA4 metrics during hourly syncs |
 
 ---
 
@@ -57,12 +62,14 @@ All data-access scripts live in:
 
 ### Shared client
 
-All scripts import from `config.py` which re-exports functions from the
-GA4 client located in the landing-page-optimization skill (the canonical copy).
+Use the workspace-root GA4 client directly, or import the re-export module in
+`Business/ANALYTICS/executions/web_analytics/ga4_config.py`.
 
 ```python
-from execution.config import get_daily_website_summary, run_report
-summary = get_daily_website_summary('2026-03-08')
+from shared.google_analytics_client import get_daily_website_summary, run_report
+import datetime
+
+summary = get_daily_website_summary(datetime.date(2026, 3, 8))
 ```
 
 ---
@@ -84,10 +91,11 @@ summary = get_daily_website_summary('2026-03-08')
 | `get_device_breakdown(start, end)` | `list[dict]` | Desktop/mobile/tablet split |
 | `get_geo_breakdown(start, end, limit)` | `list[dict]` | Country breakdown |
 | `get_campaign_breakdown(start, end, limit)` | `list[dict]` | Campaigns × source/medium |
-| `get_daily_website_summary(date)` | `dict` | Full daily snapshot |
-| `get_realtime(dims, metrics)` | `list[dict]` | Real-time active users |
-| `run_report(dims, metrics, ...)` | `list[dict]` | Generic GA4 Data API report |
-| `send_event(name, params, ...)` | `bool` | Send event via Measurement Protocol |
+| `get_daily_website_summary(report_date)` | `dict` | Full daily snapshot for a `date` or previous day by default |
+| `get_realtime()` | `dict` | Real-time active users summary |
+| `run_report(date_ranges, dimensions, metrics, ...)` | `list[dict]` | Generic GA4 Data API report |
+| `send_event(client_id, event_name, params)` | `bool` | Send event via Measurement Protocol |
+| `send_conversion(client_id, conversion_name, value, currency)` | `bool` | Send conversion event via Measurement Protocol |
 | `ping()` | `dict` | Health check |
 
 ---
@@ -117,14 +125,13 @@ Events confirmed firing in production (verified via Playwright network intercept
 If you need to show frontend funnel shape (form_start → sign_up), label the output clearly:
 
 ```python
-from execution.config import run_report
+from shared.google_analytics_client import run_report
 
 # Daily sign_up conversions for last 30 days
 rows = run_report(
+    date_ranges=[{"start_date": "30daysAgo", "end_date": "today"}],
     dimensions=["date", "eventName"],
     metrics=["eventCount"],
-    start_date="30daysAgo",
-    end_date="today",
     dimension_filter={"fieldName": "eventName", "stringFilter": {"value": "sign_up"}},
 )
 for r in rows:
@@ -136,19 +143,17 @@ for r in rows:
 ```python
 # Top-of-funnel: how many started the beta form
 form_starts = run_report(
+    date_ranges=[{"start_date": "30daysAgo", "end_date": "today"}],
     dimensions=["date"],
     metrics=["eventCount"],
-    start_date="30daysAgo",
-    end_date="today",
     dimension_filter={"fieldName": "eventName", "stringFilter": {"value": "form_start"}},
 )
 
 # Bottom of funnel: how many completed
 sign_ups = run_report(
+    date_ranges=[{"start_date": "30daysAgo", "end_date": "today"}],
     dimensions=["date"],
     metrics=["eventCount"],
-    start_date="30daysAgo",
-    end_date="today",
     dimension_filter={"fieldName": "eventName", "stringFilter": {"value": "sign_up"}},
 )
 # Conversion rate = sign_ups / form_starts per day
@@ -164,10 +169,11 @@ sign_ups = run_report(
 from shared.google_analytics_client import get_daily_website_summary
 import datetime
 
-today = datetime.date.today().isoformat()
+today = datetime.date.today()
 summary = get_daily_website_summary(today)
-# Keys: pageviews, sessions, visitors, new_users, bounce_rate,
-#       avg_session_duration, top_pages, traffic_sources
+# Keys: date, pageviews, sessions, visitors, new_users, bounce_rate,
+#       avg_session_duration, top_pages, traffic_sources, utm_campaigns,
+#       devices, geo
 # NOTE: Does NOT include conversion counts — get those from Supabase.
 ```
 
@@ -177,8 +183,7 @@ summary = get_daily_website_summary(today)
 from shared.google_analytics_client import get_traffic_sources
 
 sources = get_traffic_sources("30daysAgo", "today", limit=10)
-# Each row: {"sessionSource": ..., "sessionMedium": ..., "sessions": ..., "conversions": ...}
-# NOTE: "conversions" here is GA4 conversion events — for actual conversion counts use Supabase.
+# Each row: {"sessionSource": ..., "sessions": ..., "totalUsers": ...}
 ```
 
 ### UTM campaign attribution
@@ -187,7 +192,7 @@ sources = get_traffic_sources("30daysAgo", "today", limit=10)
 from shared.google_analytics_client import get_utm_campaigns
 
 campaigns = get_utm_campaigns("30daysAgo", "today", limit=20)
-# Each row: {"sessionCampaignName": ..., "sessionSource": ..., "sessionMedium": ..., "sessions": ..., ...}
+# Each row: {"sessionCampaignName": ..., "sessions": ..., "totalUsers": ..., "screenPageViews": ...}
 ```
 
 ### Return-Value Key Reference
@@ -197,22 +202,19 @@ GA4 client functions return dicts with these exact keys (not aliases):
 | Function | Dict Keys |
 |----------|-----------|
 | `get_top_pages` | `pagePath`, `screenPageViews` |
-| `get_traffic_sources` | `sessionSource`, `sessionMedium`, `sessions`, `conversions` |
-| `get_utm_campaigns` | `sessionCampaignName`, `sessionSource`, `sessionMedium`, `sessions`, `totalUsers`, `screenPageViews`, `conversions` |
+| `get_traffic_sources` | `sessionSource`, `sessions`, `totalUsers` |
+| `get_utm_campaigns` | `sessionCampaignName`, `sessions`, `totalUsers`, `screenPageViews` |
 | `get_device_breakdown` | `deviceCategory`, `sessions`, `totalUsers` |
 | `get_geo_breakdown` | `country`, `sessions`, `totalUsers` |
-| `get_campaign_breakdown` | `sessionCampaignName`, `sessionSource`, `sessionMedium`, `sessions`, `totalUsers`, `screenPageViews`, `conversions`, `bounceRate` |
+| `get_campaign_breakdown` | `sessionCampaignName`, `sessionSourceMedium`, `sessions`, `totalUsers`, `screenPageViews` |
 
 ### Real-time active users
 
 ```python
 from shared.google_analytics_client import get_realtime
 
-active = get_realtime(
-    dims=["minutesAgo", "country"],
-    metrics=["activeUsers"],
-)
-# Returns users active in last 30 min, broken by minute + country
+active = get_realtime()
+# Returns: {"active_users": ...} or {"active_users": 0, "error": ...}
 ```
 
 ---
@@ -232,13 +234,13 @@ See SKILL.md §11 for the full SOP and formatting template.
 Use `send_event()` to fire GA4 events from the backend (e.g. after a Supabase insert, Resend webhook, or `/api/claim-beta` confirmation):
 
 ```python
-from execution.config import send_event
+from shared.google_analytics_client import send_event
 
 # Fire sign_up from server when /api/claim-beta returns 200
 send_event(
-    name="sign_up",
-    params={"method": "email", "form": "beta_claim"},
     client_id="<user-cid>",   # Pass through from the frontend cookie _ga
+    event_name="sign_up",
+    params={"method": "email", "form": "beta_claim"},
 )
 ```
 

@@ -21,7 +21,7 @@ import requests as _requests_lib
 from notion_client import Client
 from shared.env_loader import load_env_for_source
 
-# Load root .env first, then the calling department's resources/.env if available.
+# Load root .env first, then department and subdepartment resource overrides if available.
 load_env_for_source()
 
 
@@ -490,7 +490,7 @@ def query_db(
         resp = notion_request(
             "post",
             f"{_API_BASE}/databases/{db_id}/query",
-            headers=headers, json=body, timeout=15,
+            headers=headers, json=body, timeout=60,
         )
         resp.raise_for_status()
         data = resp.json()
@@ -534,6 +534,9 @@ def _extract_value(prop: dict) -> Any:
     elif t == "rollup":
         r = prop.get("rollup", {})
         return r.get(r.get("type"))
+    elif t == "status":
+        s = prop.get("status")
+        return s["name"] if s else None
     else:
         return None
 

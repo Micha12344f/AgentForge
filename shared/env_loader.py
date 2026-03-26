@@ -11,7 +11,9 @@ def find_workspace_root(start: Path | None = None) -> Path:
     for candidate in [current, *current.parents]:
         if (candidate / "Business").is_dir() and (candidate / "shared").is_dir():
             return candidate
-    raise RuntimeError("Unable to locate Hedge Edge workspace root")
+    # Fallback for Docker/CI environments where workspace structure doesn't exist.
+    # Railway injects env vars directly — .env files aren't needed there.
+    return (start or Path(__file__).resolve()).parent.parent
 
 
 def infer_department(source_path: Path, workspace_root: Path) -> str | None:
@@ -23,6 +25,18 @@ def infer_department(source_path: Path, workspace_root: Path) -> str | None:
     parts = relative.parts
     if len(parts) >= 2 and parts[0] == "Business":
         return parts[1]
+    return None
+
+
+def infer_subdepartment(source_path: Path, workspace_root: Path) -> str | None:
+    try:
+        relative = source_path.resolve().relative_to(workspace_root)
+    except ValueError:
+        return None
+
+    parts = relative.parts
+    if len(parts) >= 4 and parts[0] == "Business" and parts[2] in {"directives", "executions", "resources"}:
+        return parts[3]
     return None
 
 
@@ -51,8 +65,11 @@ def load_env_for_source(
 
     inferred_source = Path(source_file).resolve() if source_file else _infer_source_from_stack(workspace_root)
     inferred_department = department
+    inferred_subdepartment = None
     if inferred_department is None and inferred_source is not None:
         inferred_department = infer_department(inferred_source, workspace_root)
+    if inferred_source is not None:
+        inferred_subdepartment = infer_subdepartment(inferred_source, workspace_root)
 
     loaded_files: list[str] = []
 
@@ -67,9 +84,16 @@ def load_env_for_source(
             load_dotenv(department_env, override=True)
             loaded_files.append(str(department_env))
 
+        if inferred_subdepartment:
+            subdepartment_env = workspace_root / "Business" / inferred_department / "resources" / inferred_subdepartment / ".env"
+            if subdepartment_env.is_file():
+                load_dotenv(subdepartment_env, override=True)
+                loaded_files.append(str(subdepartment_env))
+
     return {
         "workspace_root": str(workspace_root),
         "department": inferred_department,
+        "subdepartment": inferred_subdepartment,
         "loaded_files": loaded_files,
     }
 

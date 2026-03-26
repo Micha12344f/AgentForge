@@ -29,12 +29,13 @@ The Orchestrator does not perform domain work — it routes, decomposes, coordin
 
 ### Skill 5 — Error Handling & Incident Response
 - **Directive**: `directives/error-handler.md` — incident detection, triage, and resolution
-- **Execution**: `executions/read_bot_alerts.py` — Discord bot alert log reader
+- **Executions**: `executions/read_bot_alerts.py` (Discord bot alert reader), `executions/vps_monitor.py` (VPS status, WSL cron, remote log, and bot error monitor)
 - **Resource**: `resources/incident-log.md` — historical incident records
 
 ### Skill 6 — VPS Connectivity & SSH
 - **Directive**: `directives/vps-connectivity.md` — SSH/Cloudflare tunnel access to hedge-vps
 - **Resource**: `resources/connection-reference.md` — SSH hosts, ports, tunnel configs
+- **Execution**: `executions/vps_monitor.py` — preferred entry point for hedge-vps status, logs, and cron inspection
 - **Note**: Always use Cloudflare tunnel (`ssh.hedgedge.info`), NEVER Tailscale
 
 ### Skill 7 — Cron Scheduling
@@ -44,6 +45,10 @@ The Orchestrator does not perform domain work — it routes, decomposes, coordin
 - **Directive**: `directives/landing-page-deploy.md` — landing page deploy to Vercel
 - **Executions**: `executions/deploy.py` (deployment automation), `executions/build_installer.py` (Electron NSIS installer), `executions/bump_version.py` (semantic versioning), `executions/create_release.py` (GitHub Release with artifacts)
 - **Resources**: `resources/deployment-workflow.md` (step-by-step deploy checklist), `resources/release-checklist.md` (pre-release QA), `resources/troubleshooting.md` (common issues and fixes)
+
+### Skill 9 — Railway Service Deployment & Discovery
+- **Directive**: `directives/railway-service-deploy.md` — find active Railway projects, recover broken links, create new services, load variables, deploy safely, and verify runtime health
+- **Resources**: `resources/railway-service-methodology.md` (command reference, project/service discovery workflow, failure modes, and verification checklist)
 
 ---
 
@@ -59,6 +64,7 @@ The Orchestrator does not perform domain work — it routes, decomposes, coordin
 | `resources/connection-reference.md` | SSH hosts, ports, tunnel IDs |
 | `resources/deployment-workflow.md` | Step-by-step deploy checklist |
 | `resources/incident-log.md` | Historical incident records |
+| `resources/railway-service-methodology.md` | Railway project, service, variable, deploy, and runtime verification workflow |
 | `resources/release-checklist.md` | Pre-release QA checklist |
 | `resources/troubleshooting.md` | Common issues and resolutions |
 

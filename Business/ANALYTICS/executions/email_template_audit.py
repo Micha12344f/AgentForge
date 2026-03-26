@@ -26,7 +26,6 @@ _WORKSPACE = os.path.dirname(os.path.dirname(os.path.dirname(_EXEC_DIR)))
 if _WORKSPACE not in sys.path:
     sys.path.insert(0, _WORKSPACE)
 
-from Business.ANALYTICS.executions.email_analytics.templates import read_template_metrics
 from shared.notion_client import get_notion, query_db
 
 
@@ -69,8 +68,40 @@ def _read_template_bodies() -> dict[str, str]:
     return bodies
 
 
+def _read_template_metrics() -> list[dict]:
+    rows = query_db("email_sequences")
+    metrics: list[dict] = []
+    for idx, row in enumerate(rows, start=1):
+        sent_count = int(row.get("Sent Count") or row.get("Total Sent") or 0)
+        delivered_count = int(row.get("Delivered Count") or row.get("Total Delivered") or 0)
+        opened_count = int(row.get("Opened Count") or row.get("Total Opened") or 0)
+        clicked_count = int(row.get("Clicked Count") or row.get("Total Clicked") or 0)
+        bounced_count = int(row.get("Bounced Count") or row.get("Total Bounced") or 0)
+        replied_count = int(row.get("Replied Count") or row.get("Total Replied") or 0)
+        delivery_rate_pct = round(delivered_count / sent_count * 100, 1) if sent_count else 0.0
+        metrics.append({
+            "id": row.get("_id", ""),
+            "template_name": row.get("Template") or row.get("Name") or "",
+            "subject_line": row.get("Subject Line") or "",
+            "sent_count": sent_count,
+            "delivered_count": delivered_count,
+            "opened_count": opened_count,
+            "clicked_count": clicked_count,
+            "bounced_count": bounced_count,
+            "replied_count": replied_count,
+            "open_rate": row.get("Open Rate") or 0,
+            "click_rate": row.get("Click Rate") or 0,
+            "bounce_rate": row.get("Bounce Rate") or 0,
+            "reply_rate": row.get("Reply Rate") or 0,
+            "delivery_rate_pct": delivery_rate_pct,
+            "invisible_fail_count": max(0, sent_count - delivered_count - bounced_count),
+            "seq_num": idx,
+        })
+    return metrics
+
+
 def build_template_audit() -> list[dict]:
-    metrics = read_template_metrics()
+    metrics = _read_template_metrics()
     bodies = _read_template_bodies()
     audit: list[dict] = []
     for item in metrics:

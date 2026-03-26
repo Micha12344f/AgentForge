@@ -302,6 +302,13 @@ def action_run(_args):
     )
 
 
+# ── Public API (imported by analytics scripts) ───────────
+
+def enrich_notion_from_resend():
+    """Convenience wrapper called by daily_analytics.py and hourly_metrics_sync.py."""
+    action_enrich(None)
+
+
 # ── CLI ──────────────────────────────────────────────────
 
 ACTIONS = {
