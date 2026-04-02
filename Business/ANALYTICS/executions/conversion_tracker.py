@@ -4,6 +4,7 @@ conversion_tracker.py — Beta & Paid Conversion Analytics
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Pulls user_attribution records from Supabase and reports on recent
 beta signups (and eventually paid conversions) with source breakdowns.
+Also checks Platform Activation status — the ultimate conversion indicator.
 
 Usage:
     python conversion_tracker.py --action recent            # last 24h
@@ -11,6 +12,8 @@ Usage:
     python conversion_tracker.py --action summary           # all-time summary
     python conversion_tracker.py --action by-source         # breakdown by UTM source
     python conversion_tracker.py --action by-method         # breakdown by signup method
+    python conversion_tracker.py --action activation-check  # Platform Activation status for all license holders
+    python conversion_tracker.py --action activation-check --email user@example.com  # single user
 """
 
 import sys
@@ -213,15 +216,171 @@ def action_by_method() -> dict:
 
 
 # ──────────────────────────────────────────────
+# Platform Activation Check (Ultimate Conversion Indicator)
+# ──────────────────────────────────────────────
+
+PLATFORM_VALUES = ('mt5', 'mt4', 'ctrader')
+TEST_DEVICE_PREFIXES = ('test-device-', 'dev-desktop-')
+
+
+def _is_test_device(device_id: str) -> bool:
+    return any(device_id.startswith(p) for p in TEST_DEVICE_PREFIXES)
+
+
+def _check_single_activation(sb, email: str) -> dict:
+    """Check Platform Activation status for a single user by email."""
+    license_rows = sb.table('licenses').select('id, license_key, email, plan, is_active').eq('email', email).execute().data or []
+    if not license_rows:
+        return {'email': email, 'status': 'NO_LICENSE', 'activated': False}
+
+    row = license_rows[0]
+    key_prefix = row['license_key'][:20]
+    license_id = row['id']
+
+    # Platform-specific validations
+    validations = sb.table('license_validation_logs').select(
+        'device_id, platform, success, created_at'
+    ).eq('success', True).like(
+        'license_key', f'{key_prefix}%'
+    ).in_('platform', list(PLATFORM_VALUES)).order(
+        'created_at', desc=True
+    ).execute().data or []
+
+    validations = [v for v in validations if not _is_test_device(v.get('device_id') or '')]
+
+    # Platform device rows
+    devices = sb.table('license_devices').select(
+        'device_id, platform, broker, account_id, is_active, last_seen_at'
+    ).eq('license_id', license_id).in_(
+        'platform', list(PLATFORM_VALUES)
+    ).eq('is_active', True).execute().data or []
+    devices = [d for d in devices if not _is_test_device(d.get('device_id') or '')]
+
+    # Desktop-only check
+    all_validations = sb.table('license_validation_logs').select('id').eq(
+        'success', True
+    ).like('license_key', f'{key_prefix}%').execute().data or []
+
+    has_metadata = any(d.get('broker') or d.get('account_id') for d in devices)
+
+    if len(validations) >= 2 and devices:
+        confidence = 'strong_confirmed' if has_metadata else 'confirmed'
+        return {'email': email, 'status': 'ACTIVATED', 'activated': True,
+                'confidence': confidence, 'platform_validations': len(validations),
+                'active_platform_devices': len(devices), 'plan': row.get('plan')}
+    elif len(validations) >= 1 and devices:
+        return {'email': email, 'status': 'ACTIVATION_PROBABLE', 'activated': True,
+                'confidence': 'probable', 'platform_validations': len(validations),
+                'active_platform_devices': len(devices), 'plan': row.get('plan')}
+    elif validations:
+        return {'email': email, 'status': 'ACTIVATION_PROBABLE', 'activated': False,
+                'confidence': 'weak', 'platform_validations': len(validations),
+                'active_platform_devices': 0, 'plan': row.get('plan')}
+    elif all_validations:
+        return {'email': email, 'status': 'DESKTOP_ONLY', 'activated': False,
+                'confidence': 'none', 'plan': row.get('plan'),
+                'note': 'Desktop/unknown validations only — EA not connected to chart'}
+    else:
+        return {'email': email, 'status': 'NEVER_SEEN', 'activated': False, 'plan': row.get('plan')}
+
+
+def action_activation_check(email: str | None = None) -> dict:
+    """Platform Activation status — the ULTIMATE conversion indicator.
+
+    A user is only truly converted when they have a confirmed platform
+    validation (mt5/mt4/ctrader) with a persistent device row.
+    Desktop app opens do NOT count.
+    See: ANALYTICS/directives/platform-activation-indicator.md
+    """
+    sb = get_supabase(use_service_role=True)
+
+    print("=" * 72)
+    print("  PLATFORM ACTIVATION CHECK — Ultimate Conversion Indicator")
+    print("=" * 72)
+
+    if email:
+        result = _check_single_activation(sb, email)
+        icon = "✅" if result.get('activated') else "❌"
+        print(f"\n  {icon}  {result['email']}")
+        print(f"       Status:     {result['status']}")
+        print(f"       Confidence: {result.get('confidence', 'n/a')}")
+        print(f"       Plan:       {result.get('plan', 'n/a')}")
+        if result.get('platform_validations'):
+            print(f"       Platform validations: {result['platform_validations']}")
+            print(f"       Active platform devices: {result.get('active_platform_devices', 0)}")
+        if result.get('note'):
+            print(f"       Note: {result['note']}")
+        return result
+
+    # All license holders
+    all_licenses = sb.table('licenses').select('email').execute().data or []
+    emails = list({r['email'] for r in all_licenses if r.get('email')})
+
+    results = []
+    activated = 0
+    desktop_only = 0
+    never_seen = 0
+
+    for e in sorted(emails):
+        r = _check_single_activation(sb, e)
+        results.append(r)
+        if r.get('activated'):
+            activated += 1
+        elif r['status'] == 'DESKTOP_ONLY':
+            desktop_only += 1
+        elif r['status'] in ('NEVER_SEEN', 'NO_LICENSE'):
+            never_seen += 1
+
+    total = len(emails)
+    rate = round(activated / total * 100, 1) if total else 0
+
+    print(f"\n  Total license holders:    {total}")
+    print(f"  Platform Activated:       {activated} ({rate}%)")
+    print(f"  Desktop Only (not conv.): {desktop_only}")
+    print(f"  Never Seen:               {never_seen}")
+    print(f"\n  {'─' * 68}")
+
+    for r in results:
+        icon = "✅" if r.get('activated') else "⬜" if r['status'] == 'DESKTOP_ONLY' else "  "
+        status = f"{r['status']:<24s}"
+        confidence = r.get('confidence', '')
+        print(f"  {icon} {r['email']:<40s} {status} {confidence}")
+
+    # Insights
+    print(f"\n{'─' * 72}")
+    print("  Insights")
+    if rate < 30:
+        print(f"  - ⚠️  Platform Activation Rate is {rate}% — below 30% alert threshold")
+        print("  - Users are getting keys but not connecting EAs to charts")
+        print("  - → @growth: prioritise onboarding support for desktop-only users")
+        print("  - → @strategy: investigate EA installation friction")
+    elif rate < 60:
+        print(f"  - Platform Activation Rate is {rate}% — below 60% target")
+        print("  - → @growth: follow up with desktop-only users")
+    else:
+        print(f"  - ✅ Platform Activation Rate is {rate}% — above target")
+
+    if desktop_only > 0:
+        print(f"  - {desktop_only} user(s) opened the desktop app but never connected an EA")
+        print("    These are the highest-priority onboarding targets")
+
+    return {'total': total, 'activated': activated, 'rate': rate,
+            'desktop_only': desktop_only, 'never_seen': never_seen,
+            'results': results}
+
+
+# ──────────────────────────────────────────────
 # CLI
 # ──────────────────────────────────────────────
 
 def main():
     parser = argparse.ArgumentParser(description="Conversion Tracker")
     parser.add_argument("--action", required=True,
-                        choices=["recent", "summary", "by-source", "by-method"])
+                        choices=["recent", "summary", "by-source", "by-method", "activation-check"])
     parser.add_argument("--days", type=int, default=1,
                         help="Lookback period for 'recent' action (default: 1)")
+    parser.add_argument("--email", type=str, default=None,
+                        help="Email for single-user activation check")
     args = parser.parse_args()
 
     if args.action == "recent":
@@ -232,8 +391,10 @@ def main():
         action_by_source()
     elif args.action == "by-method":
         action_by_method()
+    elif args.action == "activation-check":
+        action_activation_check(args.email)
 
-    log_task("Analytics", "conversion-track", args.action, "success")
+    log_task("Analytics", f"conversion-track/{args.action}", "Complete", "P2")
 
 
 if __name__ == "__main__":

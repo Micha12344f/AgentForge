@@ -1,8 +1,24 @@
 .env
+ga4-key.json
 Business/*/resources/.env
 !.env.example
 !Business/*/resources/.env.example
 
+# LinkedIn browser session (contains auth tokens — never commit)
+**/.linkedin_session.json
+**/.linkedin_session_*.json
+# LinkedIn scraped output files
+**/linkedin_connections_*.json
+
 # Local-only Python environment and scratch workspace data
 .venv/
 tmp/
+
+# Generated Python artifacts
+**/__pycache__/
+*.py[cod]
+
+# Generated frontend dependencies and build output
+**/node_modules/
+**/.vite/
+**/dist/

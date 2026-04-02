@@ -28,6 +28,8 @@ import analyticsImg from "@/assets/analytics.png";
 import pnlChartImg from "@/assets/PnL-chart.png";
 import dashboardPreview from "@/assets/dashboard-preview.png";
 import hedgeMapPreview from "@/assets/hedge-map-preview.png";
+import howItWorksSvg from "@/assets/how-it-works.svg";
+import howItWorksMobileSvg from "@/assets/how-it-works-mobile.svg";
 
 
 /* ─── Floating Orb Background ─── */
@@ -984,97 +986,14 @@ export default function Home() {
       {/* ═══════════════════════════════════════════
           HOW IT WORKS
       ═══════════════════════════════════════════ */}
-      < section id="how-it-works" className="relative py-24 border-y border-white/[0.04] bg-white/[0.01]" >
-        <div className="container mx-auto px-4">
-          <SectionReveal className="text-center mb-12">
-            <span className="text-xs font-mono font-semibold text-muted-foreground tracking-[0.2em] uppercase block mb-3">// INITIALIZATION PROTOCOL</span>
-            <h2 className="text-3xl md:text-5xl font-bold tracking-tight max-w-4xl mx-auto w-full">
-              System Deployment in <span className="text-primary whitespace-nowrap">3 Steps</span>
-            </h2>
-          </SectionReveal>
-
-          {/* 3 Steps Grid */}
-          <div className="max-w-4xl mx-auto grid md:grid-cols-3 gap-8 relative mt-4 mb-20">
-            {/* Connecting lines for desktop */}
-            <div className="hidden md:block absolute top-[2.5rem] left-[16%] right-[16%] h-px bg-gradient-to-r from-primary/10 via-primary/30 to-primary/10" />
-
-            {[
-              { num: "01", title: "Connect Prop Firm", desc: "Link your evaluation or funded account via read-only API credentials." },
-              { num: "02", title: "Bind Broker", desc: "Attach your regulated personal broker account for execution." },
-              { num: "03", title: "Activate Protocol", desc: "System instantly maps positions and neutralizes risk across prop firms." },
-            ].map((step, i) => (
-              <motion.div
-                key={step.num}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.15 }}
-                className="relative text-center flex flex-col items-center group"
-              >
-                <div className="w-20 h-20 mb-6 bg-background border border-white/[0.08] tech-bracket flex items-center justify-center relative z-10 group-hover:border-primary/50 transition-colors">
-                  <div className="absolute inset-2 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <span className="text-2xl font-mono font-bold text-primary">{step.num}</span>
-                </div>
-                <h3 className="text-xl font-bold tracking-tight mb-2">{step.title}</h3>
-                <p className="text-sm text-muted-foreground">{step.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Supported Platforms — marquee */}
-          <div className="relative overflow-hidden w-full">
-            <p className="text-xs font-mono font-semibold text-muted-foreground tracking-[0.2em] uppercase mb-10 text-center">// Supported Platforms</p>
-
-            {/* Fade masks */}
-            <div className="pointer-events-none absolute inset-y-0 left-0 w-20 z-10 bg-gradient-to-r from-background to-transparent" />
-            <div className="pointer-events-none absolute inset-y-0 right-0 w-20 z-10 bg-gradient-to-l from-background to-transparent" />
-
-            <div className="marquee-track flex items-end gap-12 md:gap-20 w-max">
-              {[0, 1].map((half) => (
-                <div key={half} className="flex items-end gap-12 md:gap-20 flex-shrink-0" aria-hidden={half === 1}>
-
-                  {/* MT4 - Coming Soon */}
-                  <div className="flex flex-col items-center gap-2 opacity-40 flex-shrink-0">
-                    <img src={mt4Logo} alt="MetaTrader 4" className="h-12 md:h-24 w-auto object-contain grayscale" />
-                    <span className="text-[9px] font-mono uppercase tracking-widest text-muted-foreground">Coming Soon</span>
-                  </div>
-
-                  {/* MT5 - Active */}
-                  <div className="flex flex-col items-center gap-2 flex-shrink-0">
-                    <img src={mt5Logo} alt="MetaTrader 5" className="h-12 md:h-24 w-auto object-contain" />
-                    <span className="text-[9px] font-mono uppercase tracking-widest text-primary font-bold">Available Now</span>
-                  </div>
-
-                  {/* cTrader - Coming Soon */}
-                  <div className="flex flex-col items-center gap-2 opacity-40 flex-shrink-0">
-                    <img src={cTraderLogo} alt="cTrader" className="h-12 md:h-24 w-auto object-contain" style={{ filter: 'grayscale(100%) brightness(0.6)' }} />
-                    <span className="text-[9px] font-mono uppercase tracking-widest text-muted-foreground">Coming Soon</span>
-                  </div>
-
-                  {/* Tradovate - Coming Soon */}
-                  <div className="flex flex-col items-center gap-2 opacity-40 flex-shrink-0">
-                    <img src={tradovateLogo} alt="Tradovate" className="h-10 md:h-20 w-auto object-contain grayscale" />
-                    <span className="text-[9px] font-mono uppercase tracking-widest text-muted-foreground">Coming Soon</span>
-                  </div>
-
-                  {/* DX Trade - Coming Soon */}
-                  <div className="flex flex-col items-center gap-2 opacity-40 flex-shrink-0">
-                    <img src={dxTradeLogo} alt="DXtrade" className="h-10 md:h-20 w-auto object-contain grayscale" />
-                    <span className="text-[9px] font-mono uppercase tracking-widest text-muted-foreground">Coming Soon</span>
-                  </div>
-
-                  {/* NinjaTrader - Coming Soon */}
-                  <div className="flex flex-col items-center gap-2 opacity-40 flex-shrink-0">
-                    <img src={ninjaTraderLogo} alt="NinjaTrader" className="h-10 md:h-20 w-auto object-contain grayscale" />
-                    <span className="text-[9px] font-mono uppercase tracking-widest text-muted-foreground">Coming Soon</span>
-                  </div>
-
-                </div>
-              ))}
-            </div>
-          </div>
+      <section id="how-it-works" className="relative pt-6 pb-10 md:pt-12 md:pb-20 bg-[#0a0d0e] border-y border-white/[0.05]">
+        <div className="container mx-auto px-1 sm:px-4 relative z-10 max-w-6xl">
+          {/* Mobile: optimized vertical layout */}
+          <img src={howItWorksMobileSvg} alt="How it Works - 3 Step Hedge Strategy" className="block md:hidden h-auto object-contain mx-auto w-full" style={{ filter: 'drop-shadow(0 4px 20px rgba(0,0,0,0.3))' }} />
+          {/* Desktop: original horizontal layout */}
+          <img src={howItWorksSvg} alt="How it Works - 3 Step Hedge Strategy" className="hidden md:block h-auto object-contain mx-auto min-w-[600px] w-full" style={{ filter: 'drop-shadow(0 4px 20px rgba(0,0,0,0.3))' }} />
         </div>
-      </section >
+      </section>
 
 
 

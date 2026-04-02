@@ -1,9 +1,13 @@
 from __future__ import annotations
 
 import inspect
+import os
 from pathlib import Path
 
 from dotenv import load_dotenv
+
+
+_LOADED_ENV_FILES: set[tuple[str, bool]] = set()
 
 
 def find_workspace_root(start: Path | None = None) -> Path:
@@ -54,6 +58,25 @@ def _infer_source_from_stack(workspace_root: Path) -> Path | None:
     return None
 
 
+def _configured_root_env(workspace_root: Path) -> Path | None:
+    env_override = os.getenv("HEDGE_ENV_FILE", "").strip()
+    if env_override:
+        candidate = Path(env_override)
+        if not candidate.is_absolute():
+            candidate = workspace_root / candidate
+        return candidate
+    return workspace_root / ".env"
+
+
+def _load_dotenv_once(env_file: Path, *, override: bool) -> bool:
+    cache_key = (str(env_file.resolve()), override)
+    if cache_key in _LOADED_ENV_FILES:
+        return False
+    load_dotenv(env_file, override=override)
+    _LOADED_ENV_FILES.add(cache_key)
+    return True
+
+
 def load_env_for_source(
     source_file: str | Path | None = None,
     department: str | None = None,
@@ -73,21 +96,21 @@ def load_env_for_source(
 
     loaded_files: list[str] = []
 
-    root_env = workspace_root / ".env"
-    if include_root_fallback and root_env.is_file():
-        load_dotenv(root_env, override=False)
+    root_env = _configured_root_env(workspace_root)
+    if include_root_fallback and root_env is not None and root_env.is_file():
+        _load_dotenv_once(root_env, override=False)
         loaded_files.append(str(root_env))
 
     if inferred_department:
         department_env = workspace_root / "Business" / inferred_department / "resources" / ".env"
         if department_env.is_file():
-            load_dotenv(department_env, override=True)
+            _load_dotenv_once(department_env, override=True)
             loaded_files.append(str(department_env))
 
         if inferred_subdepartment:
             subdepartment_env = workspace_root / "Business" / inferred_department / "resources" / inferred_subdepartment / ".env"
             if subdepartment_env.is_file():
-                load_dotenv(subdepartment_env, override=True)
+                _load_dotenv_once(subdepartment_env, override=True)
                 loaded_files.append(str(subdepartment_env))
 
     return {

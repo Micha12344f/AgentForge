@@ -80,16 +80,27 @@ def _stringify_timestamp(value) -> str:
 
 
 def _health_score(row: pd.Series) -> str:
+    """Compute health label incorporating Platform Activation status.
+
+    Platform Activation (mt5/mt4/ctrader with persistent device) is the
+    ultimate conversion indicator. Desktop-only validation does NOT count
+    as activation. See: ANALYTICS/directives/platform-activation-indicator.md
+    """
     if row.get("activated_at") == "NEVER":
         return "NOT ACTIVATED"
-    if row.get("status") == "AT RISK":
+    platform_activated = row.get("platform_activated", False)
+    if not platform_activated and row.get("days_since_key", 0) > 7:
+        return "NEEDS_ONBOARDING_HELP"  # Desktop opened but EA never connected
+    if platform_activated and row.get("status") == "AT RISK":
         return "CHURNING"
     if row.get("errors_30d", 0) > 10:
         return "NEEDS SUPPORT"
-    if row.get("engagement") in {"POWER USER", "REGULAR"}:
+    if platform_activated and row.get("engagement") in {"POWER USER", "REGULAR"}:
         return "HEALTHY"
-    if row.get("engagement") == "LOW":
+    if platform_activated and row.get("engagement") == "LOW":
         return "WARMING UP"
+    if not platform_activated:
+        return "DESKTOP_ONLY"  # App opened but EA not connected to chart
     return "DORMANT"
 
 
@@ -156,6 +167,37 @@ def build_license_tracking_bundle(days: int = 30) -> LicenseTrackingBundle:
         return "NEVER"
 
     licenses["activated_at"] = licenses["license_key"].apply(lookup_activation)
+
+    # ── Platform Activation check (ultimate conversion indicator) ──
+    # A user is only truly converted when platform IN (mt5, mt4, ctrader)
+    # with a persistent device row. Desktop-only does NOT count.
+    PLATFORM_VALUES = ('mt5', 'mt4', 'ctrader')
+    TEST_DEVICE_PREFIXES = ('test-device-', 'dev-desktop-')
+
+    platform_logs_raw = (
+        db.table("license_validation_logs")
+        .select("license_key, device_id, platform")
+        .eq("success", True)
+        .in_("platform", list(PLATFORM_VALUES))
+        .execute()
+        .data
+        or []
+    )
+    platform_keys: set[str] = set()
+    for pl in platform_logs_raw:
+        dev = pl.get("device_id") or ""
+        if not any(dev.startswith(p) for p in TEST_DEVICE_PREFIXES):
+            platform_keys.add(pl.get("license_key") or "")
+
+    def has_platform_activation(full_key: str) -> bool:
+        for candidate in _log_key_candidates(full_key):
+            if candidate in platform_keys:
+                return True
+        return False
+
+    licenses["platform_activated"] = licenses["license_key"].apply(has_platform_activation)
+    now_ts = pd.Timestamp.now(tz="UTC")
+    licenses["days_since_key"] = (now_ts - licenses["created_at"]).dt.days
 
     devices_raw = (
         db.table("license_devices")
@@ -266,6 +308,7 @@ def build_license_tracking_bundle(days: int = 30) -> LicenseTrackingBundle:
     health = licenses[[
         "id", "license_key", "key_short", "email", "plan", "max_devices",
         "is_active", "created_at_str", "expires_at_str", "activated_at",
+        "platform_activated", "days_since_key",
         "days_active_30d", "engagement",
     ]].copy()
     health = health.merge(
@@ -327,6 +370,14 @@ def build_summary(bundle: LicenseTrackingBundle) -> dict:
         "active_licenses": int(licenses["is_active"].fillna(False).sum()),
         "activated_licenses": int((licenses["activated_at"] != "NEVER").sum()),
         "never_activated": int((licenses["activated_at"] == "NEVER").sum()),
+        "platform_activated": int(licenses["platform_activated"].sum()),
+        "desktop_only": max(
+            int((licenses["activated_at"] != "NEVER").sum() - licenses["platform_activated"].sum()),
+            0,
+        ),
+        "platform_activation_rate": round(
+            licenses["platform_activated"].sum() / max(len(licenses), 1) * 100, 1
+        ),
         "successful_validations_30d": int(licenses["days_active_30d"].sum()),
         "failed_validations_30d": int(len(errors)),
         "active_devices": int(len(fleet[fleet["is_active"] == True])) if not fleet.empty else 0,
@@ -347,11 +398,13 @@ def print_summary(bundle: LicenseTrackingBundle) -> None:
     print(f"Active licenses:           {summary['active_licenses']}")
     print(f"Activated licenses:        {summary['activated_licenses']}")
     print(f"Never activated:           {summary['never_activated']}")
+    print(f"Platform Activated:        {summary['platform_activated']} ({summary['platform_activation_rate']}%)  ← ULTIMATE CONVERSION")
+    print(f"Desktop Only (not conv.):  {summary['desktop_only']}")
     print(f"Successful active days:    {summary['successful_validations_30d']}")
     print(f"Failed validations:        {summary['failed_validations_30d']}")
     print(f"Active devices:            {summary['active_devices']}")
     print("-" * 72)
-    for label in ["HEALTHY", "WARMING UP", "NOT ACTIVATED", "NEEDS SUPPORT", "CHURNING", "DORMANT"]:
+    for label in ["HEALTHY", "WARMING UP", "NOT ACTIVATED", "NEEDS_ONBOARDING_HELP", "DESKTOP_ONLY", "NEEDS SUPPORT", "CHURNING", "DORMANT"]:
         print(f"{label:24s}{summary['health'].get(label, 0)}")
 
 
@@ -362,8 +415,8 @@ def print_dashboard(bundle: LicenseTrackingBundle) -> None:
         return
 
     final_cols = [
-        "email", "plan", "activated_at", "last_active_str", "days_active_30d",
-        "devices", "errors_30d", "engagement", "health",
+        "email", "plan", "activated_at", "platform_activated", "last_active_str",
+        "days_active_30d", "devices", "errors_30d", "engagement", "health",
     ]
     print_summary(bundle)
     print()

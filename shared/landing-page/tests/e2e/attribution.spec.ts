@@ -215,3 +215,41 @@ test("Flow 4: First-touch wins — second UTM does not overwrite first", async (
 
   console.log("✅ Flow 4 PASSED: First-touch attribution preserved on second UTM visit");
 });
+
+// ─── Flow 5: /x bridge attribution ───────────────────────────
+
+test("Flow 5: /x bridge seeds pinned-post attribution before redirect", async ({ page }) => {
+  await clearAllStorage(page);
+
+  await page.goto(`${BASE_URL}/x`);
+  await page.waitForLoadState("networkidle");
+
+  expect(page.url()).toBe(`${BASE_URL}/`);
+
+  const session = await getSessionStorage(page, "hedge_utm_params");
+  const local = await getLocalStorage(page, "hedge_utm_full");
+  const legacy = await getLocalStorage(page, "hedge_utm");
+
+  expect(session).not.toBeNull();
+  expect(session.utm_source).toBe("twitter");
+  expect(session.utm_medium).toBe("social");
+  expect(session.utm_campaign).toBe("x-pinned-post");
+  expect(session.utm_content).toBe("pinned-cta");
+  expect(session.landing_url).toBe("/x");
+
+  expect(local).not.toBeNull();
+  expect(local.utm_source).toBe("twitter");
+  expect(local.utm_medium).toBe("social");
+  expect(local.utm_campaign).toBe("x-pinned-post");
+  expect(local.utm_content).toBe("pinned-cta");
+  expect(local.landing_url).toBe("/x");
+
+  expect(legacy).not.toBeNull();
+  expect(legacy.utm_source).toBe("twitter");
+  expect(legacy.utm_medium).toBe("social");
+  expect(legacy.utm_campaign).toBe("x-pinned-post");
+  expect(legacy.utm_content).toBe("pinned-cta");
+  expect(legacy.landing_url).toBe("/x");
+
+  console.log("✅ Flow 5 PASSED: /x bridge attribution persists through redirect");
+});

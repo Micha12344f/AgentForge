@@ -17,18 +17,20 @@ sys.path.insert(0, str(ROOT))
 
 from dotenv import load_dotenv
 load_dotenv(ROOT / ".env")
+load_dotenv(ROOT / "Business" / "GROWTH" / "resources" / ".env", override=True)
 
 # ── Config ──
 DRY_RUN = True   # True = preview only, False = actually post to X
 
 # ── Paths ──
-DEMOS_FILE    = ROOT / "Content Engine Agent" / "fine-tune" / "tweet_demos_100.json"
-STATE_FILE    = ROOT / "Content Engine Agent" / "fine-tune" / "auto_tweet_state.json"
-GIF_LIBRARY   = ROOT / "Content Engine Agent" / "fine-tune" / "gif_library.json"
-MANIFEST_FILE = ROOT / "assets" / "library" / "manifest.json"
-LOGO_PATH     = ROOT / "assets" / "Hedge-Edge-Logo.png"
-LIB_DIR       = ROOT / "assets" / "library"
-GEN_DIR       = ROOT / "assets" / "generated"
+GROWTH_RES    = ROOT / "Business" / "GROWTH" / "resources" / "Marketing"
+DEMOS_FILE    = GROWTH_RES / "x-pipeline" / "tweet_demos_100.json"
+STATE_FILE    = GROWTH_RES / "x-pipeline" / "auto_tweet_state.json"
+GIF_LIBRARY   = GROWTH_RES / "x-pipeline" / "gif_library.json"
+MANIFEST_FILE = GROWTH_RES / "x-assets" / "library" / "manifest.json"
+LOGO_PATH     = GROWTH_RES / "x-assets" / "Hedge-Edge-Logo.png"
+LIB_DIR       = GROWTH_RES / "x-assets" / "library"
+GEN_DIR       = GROWTH_RES / "x-assets" / "generated"
 GEN_DIR.mkdir(parents=True, exist_ok=True)
 
 # ── Automatable tweet types ──

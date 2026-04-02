@@ -16,14 +16,17 @@ Env vars:
 
 import json
 import os
+import sys
 import time
 from datetime import date, datetime, timedelta, timezone
+from pathlib import Path
 from typing import Any, Optional
 
 import requests
 from shared.env_loader import load_env_for_source
 
-load_env_for_source()
+_ENV_CONTEXT = load_env_for_source()
+_WORKSPACE_ROOT = Path(_ENV_CONTEXT["workspace_root"])
 
 _PROPERTY_ID = os.getenv("GA4_PROPERTY_ID", "")
 _MEASUREMENT_ID = os.getenv("GA4_MEASUREMENT_ID", "")
@@ -31,6 +34,32 @@ _API_SECRET = os.getenv("GA4_API_SECRET", "")
 
 # ── Service-account auth via google.oauth2 ─────────────────────────
 _credentials = None
+
+
+def _missing_ga4_modules_message() -> str:
+    preferred_python = _WORKSPACE_ROOT / ".venv" / "Scripts" / "python.exe"
+    message = (
+        "GA4 reporting modules are unavailable in the current interpreter. "
+        f"Current interpreter: {sys.executable}. "
+    )
+    if preferred_python.is_file():
+        message += f"Prefer the workspace virtualenv: {preferred_python}. "
+    message += (
+        "Install google-auth and google-analytics-data only if you are intentionally "
+        "using a different environment."
+    )
+    return message
+
+
+def _resolve_service_account_source(raw: str) -> Path | None:
+    candidate = Path(raw)
+    if candidate.is_file():
+        return candidate
+    if not candidate.is_absolute():
+        workspace_candidate = (_WORKSPACE_ROOT / candidate).resolve()
+        if workspace_candidate.is_file():
+            return workspace_candidate
+    return None
 
 
 def _get_credentials():
@@ -44,8 +73,9 @@ def _get_credentials():
             "(full JSON blob or file path)"
         )
     # Allow value to be a file path
-    if os.path.isfile(raw):
-        with open(raw) as f:
+    source_file = _resolve_service_account_source(raw)
+    if source_file is not None:
+        with open(source_file, encoding="utf-8") as f:
             raw = f.read()
     try:
         from google.oauth2 import service_account
@@ -56,10 +86,7 @@ def _get_credentials():
         )
         return _credentials
     except ImportError:
-        raise ImportError(
-            "pip install google-auth google-analytics-data — "
-            "required for GA4 reporting"
-        )
+        raise ImportError(_missing_ga4_modules_message())
 
 
 def _get_client():
@@ -67,9 +94,7 @@ def _get_client():
     try:
         from google.analytics.data_v1beta import BetaAnalyticsDataClient
     except ImportError:
-        raise ImportError(
-            "pip install google-analytics-data — required for GA4 reporting"
-        )
+        raise ImportError(_missing_ga4_modules_message())
     return BetaAnalyticsDataClient(credentials=_get_credentials())
 
 

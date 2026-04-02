@@ -1,0 +1,566 @@
+{
+  "demos": [
+    {
+      "id": 1,
+      "type": "funny_meme",
+      "stage": "TOFU",
+      "tweet": "Every prop trader eventually learns this lesson.",
+      "image_needed": true,
+      "image_type": "meme",
+      "meme_template_id": "181913649",
+      "meme_boxes": [
+        "managing drawdown manually",
+        "letting Hedge Edge automate it"
+      ]
+    },
+    {
+      "id": 2,
+      "type": "funny_meme",
+      "stage": "TOFU",
+      "tweet": "Prop traders when NFP drops 👀",
+      "image_needed": true,
+      "image_type": "meme",
+      "meme_template_id": "112126428",
+      "meme_boxes": [
+        "your trading strategy",
+        "you (the prop trader)",
+        "a 200-pip move against you"
+      ]
+    },
+    {
+      "id": 3,
+      "type": "funny_meme",
+      "stage": "TOFU",
+      "tweet": "The prop firm challenge experience. Every single time.",
+      "image_needed": true,
+      "image_type": "meme",
+      "meme_template_id": "131940431",
+      "meme_boxes": [
+        "Pass the challenge",
+        "Get a $200k funded account",
+        "Blow through drawdown on one unhedged news trade",
+        "Blow through drawdown on one unhedged news trade"
+      ]
+    },
+    {
+      "id": 4,
+      "type": "funny_meme",
+      "stage": "TOFU",
+      "tweet": "Every prop trader’s emotional state during a news event.",
+      "image_needed": true,
+      "image_type": "meme",
+      "meme_template_id": "226297822",
+      "meme_boxes": [
+        "NFP in 5 minutes and I’m in a live unhedged trade",
+        "my hedge is already placed",
+        "NFP in 5 minutes and I forgot the hedge"
+      ]
+    },
+    {
+      "id": 5,
+      "type": "funny_meme",
+      "stage": "TOFU",
+      "tweet": "Traders when they first hear about avoiding news events.",
+      "image_needed": true,
+      "image_type": "meme",
+      "meme_template_id": "217743513",
+      "meme_boxes": [
+        "just don’t trade during high-impact news",
+        "prop trader with a $200k account and profit targets"
+      ]
+    },
+    {
+      "id": 6,
+      "type": "funny_meme",
+      "stage": "TOFU",
+      "tweet": "The internal debate every funded trader has.",
+      "image_needed": true,
+      "image_type": "meme",
+      "meme_template_id": "84341851",
+      "meme_boxes": [
+        "protect my drawdown limit and stay funded",
+        "YOLO the NFP trade, it’ll be fine"
+      ]
+    },
+    {
+      "id": 7,
+      "type": "funny_meme",
+      "stage": "TOFU",
+      "tweet": "The evolution of a prop trader’s risk management.",
+      "image_needed": true,
+      "image_type": "meme",
+      "meme_template_id": "93895088",
+      "meme_boxes": [
+        "using a stop loss",
+        "using a trailing stop",
+        "manually hedging with a second position",
+        "letting Hedge Edge automate your hedge 24/7"
+      ]
+    },
+    {
+      "id": 8,
+      "type": "funny_meme",
+      "stage": "TOFU",
+      "tweet": "Me at 3am manually managing a hedged position I should have automated.",
+      "image_needed": true,
+      "image_type": "meme",
+      "meme_template_id": "27813981",
+      "meme_boxes": [
+        "I’ll just manage this manually, it’s easy",
+        "it is not easy"
+      ]
+    },
+    {
+      "id": 9,
+      "type": "funny_meme",
+      "stage": "TOFU",
+      "tweet": "Prop firms when you figure out hedging exists.",
+      "image_needed": true,
+      "image_type": "meme",
+      "meme_template_id": "322841258",
+      "meme_boxes": [
+        "Our challenge rules are built to catch unhedged drawdown breaches",
+        "That means traders who hedge are basically safe… right?",
+        ""
+      ]
+    },
+    {
+      "id": 10,
+      "type": "funny_meme",
+      "stage": "TOFU",
+      "tweet": "Traders after finding out you can hedge your prop account.\n\nThis changes everything.",
+      "image_needed": true,
+      "image_type": "meme",
+      "meme_template_id": "252600902",
+      "meme_boxes": [
+        "wait… you can automate drawdown protection on a prop account?",
+        "always has been possible"
+      ]
+    },
+    {
+      "id": 11,
+      "type": "funny_meme",
+      "stage": "TOFU",
+      "tweet": "When you discover Hedge Edge has drawdown protection AND doesn’t cap your upside.",
+      "image_needed": true,
+      "image_type": "meme",
+      "meme_template_id": "87743020",
+      "meme_boxes": [
+        "protect my account from drawdown breaches",
+        "keep making profits on winning trades",
+        "funded trader"
+      ]
+    },
+    {
+      "id": 12,
+      "type": "funny_meme",
+      "stage": "TOFU",
+      "tweet": "Risk managers vs. prop traders who use Hedge Edge.",
+      "image_needed": true,
+      "image_type": "meme",
+      "meme_template_id": "188390779",
+      "meme_boxes": [
+        "your account balance screaming at you during drawdown",
+        "you with an active hedge and zero stress"
+      ]
+    },
+    {
+      "id": 13,
+      "type": "funny_meme",
+      "stage": "TOFU",
+      "tweet": "Prop firms presenting their challenge rules.",
+      "image_needed": true,
+      "image_type": "meme",
+      "meme_template_id": "309868304",
+      "meme_boxes": [
+        "Hedge Edge",
+        "automated 24/7 drawdown protection, zero monitoring",
+        "you try it free"
+      ]
+    },
+    {
+      "id": 14,
+      "type": "funny_meme",
+      "stage": "TOFU",
+      "tweet": "Every funded trader running unhedged into a news event.",
+      "image_needed": true,
+      "image_type": "meme",
+      "meme_template_id": "97984",
+      "meme_boxes": [
+        "me with no hedge placed",
+        "my funded account burning behind me"
+      ]
+    },
+    {
+      "id": 15,
+      "type": "funny_meme",
+      "stage": "TOFU",
+      "tweet": "Prop traders who think avoiding all news events keeps them funded.",
+      "image_needed": true,
+      "image_type": "meme",
+      "meme_template_id": "124822590",
+      "meme_boxes": [
+        "trading around news and missing all the moves",
+        "you",
+        "automating your hedge and trading during news safely"
+      ]
+    },
+    {
+      "id": 16,
+      "type": "gif_meme",
+      "stage": "TOFU",
+      "tweet": "Me watching my prop account during NFP with no hedge placed.\n\n(Everything is fine.)",
+      "image_needed": true,
+      "image_type": "gif",
+      "gif_mood": "this_is_fine",
+      "gif_top": "this is fine",
+      "gif_bottom": "my funded account"
+    },
+    {
+      "id": 17,
+      "type": "gif_meme",
+      "stage": "TOFU",
+      "tweet": "Monitoring 6 open positions manually at 2am.\n\nThere’s automation for this now.",
+      "image_needed": true,
+      "image_type": "gif",
+      "gif_mood": "stressed",
+      "gif_top": "",
+      "gif_bottom": "prop traders without Hedge Edge"
+    },
+    {
+      "id": 18,
+      "type": "gif_meme",
+      "stage": "TOFU",
+      "tweet": "Failed my third FTMO challenge this month.\nSame trade. Same mistake. Same $500 gone.",
+      "image_needed": true,
+      "image_type": "gif",
+      "gif_mood": "facepalm",
+      "gif_top": "me",
+      "gif_bottom": "every. single. time."
+    },
+    {
+      "id": 19,
+      "type": "gif_meme",
+      "stage": "TOFU",
+      "tweet": "$500 challenge fee.\n$500 challenge fee.\n$500 challenge fee.\n\nAll blown by the same unhedged news trade.\n\nStop paying the prop firm reset tax.",
+      "image_needed": true,
+      "image_type": "gif",
+      "gif_mood": "rip_wallet",
+      "gif_top": "prop firm challenge fees",
+      "gif_bottom": ""
+    },
+    {
+      "id": 20,
+      "type": "gif_meme",
+      "stage": "TOFU",
+      "tweet": "\"Just don’t trade during news events.\"\n\nBrother I have profit targets and a funded account. I can’t go on holiday every time NFP drops.",
+      "image_needed": true,
+      "image_type": "gif",
+      "gif_mood": "laughing_crying",
+      "gif_top": "\"just avoid NFP bro\"",
+      "gif_bottom": "traders with a $200k account and targets to hit"
+    },
+    {
+      "id": 21,
+      "type": "gif_meme",
+      "stage": "TOFU",
+      "tweet": "First month with Hedge Edge and zero drawdown breaches.\n\nNot once.\n\nNever going back.",
+      "image_needed": true,
+      "image_type": "gif",
+      "gif_mood": "mind_blown",
+      "gif_top": "my equity curve",
+      "gif_bottom": "after automated hedging"
+    },
+    {
+      "id": 22,
+      "type": "gif_meme",
+      "stage": "TOFU",
+      "tweet": "Watching my prop account hit max drawdown on the last trading day of the week.\n\n$500 gone. Challenge over. Again.",
+      "image_needed": true,
+      "image_type": "gif",
+      "gif_mood": "in_pain",
+      "gif_top": "my soul",
+      "gif_bottom": "as the drawdown breach hits on Friday afternoon"
+    },
+    {
+      "id": 23,
+      "type": "gif_meme",
+      "stage": "TOFU",
+      "tweet": "Me manually closing every position before every news event just to stay compliant.\n\nThere’s automation for this.",
+      "image_needed": true,
+      "image_type": "gif",
+      "gif_mood": "nope_out",
+      "gif_top": "",
+      "gif_bottom": "me before Hedge Edge"
+    },
+    {
+      "id": 24,
+      "type": "gif_meme",
+      "stage": "TOFU",
+      "tweet": "When you finally find a risk tool built specifically for prop trading.\n\nYes. This. Finally.",
+      "image_needed": true,
+      "image_type": "gif",
+      "gif_mood": "nodding",
+      "gif_top": "prop traders discovering Hedge Edge",
+      "gif_bottom": ""
+    },
+    {
+      "id": 25,
+      "type": "gif_meme",
+      "stage": "TOFU",
+      "tweet": "Me realising the prop firm drawdown rules were always a math problem, not a luck problem.",
+      "image_needed": true,
+      "image_type": "gif",
+      "gif_mood": "shocked",
+      "gif_top": "me figuring out hedging",
+      "gif_bottom": ""
+    },
+    {
+      "id": 26,
+      "type": "viral_hook",
+      "stage": "TOFU",
+      "tweet": "80% of prop firm traders don’t fail because they can’t trade.\n\nThey fail because they’re running unhedged downside on a ruleset designed to stop them out.\n\nOne bad news candle. One spread spike. One drawdown breach.\n\nThere’s a fix. Most traders just don’t know it exists.",
+      "image_needed": false
+    },
+    {
+      "id": 27,
+      "type": "viral_hook",
+      "stage": "TOFU",
+      "tweet": "Prop firms make most of their money from resets.\n\nNot from the challenge fee. From traders failing the same challenge twice.\n\nThe reset is the product.\n\nHedging your downside is the counter-play.",
+      "image_needed": false
+    },
+    {
+      "id": 28,
+      "type": "viral_hook",
+      "stage": "TOFU",
+      "tweet": "The funded trader math no one talks about:\n\n• $500 challenge fee\n• 5% max drawdown limit\n• $200k account\n• One NFP trade gone wrong\n• Start again\n\nOr: one hedge. None of that matters.",
+      "image_needed": false
+    },
+    {
+      "id": 29,
+      "type": "viral_hook",
+      "stage": "TOFU",
+      "tweet": "Hot take: most prop firm challenge rules aren’t designed to protect the firm.\n\nThey’re designed to catch traders at their worst moment.\n\nUnhedged. Overexposed. During news.\n\nKnow the rules. Then hedge them.",
+      "image_needed": false
+    },
+    {
+      "id": 30,
+      "type": "viral_hook",
+      "stage": "TOFU",
+      "tweet": "You’ve probably heard: “just use a stop loss.”\n\nA stop loss protects one trade.\n\nA hedge protects your entire account from a drawdown breach.\n\nNot the same thing. Not even close.",
+      "image_needed": false
+    },
+    {
+      "id": 31,
+      "type": "industry_take",
+      "stage": "MOFU",
+      "tweet": "Prop firms don’t hate you. They built a system that punishes unhedged risk.\n\nThe traders who figure this out early keep their funded accounts. The rest keep paying reset fees.",
+      "image_needed": false
+    },
+    {
+      "id": 32,
+      "type": "industry_take",
+      "stage": "MOFU",
+      "tweet": "The best prop traders I’ve seen don’t have better entries.\n\nThey have better drawdown management.\n\nThe edge is on the exit side, not the entry.",
+      "image_needed": false
+    },
+    {
+      "id": 33,
+      "type": "industry_take",
+      "stage": "MOFU",
+      "tweet": "If your trading plan doesn’t account for news events, you don’t have a trading plan.\n\nYou have a strategy with a gap in it.",
+      "image_needed": false
+    },
+    {
+      "id": 34,
+      "type": "industry_take",
+      "stage": "MOFU",
+      "tweet": "Most “risk management” advice for prop traders is just “trade smaller.”\n\nThat’s position sizing, not risk management.\n\nHedging the tail risk is actual risk management.",
+      "image_needed": false
+    },
+    {
+      "id": 35,
+      "type": "industry_take",
+      "stage": "MOFU",
+      "tweet": "Passing a prop challenge proves you can follow rules for 30 days.\n\nStaying funded proves you can manage drawdown indefinitely.\n\nThose are two completely different skills.",
+      "image_needed": false
+    },
+    {
+      "id": 36,
+      "type": "stat_truth",
+      "stage": "MOFU",
+      "tweet": "80% of prop firm challenge attempts fail.\n\nMost of those failures happen on a single trade — usually during high-impact news.\n\nOne hedge. One setup. Zero resets.\n\nThat’s the math.",
+      "image_needed": true,
+      "image_type": "atmospheric"
+    },
+    {
+      "id": 37,
+      "type": "stat_truth",
+      "stage": "MOFU",
+      "tweet": "The average funded trader resets their account multiple times before passing.\n\nAt $500 per reset on a $100k challenge, that’s $1,000+ in fees before they see a payout.\n\nOne Hedge Edge setup costs less than a single reset.",
+      "image_needed": true,
+      "image_type": "atmospheric"
+    },
+    {
+      "id": 38,
+      "type": "stat_truth",
+      "stage": "MOFU",
+      "tweet": "Prop firm challenges have a 4–5% daily drawdown limit.\n\nThe average NFP move on EUR/USD is 60–100 pips in 60 seconds.\n\nOn a standard lot, that’s $600–$1,000 in under a minute.\n\nThis is a math problem, not a trading problem.",
+      "image_needed": true,
+      "image_type": "atmospheric"
+    },
+    {
+      "id": 39,
+      "type": "stat_truth",
+      "stage": "MOFU",
+      "tweet": "Fewer than 1 in 10 prop traders make it to consistent payout.\n\nThe filter isn’t strategy. It’s drawdown compliance.\n\nOne tool. One setup. Changes that number dramatically.",
+      "image_needed": true,
+      "image_type": "atmospheric"
+    },
+    {
+      "id": 40,
+      "type": "uncomfortable_truth",
+      "stage": "MOFU",
+      "tweet": "The uncomfortable truth about funded trading:\n\nYou can be a profitable trader and still fail every challenge.\n\nBecause profitability and drawdown compliance are two different skills.\n\nMost traders only train one of them.",
+      "image_needed": true,
+      "image_type": "atmospheric"
+    },
+    {
+      "id": 41,
+      "type": "uncomfortable_truth",
+      "stage": "MOFU",
+      "tweet": "Every prop firm has a drawdown rule.\n\nNot to protect you. To protect themselves.\n\nThe traders who treat it as a constraint to hedge around — not a risk to absorb — are the ones who stay funded.",
+      "image_needed": true,
+      "image_type": "atmospheric"
+    },
+    {
+      "id": 42,
+      "type": "uncomfortable_truth",
+      "stage": "MOFU",
+      "tweet": "You don’t lose your funded account because you’re a bad trader.\n\nYou lose it because you took one unhedged position at the wrong time.\n\nThe market doesn’t care about your win rate during NFP.",
+      "image_needed": true,
+      "image_type": "atmospheric"
+    },
+    {
+      "id": 43,
+      "type": "uncomfortable_truth",
+      "stage": "MOFU",
+      "tweet": "Here’s what prop firms don’t tell you:\n\nDrawdown rules aren’t meant to be absorbed. They’re meant to be managed around.\n\nThe traders who treat them like a puzzle — not a tax — stay funded long-term.",
+      "image_needed": true,
+      "image_type": "atmospheric"
+    },
+    {
+      "id": 44,
+      "type": "uncomfortable_truth",
+      "stage": "MOFU",
+      "tweet": "No one talks about the psychological cost of failing a prop challenge.\n\nIt’s not just the $500.\n\nIt’s 30 days of discipline, wiped in 60 seconds by a news spike you had no protection against.\n\nAvoidable. Every time.",
+      "image_needed": true,
+      "image_type": "atmospheric"
+    },
+    {
+      "id": 45,
+      "type": "direct_cta",
+      "stage": "BOFU",
+      "tweet": "Protect your prop account from drawdown breaches automatically.\n\nHedge Edge runs in the background — no monitoring required.\n\nFree to try → hedgedge.app",
+      "image_needed": true,
+      "image_type": "logo"
+    },
+    {
+      "id": 46,
+      "type": "direct_cta",
+      "stage": "BOFU",
+      "tweet": "Stop resetting challenges because of one bad trade.\n\nHedge Edge: automated drawdown protection for funded traders.\n\nMT4 · MT5 · cTrader\n\nTry free → hedgedge.app",
+      "image_needed": true,
+      "image_type": "logo"
+    },
+    {
+      "id": 47,
+      "type": "direct_cta",
+      "stage": "BOFU",
+      "tweet": "How much have you spent on failed prop challenges this year?\n\nOne Hedge Edge setup costs less than a single reset.\n\nDo the math → hedgedge.app",
+      "image_needed": true,
+      "image_type": "logo"
+    },
+    {
+      "id": 48,
+      "type": "direct_cta",
+      "stage": "BOFU",
+      "tweet": "Set it once. Let it protect your funded account 24/7.\n\nWorks on every major prop firm platform.\n\nFree trial → hedgedge.app",
+      "image_needed": true,
+      "image_type": "logo"
+    },
+    {
+      "id": 49,
+      "type": "funny_meme",
+      "stage": "TOFU",
+      "tweet": "Prop traders after discovering automated hedging exists.",
+      "image_needed": true,
+      "image_type": "meme",
+      "meme_template_id": "131087935",
+      "meme_boxes": [
+        "me",
+        "my funded account",
+        "",
+        "",
+        "drawdown breaches"
+      ]
+    },
+    {
+      "id": 50,
+      "type": "funny_meme",
+      "stage": "TOFU",
+      "tweet": "When the prop firm challenge rules are just a math problem in disguise.",
+      "image_needed": true,
+      "image_type": "meme",
+      "meme_template_id": "222403160",
+      "meme_boxes": [
+        "I am once again asking you to just hedge your prop account",
+        ""
+      ]
+    },
+    {
+      "id": 51,
+      "type": "gif_meme",
+      "stage": "TOFU",
+      "tweet": "Watching my equity curve after week one of automated hedging.\n\nStonks don’t have to go down.",
+      "image_needed": true,
+      "image_type": "gif",
+      "gif_mood": "stonks",
+      "gif_top": "my funded account",
+      "gif_bottom": "with Hedge Edge active"
+    },
+    {
+      "id": 52,
+      "type": "gif_meme",
+      "stage": "TOFU",
+      "tweet": "Me every time I explain automated drawdown protection exists to another trader.",
+      "image_needed": true,
+      "image_type": "gif",
+      "gif_mood": "shocked",
+      "gif_top": "them discovering automated hedging",
+      "gif_bottom": ""
+    },
+    {
+      "id": 53,
+      "type": "viral_hook",
+      "stage": "TOFU",
+      "tweet": "Thread: why prop firm traders keep failing — and it’s not what anyone tells you.\n\nNot strategy. Not discipline. Not the market.\n\nIt’s one structural gap that automated hedging fixes in 10 minutes. Let me show you.",
+      "image_needed": false
+    },
+    {
+      "id": 54,
+      "type": "industry_take",
+      "stage": "MOFU",
+      "tweet": "Prop firm traders aren’t speculators.\n\nThey’re compliance athletes.\n\nThe ones who survive long-term figured out the difference.",
+      "image_needed": false
+    },
+    {
+      "id": 55,
+      "type": "stat_truth",
+      "stage": "MOFU",
+      "tweet": "Hedge Edge users report zero drawdown breaches in their first funded month.\n\nNot fewer. Zero.\n\nBecause a hedge doesn’t reduce your risk. It transfers it.",
+      "image_needed": true,
+      "image_type": "atmospheric"
+    }
+  ]
+}

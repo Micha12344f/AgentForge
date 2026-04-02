@@ -91,15 +91,17 @@ def _run_email_send():
             send_cron_failure("Email Send", e)
         except Exception:
             try:
-                import requests as _req
-                h = {"Authorization": f"Bearer {os.getenv('RESEND_API_KEY')}", "Content-Type": "application/json"}
-                _req.post("https://api.resend.com/emails", headers=h, json={
-                    "from": "Hedge Edge Alerts <alerts@hedgedge.info>",
-                    "to": ["hedgeedge@outlook.com"],
-                    "subject": "[Email Send FAILED] Railway cron error",
-                    "text": f"Email Send cron failed at {datetime.now(timezone.utc).isoformat()}\n\nError: {e}",
-                    "tags": [{"name": "type", "value": "error-alert"}],
-                }, timeout=15)
+                from shared.resend_client import send_email
+
+                send_email(
+                    to="hedgeedge@outlook.com",
+                    subject="[Email Send FAILED] Railway cron error",
+                    text=f"Email Send cron failed at {datetime.now(timezone.utc).isoformat()}\n\nError: {e}",
+                    from_addr="Hedge Edge Alerts <alerts@hedgedge.info>",
+                    tags=[{"name": "type", "value": "error-alert"}],
+                    include_unsubscribe=True,
+                    respect_notion_unsubscribe=False,
+                )
             except Exception:
                 pass
 

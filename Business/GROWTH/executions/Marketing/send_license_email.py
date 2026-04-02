@@ -15,12 +15,8 @@ Usage:
 
 import os
 import sys
-import hmac
-import hashlib
 import argparse
 import html as html_mod
-import requests
-from urllib.parse import quote
 
 def _find_ws_root():
     d = os.path.dirname(os.path.abspath(__file__))
@@ -36,12 +32,11 @@ if _WS_ROOT not in sys.path:
 from dotenv import load_dotenv
 load_dotenv(os.path.join(_WS_ROOT, ".env"))
 
-RESEND_API_KEY = os.getenv("RESEND_API_KEY")
-UNSUBSCRIBE_SECRET = os.getenv("UNSUBSCRIBE_SECRET", "")
+from shared.resend_client import send_email
+
 FROM_ADDR = "Hedge Edge <hello@hedgedge.info>"
 REPLY_TO = "reply@hedgedge.info"
 SUBJECT = "Your Hedge Edge License Key"
-RESEND_TEMPLATE_ID = "cb865ed2-575b-461a-9bb1-c0d9c6a4e08a"  # Resend dashboard template
 
 GITHUB_REPO = "Micha12344f/Hedge-Edge-App"
 APP_DOWNLOAD_URL = "https://link.hedgedge.info/download-app"
@@ -53,39 +48,9 @@ DASHBOARD_UTM_URL = (
 )
 
 
-def _build_unsubscribe_token(email: str) -> str:
-    if not UNSUBSCRIBE_SECRET:
-        return ""
-    return hmac.new(
-        UNSUBSCRIBE_SECRET.encode(),
-        email.lower().strip().encode(),
-        hashlib.sha256,
-    ).hexdigest()
-
-
-def _build_unsubscribe_url(email: str) -> str:
-    email_clean = email.lower().strip()
-    token = _build_unsubscribe_token(email_clean)
-    if not token:
-        return ""
-    return f"https://hedgedge.info/unsubscribe?email={quote(email_clean)}&token={token}"
-
-
-def _build_unsubscribe_api_url(email: str) -> str:
-    email_clean = email.lower().strip()
-    token = _build_unsubscribe_token(email_clean)
-    if not token:
-        return ""
-    return f"https://hedgedge.info/api/handle-unsubscribe?email={quote(email_clean)}&token={token}"
-
-
-def build_html(license_key: str, name: str = "", unsub_url: str = "") -> str:
+def build_html(license_key: str, name: str = "") -> str:
     greeting = f"Hi {html_mod.escape(name)}," if name else "Hi there,"
     safe_key = html_mod.escape(license_key)
-    unsub_html = ""
-    if unsub_url:
-        safe_unsub = html_mod.escape(unsub_url)
-        unsub_html = f'''<p style="margin:8px 0 0;font-size:11px;"><a href="{safe_unsub}" style="color:#aaaaaa;text-decoration:underline;">Unsubscribe</a></p>'''
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -155,7 +120,6 @@ def build_html(license_key: str, name: str = "", unsub_url: str = "") -> str:
             <td style="padding:20px 36px 24px;border-top:1px solid #eeeeee;">
               <p style="margin:0 0 6px;font-size:12px;color:#999999;line-height:1.5;">You are receiving this because you purchased a Hedge Edge license.</p>
               <p style="margin:0;font-size:11px;color:#aaaaaa;line-height:1.5;">Hedge Edge | hedgedge.info</p>
-              {unsub_html}
             </td>
           </tr>
         </table>
@@ -166,9 +130,8 @@ def build_html(license_key: str, name: str = "", unsub_url: str = "") -> str:
 </html>"""
 
 
-def build_plain_text(license_key: str, name: str = "", unsub_url: str = "") -> str:
+def build_plain_text(license_key: str, name: str = "") -> str:
     greeting = f"Hi {name}," if name else "Hi there,"
-    unsub_line = f"\n\n---\nUnsubscribe: {unsub_url}" if unsub_url else ""
     return f"""{greeting}
 
 Thank you for your purchase. Your Hedge Edge license is ready.
@@ -197,51 +160,28 @@ Want to manage your account? Sign in at:
 Need help? Just reply to this email.
 
 -- Hedge Edge
-hedgedge.info{unsub_line}"""
+hedgedge.info"""
 
 
 def send_license_confirmation(to: str, license_key: str, name: str = "") -> dict:
     """Send the license confirmation email via Resend. No Notion dependency."""
-    if not RESEND_API_KEY:
-        raise RuntimeError("RESEND_API_KEY not set in .env")
+    html_body = build_html(license_key, name=name)
+    text_body = build_plain_text(license_key, name=name)
 
-    unsub_url = _build_unsubscribe_url(to)
-    api_unsub_url = _build_unsubscribe_api_url(to)
-
-    html_body = build_html(license_key, name=name, unsub_url=unsub_url)
-    text_body = build_plain_text(license_key, name=name, unsub_url=unsub_url)
-
-    payload = {
-        "from": FROM_ADDR,
-        "to": [to],
-        "reply_to": REPLY_TO,
-        "subject": SUBJECT,
-        "html": html_body,
-        "text": text_body,
-        "tags": [
+    return send_email(
+        to=to,
+        subject=SUBJECT,
+        html=html_body,
+        text=text_body,
+        from_addr=FROM_ADDR,
+        reply_to=REPLY_TO,
+        tags=[
             {"name": "campaign", "value": "license-confirmation"},
             {"name": "type", "value": "transactional"},
         ],
-    }
-
-    # RFC 8058 List-Unsubscribe (required by Gmail/Yahoo since Feb 2024)
-    if api_unsub_url:
-        payload["headers"] = {
-            "List-Unsubscribe": f"<{api_unsub_url}>",
-            "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
-        }
-
-    r = requests.post(
-        "https://api.resend.com/emails",
-        headers={
-            "Authorization": f"Bearer {RESEND_API_KEY}",
-            "Content-Type": "application/json",
-        },
-        json=payload,
-        timeout=15,
+        include_unsubscribe=True,
+        respect_notion_unsubscribe=False,
     )
-    r.raise_for_status()
-    return r.json()
 
 
 if __name__ == "__main__":

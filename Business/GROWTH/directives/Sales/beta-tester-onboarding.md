@@ -82,9 +82,9 @@ Write a new row with the following fields:
 | `Tags` | `["Beta", "Beta Key Sent"]` |
 | `Priority` | `P1` / `P2` / `P3` |
 | `Sales Watchlist` | `false` by default; set `true` for high-intent signals |
-| `Beta Activated` | `false` |
+| `Beta Activated` | `false` — set to `true` ONLY when Platform Activation is confirmed (mt5/mt4/ctrader validation + persistent device). Desktop-only validation does NOT count. See `ANALYTICS/directives/platform-activation-indicator.md` |
 | `Beta Key Clicked` | `false` |
-| `Product Used` | `false` |
+| `Product Used` | `false` — set to `true` ONLY when Platform Activation is confirmed. This is the ULTIMATE CONVERSION INDICATOR |
 | `Lifecycle Owner` | `Marketing` |
 | `Notes` | Auto-generated: source + signup date |
 
@@ -96,6 +96,8 @@ After the record is created:
 3. If user does not activate within **14 days**, escalate to Sales for direct Discord/email outreach
 
 ## Activation Follow-Up Rules
+
+> **Critical**: "Activated" means **Platform Activated** — the user has a confirmed mt5/mt4/ctrader validation with a persistent device row. Opening the desktop app alone is NOT activation. Check `license_validation_logs` for `platform IN ('mt5', 'mt4', 'ctrader')` AND `license_devices` for a matching active device. See `ANALYTICS/directives/platform-activation-indicator.md`.
 
 | Days Since Key Sent | Action |
 |---|---|

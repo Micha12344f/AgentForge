@@ -25,6 +25,7 @@ import requests
 from requests_oauthlib import OAuth1
 
 load_dotenv(ROOT / ".env")
+load_dotenv(ROOT / "Business" / "GROWTH" / "resources" / ".env", override=True)
 
 # ---------------------------------------------------------------------------
 # Auth

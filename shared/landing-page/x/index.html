@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unlock Prop Firm Payouts using math, not luck | Hedge Edge</title>
+    <meta
+      name="description"
+      content="Mirror prop-firm trades to a personal broker account, reduce drawdown risk, and recover failed challenge fees with Hedge Edge."
+    />
+    <meta name="robots" content="noindex, follow" />
+    <link rel="canonical" href="https://hedgedge.info/x" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://hedgedge.info/x" />
+    <meta property="og:title" content="Unlock Prop Firm Payouts using math, not luck" />
+    <meta
+      property="og:description"
+      content="Mirror prop-firm trades to a personal broker account, reduce drawdown risk, and recover failed challenge fees."
+    />
+    <meta property="og:image" content="https://hedgedge.info/og-card-x.jpg" />
+    <meta property="og:image:url" content="https://hedgedge.info/og-card-x.jpg" />
+    <meta property="og:image:secure_url" content="https://hedgedge.info/og-card-x.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Unlock Prop Firm Payouts using math, not luck - Hedge Edge" />
+    <meta property="og:site_name" content="Hedge Edge" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://hedgedge.info/x" />
+    <meta name="twitter:site" content="@HedgEdgeinfo" />
+    <meta name="twitter:title" content="Unlock Prop Firm Payouts using math, not luck" />
+    <meta
+      name="twitter:description"
+      content="Mirror prop-firm trades, reduce drawdown risk, and recover failed challenge fees. MT5 EA + desktop app."
+    />
+    <meta name="twitter:image" content="https://hedgedge.info/og-card-x.jpg" />
+    <meta name="twitter:image:src" content="https://hedgedge.info/og-card-x.jpg" />
+    <meta name="twitter:image:alt" content="Unlock Prop Firm Payouts using math, not luck - Hedge Edge" />
+
+    <noscript>
+      <meta http-equiv="refresh" content="0; url=https://hedgedge.info/" />
+    </noscript>
+
+    <script>
+      (function() {
+        var SESSION_KEY = "hedge_utm_params";
+        var LOCAL_KEY = "hedge_utm_full";
+        var LEGACY_KEY = "hedge_utm";
+        var params = new URLSearchParams(window.location.search);
+        var sanitize = function(value) { return value.replace(/[{}]/g, ""); };
+        var currentPath = window.location.pathname.replace(/\/+$/, "") || "/x";
+        var data = {
+          utm_source: sanitize(params.get("utm_source") || "twitter"),
+          utm_medium: sanitize(params.get("utm_medium") || "social"),
+          utm_campaign: sanitize(params.get("utm_campaign") || "x-pinned-post"),
+          utm_content: sanitize(params.get("utm_content") || "pinned-cta"),
+          landing_url: currentPath,
+          landed_at: new Date().toISOString(),
+        };
+
+        var utmTerm = params.get("utm_term");
+        if (utmTerm) data.utm_term = sanitize(utmTerm);
+
+        var ref = params.get("ref");
+        if (ref) data.ref = sanitize(ref);
+
+        var json = JSON.stringify(data);
+
+        try {
+          if (!sessionStorage.getItem(SESSION_KEY)) {
+            sessionStorage.setItem(SESSION_KEY, json);
+          }
+        } catch (error) {}
+
+        try {
+          if (!localStorage.getItem(LOCAL_KEY)) {
+            localStorage.setItem(LOCAL_KEY, json);
+          }
+          localStorage.setItem(LEGACY_KEY, json);
+        } catch (error) {}
+
+        var destination = new URL("/", window.location.origin);
+        if (window.location.hash) {
+          destination.hash = window.location.hash;
+        }
+        window.location.replace(destination.toString());
+      })();
+    </script>
+  </head>
+  <body>
+    Redirecting to Hedge Edge...
+  </body>
+</html>

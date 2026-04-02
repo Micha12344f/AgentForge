@@ -10,6 +10,23 @@
 
 STRATEGY is the brain of Hedge Edge. It houses three domains: **Business Strategy** (where to go), **Legal & Compliance** (can we legally go there), and **Product** (what to build to get there).
 
+## Request Routing
+
+Use this routing layer before picking a hedge workflow:
+
+| User Request Type | Route To | Primary Docs / Assets | Use When |
+|---|---|---|---|
+| **Challenge request** | **Skill 15 — Prop Firm Hedge Arbitrage** | `directives/Business/prop-firm-hedge-arbitrage.md`, `executions/hedge_arbitrage_model.py`, `resources/PropFirmData/type_a_challenge_insurance.ipynb` | User is comparing challenge accounts, asking what challenge to buy, building challenge pairs, or adding a new challenge around an existing challenge account |
+| **Funded challenge request** | **Skill 15 — Type B / Type C funded continuation** | `resources/PropFirmData/type_b_funded_recovery.ipynb`, `resources/PropFirmData/type_c_funded_surplus.ipynb` | User already passed a challenge and wants funded-phase recovery, continuation, survival, or surplus protection |
+| **Instant-funded request** | **Skill 17 — Instant Funded Hedge Model** | `directives/Business/instant-funded-hedge-model.md`, `executions/build_model_input_db.py`, `resources/PropFirmData/type_c_instant_funded_hedge.ipynb` | User wants first-payout analysis for an instant-funded offer, or already holds a funded / instant-funded account and needs a hedge now |
+| **Budget-only purchase request** | **Skill 19 — Budget-Constrained Selection** | `SKILL.md` Skill 19 workflow | User gives a budget ceiling and asks what they can buy, unless they already hold a funded / instant-funded account |
+
+Routing rule:
+
+- If the user already has a live funded account, do **not** default to challenge-selection logic
+- If there is **no evaluation phase**, route to instant-funded
+- If the question starts **after challenge pass**, route to funded continuation (Type B / Type C), not challenge entry
+
 ---
 
 ### BUSINESS STRATEGY SKILLS
@@ -31,12 +48,16 @@ STRATEGY is the brain of Hedge Edge. It houses three domains: **Business Strateg
 
 #### Skill 15 — Prop Firm Hedge Arbitrage (CFD/Forex)
 - **Directive**: `directives/Business/prop-firm-hedge-arbitrage.md` — hedge arbitrage modelling SOP (EV, break-even, optimal hedge ratios)
-- **Executions**: `executions/propmatch_scraper.py` (Playwright scraper for PropMatch challenge data), `executions/hedge_arbitrage_model.py` (EV model, break-even, comparison matrix, full pipeline)
+- **Executions**: `executions/propmatch_scraper.py` (Playwright scraper for PropMatch challenge data), `executions/hedge_arbitrage_model.py` (EV model, break-even, comparison matrix, full pipeline), `executions/notebook_review_adjustment.py` (review-adjusted EV / payout / efficiency columns used by the notebook portfolio layer)
 - **Notebooks** (run in order or individually):
-  - `resources/PropFirmData/type_a_challenge_insurance.ipynb` — Type A: challenge-only insurance, 8% funded target, static/trailing DD, top-30 EV rankings, capital efficiency, sensitivity sweep
+  - `resources/PropFirmData/type_a_challenge_insurance.ipynb` — Type A: challenge-only insurance, 8% funded target, review-adjusted EV rankings, size-matched pair portfolio construction (default max 2.5x size ratio), pair frontier, Monte Carlo / drawdown path analysis, and existing-account add-on screens
   - `resources/PropFirmData/type_b_funded_recovery.ipynb` — Type B: extends Type A into 6 funded cycles (4% withdrawal, 80% survival, 1.5% drag); recovers full cost stack on failure
   - `resources/PropFirmData/type_c_funded_surplus.ipynb` — Type C: Type B + 2% surplus buffer; hedge covers stack + surplus, drag scales by (L+P)/L
 - **Resources**: `resources/PropFirmData/` — scraped JSON/CSV (`propmatch_challenges_*.json`), model outputs
+- **Operating notes**:
+  - Default ranking lens is `EV_review_adj`, not raw `EV`, whenever review data is available
+  - Static cross-firm portfolio pairs must be size-matched; do not pair very small and very large accounts in the same hedge basket
+  - Pair EV for the notebook portfolio layer is the average of the two winner states minus one challenge cost per side; do not sum both funded payouts as if both sides pay simultaneously
 
 #### Skill 16 — Futures Hedge Model
 - **Directive**: `directives/Business/futures-hedge-model.md` — futures-specific hedge model with trailing DD compounding, consistency rules, payout caps, and activation fees
@@ -49,7 +70,12 @@ STRATEGY is the brain of Hedge Edge. It houses three domains: **Business Strateg
 
 #### Skill 17 — Instant Funded Hedge Model
 - **Directive**: `directives/Business/instant-funded-hedge-model.md` — instant-funded account model for upfront-fee economics, static vs trailing funded drawdown, and optional consistency-rule stress testing
-- **Resources**: `resources/PropFirmData/instant_funded_hedge_model.ipynb` — interactive notebook ingesting scraped FX challenges filtered to `steps_label = Instant` and ranking first-payout EV (63 offers, 5% payout target, 100x leverage capital model)
+- **Executions**: `executions/propmatch_scraper.py --action scrape-challenges` (refresh FX + instant-funded rows), `executions/build_model_input_db.py` (materialises `v_instant_model`, `v_instant_model_eligible`, and `v_model_inputs` with hedgeability flags)
+- **Resources**: `resources/PropFirmData/type_c_instant_funded_hedge.ipynb` — interactive notebook for instant-funded first-payout modelling and hedge-now counterpart ranking for already-funded accounts
+- **Operating notes**:
+  - If the user already has a funded / instant-funded account and needs a hedge now, route here instead of the FX challenge notebooks
+  - Exclude intraday equity-trailing products; prefer static DD, fast payout cadence, different-firm counterparts, and size proximity (default ceiling: 2.5x)
+  - Current validated hedge-now screen: for an existing FundingPips 30k funded account, the best under a $500 upfront-fee cap was Instant Funding 25k static; the best EV under the same cap was Instant Funding 50k static
 
 #### Skill 18 — Consolidated Cross-Asset Hedge Analysis
 - **Directive**: `directives/Business/propfirm-consolidated-analysis.md` — SOP for running all 7 models (FX Type A/B/C + Futures Type A/B/C + Instant-Funded) in a single pipeline and generating a PDF report
@@ -62,6 +88,8 @@ STRATEGY is the brain of Hedge Edge. It houses three domains: **Business Strateg
 #### Skill 19 — Budget-Constrained Prop Firm Selection (Hedge-Adjusted)
 
 > **MANDATORY WORKFLOW** — Apply this skill whenever a user asks: "I have $X budget, what challenge should I get?", "what can I afford?", "I need money fast — what should I buy?", or any variant where a budget ceiling is given and a prop firm challenge is being selected.
+
+If the user already owns a funded or instant-funded account and is asking for an immediate hedge counterpart, do **not** route to this skill; use Skill 17 instead.
 
 **The core rule**: A stated budget of $X is **never interpreted as fee only**. It must be applied against the **full hedge cost stack** — the total capital consumed across all phases including challenge fees, activation fees (futures), and accumulated hedge losses. Only challenges where `total_hedge_cost ≤ $X` qualify.
 
@@ -110,7 +138,7 @@ total_hedge_cost = L + hedge_loss
 Default assumptions when live model is not run:
 - FX funded target: 8% of account
 - Futures funded target: 6% of account
-- Instant funded first-payout target: 5% of account
+- Instant funded first-payout target: 8% of account (current `type_c_instant_funded_hedge.ipynb` default)
 - FX spread friction: 0.03% per phase
 - Futures spread friction: $5/contract round-trip
 
@@ -202,6 +230,7 @@ If budget = $500:
 
 #### Skill 13 — Platform Integration
 - **Directive**: `directives/Product/platform-integration.md` — MT4/MT5/cTrader platform expansion
+- **Activation telemetry**: Every platform EA/cBot must send `platform`, `device_id`, `accountId`, `broker`, `instance_name` on validation. Platform Activation is the **ultimate conversion indicator** — rollout gates require ≥30% activation at alpha, ≥60% at GA. See `ANALYTICS/directives/platform-activation-indicator.md`
 
 ---
 
@@ -220,5 +249,5 @@ Imports from workspace-root `shared/`: `notion_client.py`, `supabase_client.py`,
 | ALL | Strategic direction, compliance guardrails | Execution data |
 | FINANCE | IB agreement terms, pricing models | MRR and commission data |
 | GROWTH | Positioning, messaging, target segments | User feedback, campaign results |
-| ANALYTICS | KPI targets, metric definitions | KPI actuals, trend data |
+| ANALYTICS | KPI targets, metric definitions, **Platform Activation Rate rollout gates** | KPI actuals, trend data, **Platform Activation status per user** |
 | ORCHESTRATOR | Release priorities, roadmap | Deploy capabilities |

@@ -18,10 +18,12 @@ Every department follows the same **D·O·E** pattern:
 |-------|--------|---------|
 | **Directives** | `directives/` | SOPs — what to do and why |
 | **Executions** | `executions/` | Python scripts — how to do it |
-| **Resources** | `resources/` | Reference material, configs, notebooks |
+| **Resources** | `resources/` | Reference material, configs, and notebooks; when a department defines terminal-only execution, those notebooks are reference artifacts rather than the live operating path |
 | **SKILL.md** | Root of dept | Skill Command Sheet — ties DOE together as adoptable skills |
 
 Each department's `SKILL.md` is the entry point. Read it to understand what skills you gain by adopting that department.
+
+If a department directive or `SKILL.md` defines a terminal-only execution rule, use the terminal workflow for live work and treat any linked notebooks as reference-only.
 
 ## Governance Model
 
@@ -36,7 +38,7 @@ Each department's `SKILL.md` is the entry point. Read it to understand what skil
 ```
 Business/
 ├── ANALYTICS/          Measurement engine — KPIs, attribution, funnels, reporting
-│   └── SKILL.md        9 skills: KPI snapshots, attribution, email analytics, GA4, funnels, licensing, pipelines, A/B tests, reporting
+│   └── SKILL.md        10 skills: KPI snapshots, attribution, email analytics, GA4, funnels, licensing, pipelines, A/B tests, reporting, platform activation
 │
 ├── FINANCE/            Money flows — revenue tracking, IB commissions, expenses, invoicing
 │   └── SKILL.md        5 skills: IB commissions, MRR tracking, expenses, financial reporting, invoicing

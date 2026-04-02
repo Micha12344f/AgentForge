@@ -15,6 +15,17 @@
 | Discord | Community | `shared/discord_client.py` |
 | Vercel | Landing page hosting | landing page deploy workflow |
 
+## X/Twitter System
+
+X is the primary awareness channel for Hedge Edge.
+
+| Asset | Purpose |
+|------|---------|
+| `executions/Marketing/auto_tweet.py` | Automated TOFU/MOFU queue posting |
+| `executions/Marketing/x_manager.py` | Validated posting, deletion, and resume flows |
+| `directives/Marketing/x-management.md` | Operating procedure and safety rules |
+| `resources/Marketing/x-strategy.md` | Channel positioning, content mix, and cadence |
+
 ## Key Notion Databases
 
 | DB Key | Purpose |

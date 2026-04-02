@@ -46,6 +46,7 @@ from dotenv import load_dotenv
 load_dotenv(os.path.join(_WS_ROOT, ".env"))
 
 import shared.notion_client as nc
+from shared.resend_client import send_email
 
 RESEND_API_KEY = os.getenv("RESEND_API_KEY")
 NOTION_TOKEN = os.getenv("NOTION_API_KEY") or os.getenv("NOTION_TOKEN")
@@ -550,25 +551,21 @@ def action_onboard(args):
             )
 
         _html_body = _plain_to_html(_personalised, first)
-        _resend_payload = {
-            "from":     "Ryan <hello@hedgedge.info>",
-            "to":       [email],
-            "reply_to": "reply@hedgedge.info",
-            "subject":  "Your Hedge Edge beta is live — here's what to do first",
-            "html":     _html_body,
-            "text":     _personalised,
-            "tags": [
-                {"name": "campaign",  "value": "Beta_Activation"},
-                {"name": "sequence",  "value": "Email_1"},
+        _result = send_email(
+            to=email,
+            subject="Your Hedge Edge beta is live — here's what to do first",
+            html=_html_body,
+            text=_personalised,
+            from_addr="Ryan <hello@hedgedge.info>",
+            reply_to="reply@hedgedge.info",
+            tags=[
+                {"name": "campaign", "value": "Beta_Activation"},
+                {"name": "sequence", "value": "Email_1"},
             ],
-        }
-        _r = _req.post(
-            "https://api.resend.com/emails",
-            headers={"Authorization": f"Bearer {RESEND_API_KEY}", "Content-Type": "application/json"},
-            json=_resend_payload, timeout=15
+            include_unsubscribe=True,
+            respect_notion_unsubscribe=True,
         )
-        _r.raise_for_status()
-        print(f"[3] Beta Activation Email 1 sent!  Resend ID: {_r.json().get('id')}")
+        print(f"[3] Beta Activation Email 1 sent!  Resend ID: {_result.get('id')}")
     except Exception as e:
         print(f"[3] WARNING: Email 1 send failed — {e}")
 

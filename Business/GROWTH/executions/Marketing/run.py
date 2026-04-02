@@ -109,6 +109,10 @@ TASKS: dict[str, dict] = {
         "script": os.path.join(_AGENT_DIR, "video_pipeline_manager.py"),
         "description": "Video production pipeline: script → film → edit → publish",
     },
+    "x-auto": {
+        "script": os.path.join(_AGENT_DIR, "auto_tweet.py"),
+        "description": "Run the automated X/Twitter TOFU-MOFU content pipeline",
+    },
     "x-post": {
         "script": os.path.join(_AGENT_DIR, "x_manager.py"),
         "description": "Post to X/Twitter with pre-send validation and scheduling",
@@ -153,6 +157,7 @@ _TASK_KEYWORDS: dict[str, list[str]] = {
     "retention":         ["retention", "churn", "at-risk", "re-engage", "win back"],
     "onboarding":        ["onboarding", "signup", "new user", "stuck user", "activation"],
     "video-pipeline":    ["video", "youtube", "script to film", "production pipeline"],
+    "x-auto":            ["auto tweet", "auto-post", "tweet pipeline", "x pipeline", "x auto", "twitter pipeline"],
     "x-post":            ["tweet", "x post", "twitter", "post to x"],
     "ticket-triage":     ["ticket", "support ticket", "triage", "overdue ticket"],    "beta-email-parse": ["beta email", "resend beta", "beta key email", "hot lead", "interested lead"],}
 
@@ -223,6 +228,7 @@ _DEFAULT_ACTIONS: dict[str, str] = {
     "retention":        "retention-report",
     "onboarding":       "onboarding-status",
     "video-pipeline":   "pipeline-report",
+    "x-auto":           "dry-run",
     "x-post":           "dry-run",
     "ticket-triage":    "ticket-report",
     "beta-email-parse": "hot-leads",
@@ -245,7 +251,24 @@ def cmd_run(task: str, action: str, extra: list[str]) -> None:
         print(f"❌ Script not found: {script}")
         sys.exit(1)
 
-    cmd = [sys.executable, script, "--action", action, *extra]
+    if task == "x-auto":
+        cmd = [sys.executable, script]
+        if action == "status":
+            cmd.append("--status")
+        elif action == "preview":
+            cmd.append("--preview")
+        elif action == "dry-run":
+            cmd.append("--dry-run")
+        elif action == "post":
+            pass
+        else:
+            print(f"❌ Unsupported action for x-auto: {action}")
+            print("   Supported: status, preview, dry-run, post")
+            sys.exit(1)
+        cmd.extend(extra)
+    else:
+        cmd = [sys.executable, script, "--action", action, *extra]
+
     result = retry_subprocess(
         cmd,
         max_retries=2,

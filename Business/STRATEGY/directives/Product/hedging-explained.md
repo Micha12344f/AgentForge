@@ -80,11 +80,15 @@ The expression on the left stays the same. The meaning of the value term changes
 
 There are four core hedge types worth separating.
 
+### Execution Rule
+
+Live Hedge Edge workflows should be executed from the terminal, not by opening notebooks. Treat the notebooks below as reference-only artifacts. If a hedge flow exists only in notebook form, port it into a terminal script before using it for live work.
+
 ### Type A. Challenge-Only Insurance Hedge
 
-This is the base model already implemented in the challenge notebook.
+This is the base model implemented in the terminal model engine; the notebook is reference-only.
 
-**Interactive model:** [`type_a_challenge_insurance.ipynb`](../PropFirmData/type_a_challenge_insurance.ipynb)
+**Reference notebook (do not run for live workflows):** [`type_a_challenge_insurance.ipynb`](../PropFirmData/type_a_challenge_insurance.ipynb)
 
 Structure:
 
@@ -137,7 +141,7 @@ This is the formula the current challenge model primarily uses.
 
 This is what you mean by continuing to hedge at funded with the challenge losses and challenge costs included.
 
-**Interactive model:** [`type_b_funded_recovery.ipynb`](../PropFirmData/type_b_funded_recovery.ipynb)
+**Reference notebook (do not run for live workflows):** [`type_b_funded_recovery.ipynb`](../PropFirmData/type_b_funded_recovery.ipynb)
 
 Structure:
 
@@ -210,7 +214,7 @@ The important conceptual shift is this: in Type B, challenge costs are no longer
 
 This is your variant where you keep hedging at funded, but you deliberately oversize the hedge so that a losing challenge or a funded-account failure does not just recover costs, it also leaves surplus profit.
 
-**Interactive model:** [`type_c_funded_surplus.ipynb`](../PropFirmData/type_c_funded_surplus.ipynb)
+**Reference notebook (do not run for live workflows):** [`type_c_funded_surplus.ipynb`](../PropFirmData/type_c_funded_surplus.ipynb)
 
 Structure:
 
@@ -779,10 +783,10 @@ The cleanest way to think about prop firm hedging is this:
 - Model engine: `Business/STRATEGY/executions/hedge_arbitrage_model.py`
 - Scraper: `Business/STRATEGY/executions/propmatch_scraper.py`
 - Data outputs: `Business/STRATEGY/resources/PropFirmData/`
-- Original notebook (all models): `Business/STRATEGY/resources/PropFirmData/hedge_arbitrage_model.ipynb`
-- Type A notebook (challenge-only insurance): `Business/STRATEGY/resources/PropFirmData/type_a_challenge_insurance.ipynb`
-- Type B notebook (funded-continuation recovery): `Business/STRATEGY/resources/PropFirmData/type_b_funded_recovery.ipynb`
-- Type C notebook (funded-continuation surplus): `Business/STRATEGY/resources/PropFirmData/type_c_funded_surplus.ipynb`
+- Original notebook (all models, reference only): `Business/STRATEGY/resources/PropFirmData/hedge_arbitrage_model.ipynb`
+- Type A notebook (challenge-only insurance, reference only): `Business/STRATEGY/resources/PropFirmData/type_a_challenge_insurance.ipynb`
+- Type B notebook (funded-continuation recovery, reference only): `Business/STRATEGY/resources/PropFirmData/type_b_funded_recovery.ipynb`
+- Type C notebook (funded-continuation surplus, reference only): `Business/STRATEGY/resources/PropFirmData/type_c_funded_surplus.ipynb`
 
 ## 21. Final Standard
 
@@ -793,3 +797,4 @@ Ask:
 "Which hedge type am I building, how does that change the EV formula, and which challenge gives me the best funded upside for the lowest total cost, lowest operational fragility, and lowest capital strain while staying inside the rules?"
 
 That is how Hedge Edge should think about prop firm hedging.
+Run it from the terminal.

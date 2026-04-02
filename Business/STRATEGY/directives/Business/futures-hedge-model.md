@@ -29,6 +29,16 @@ structural ways that change hedge economics:
 - When updating the model after scraping new PropFirmMatch futures data
 - When a user asks about hedging futures-specific rules
 
+## Execution Rule
+
+Run futures workflows from the terminal only.
+
+```bash
+python Business/STRATEGY/executions/propmatch_scraper.py --action scrape-futures
+```
+
+Do not execute futures notebooks for live analysis. If a futures variant still exists only as notebook logic, port it into a terminal script before running it.
+
 ## Input Specification
 
 | Input | Type | Required | Description |
@@ -160,7 +170,7 @@ Rank futures challenges by:
 ## Execution Scripts
 
 - `executions/propmatch_scraper.py --action scrape-futures` — Futures challenge data
-- `resources/PropFirmData/futures_hedge_model.ipynb` — Interactive notebook with visualisations
+- `resources/PropFirmData/futures_hedge_model.ipynb` — Reference notebook with visualisations only; do not run it for live workflows
 
 ## Resources
 
@@ -174,6 +184,7 @@ Rank futures challenges by:
 - [ ] Model handles trailing DD compounding correctly
 - [ ] Consistency rule adjusts minimum trading days
 - [ ] Payout cap and threshold are reflected in capital efficiency
-- [ ] Notebook produces comparison table, bar chart, sensitivity sweep
+- [ ] Terminal workflow produces comparison table, bar chart, sensitivity sweep
 - [ ] At least 1 hand-verified example matches (e.g., Tradeify 50K: fee ~$97, target $3K, DD $2K)
 - [ ] Outputs saved to `resources/PropFirmData/`
+- [ ] No notebook execution is used for live futures analysis

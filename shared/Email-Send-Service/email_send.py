@@ -413,6 +413,8 @@ def step8_send_and_log(prepared, now, dry_run):
                     {"name": "campaign", "value": campaign["name"]},
                     {"name": "sequence", "value": seq["name"]},
                 ],
+                include_unsubscribe=True,
+                respect_notion_unsubscribe=False,
             )
             resend_id = resp.get("id", "")
 

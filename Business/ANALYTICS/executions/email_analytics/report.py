@@ -1,17 +1,101 @@
 """
-report.py — Interactive email marketing analytics report for the Analytics Agent.
+report.py — Email marketing analytics report for the Analytics Agent.
 
-Run from the repo root with PYTHONPATH set to the skill root:
+Pulls campaign, template, and lead engagement data from Notion and prints
+formatted summaries for campaign health, sequence funnels, and lead segments.
 
-    $env:PYTHONPATH = "<repo>/Hedge Edge Business/IDE 1/agents/ANALYTICS/Analytics Agent/.agents/skills/Email-marketing analytics"
-    .venv/Scripts/python.exe "Hedge Edge Business/IDE 1/agents/ANALYTICS/Analytics Agent/.agents/skills/Email-marketing analytics/execution/report.py"
-
-The report dynamically fetches all campaigns and templates at runtime — no hardcoded names.
+Usage:
+    python -m Business.ANALYTICS.executions.email_analytics.report
 """
 
-from .campaigns import read_campaign_metrics
-from .templates import read_template_metrics
-from .leads import read_lead_engagement
+import os
+import sys
+
+_EXEC_DIR = os.path.dirname(os.path.abspath(__file__))
+_WORKSPACE = os.path.abspath(os.path.join(_EXEC_DIR, *(['..'] * 4)))
+if _WORKSPACE not in sys.path:
+    sys.path.insert(0, _WORKSPACE)
+
+from shared.notion_client import query_db
+
+
+# ──────────────────────────────────────────────
+# Data Access (replaces old non-existent sub-modules)
+# ──────────────────────────────────────────────
+
+def read_campaign_metrics() -> list[dict]:
+    """Pull campaign rows from Notion campaigns DB."""
+    rows = query_db("campaigns", page_size=50)
+    results = []
+    for row in rows:
+        results.append({
+            "name": row.get("Name") or row.get("Campaign Name") or "",
+            "status": row.get("Status") or "Unknown",
+            "total_sent": int(row.get("Emails Sent") or 0),
+            "total_delivered": int(row.get("Delivered") or 0),
+            "total_bounced": int(row.get("Bounced") or 0),
+            "total_opened": int(row.get("Opened") or 0),
+            "total_clicked": int(row.get("Clicked") or 0),
+            "total_replied": int(row.get("Replied") or 0),
+            "invisible_fail_count": max(0, int(row.get("Emails Sent") or 0) - int(row.get("Delivered") or 0) - int(row.get("Bounced") or 0)),
+            "delivery_rate_pct": round(int(row.get("Delivered") or 0) / max(int(row.get("Emails Sent") or 0), 1) * 100, 1),
+        })
+    return results
+
+
+def read_template_metrics() -> list[dict]:
+    """Pull email sequence/template metrics from Notion email_sequences DB."""
+    rows = query_db("email_sequences", page_size=50)
+    results = []
+    for idx, row in enumerate(rows, start=1):
+        sent = int(row.get("Sent Count") or row.get("Total Sent") or row.get("Emails Count") or 0)
+        delivered = int(row.get("Delivered Count") or row.get("Total Delivered") or 0)
+        results.append({
+            "template_name": row.get("Template") or row.get("Name") or "",
+            "subject_line": row.get("Subject Line") or "",
+            "sent_count": sent,
+            "delivered_count": delivered,
+            "opened_count": int(row.get("Opened Count") or row.get("Total Opened") or 0),
+            "clicked_count": int(row.get("Clicked Count") or row.get("Total Clicked") or 0),
+            "replied_count": int(row.get("Replied Count") or row.get("Total Replied") or 0),
+            "invisible_fail_count": max(0, sent - delivered - int(row.get("Bounced Count") or 0)),
+            "delivery_rate_pct": round(delivered / max(sent, 1) * 100, 1),
+            "open_rate": row.get("Open Rate") or 0,
+            "click_rate": row.get("Click Rate") or 0,
+            "reply_rate": row.get("Reply Rate") or 0,
+            "seq_num": idx,
+        })
+    return results
+
+
+def read_lead_engagement() -> list[dict]:
+    """Pull lead engagement data from Notion email_sends (Leads DB)."""
+    rows = query_db("email_sends", page_size=200)
+    results = []
+    for row in rows:
+        status = (row.get("Last Email Status") or "Unknown").lower()
+        opens = int(row.get("Opens") or row.get("Total Opens") or (1 if status in ("opened", "clicked") else 0))
+        clicks = int(row.get("Clicks") or row.get("Total Clicks") or (1 if status == "clicked" else 0))
+        unsubscribed = row.get("Unsubscribed", False)
+
+        if clicks > 0:
+            segment = "Hot"
+        elif opens >= 2:
+            segment = "Warm"
+        elif status == "bounced" or unsubscribed:
+            segment = "Invalid"
+        else:
+            segment = "Cold"
+
+        results.append({
+            "email": row.get("Email") or row.get("Name") or "",
+            "status": row.get("Last Email Status") or "Unknown",
+            "total_opens": opens,
+            "total_clicks": clicks,
+            "unsubscribed": unsubscribed,
+            "segment": segment,
+        })
+    return results
 
 
 def _pct(numerator, denominator):

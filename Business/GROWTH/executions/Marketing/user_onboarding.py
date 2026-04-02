@@ -31,13 +31,17 @@ SOURCES = ("discord", "landing-page", "referral", "ads")
 PLANS = ("free-trial", "starter", "pro", "enterprise")
 
 ONBOARDING_STEPS = [
-    {"key": "account_created",   "label": "Account created",     "order": 1},
-    {"key": "email_verified",    "label": "Email verified",       "order": 2},
-    {"key": "discord_joined",    "label": "Joined Discord",       "order": 3},
-    {"key": "ea_downloaded",     "label": "EA downloaded",        "order": 4},
-    {"key": "broker_connected",  "label": "Broker connected",     "order": 5},
-    {"key": "first_hedge",       "label": "First hedge executed", "order": 6},
+    {"key": "account_created",      "label": "Account created",                    "order": 1},
+    {"key": "email_verified",       "label": "Email verified",                      "order": 2},
+    {"key": "discord_joined",       "label": "Joined Discord",                      "order": 3},
+    {"key": "ea_downloaded",        "label": "EA downloaded",                       "order": 4},
+    {"key": "broker_connected",     "label": "Broker connected",                    "order": 5},
+    {"key": "platform_activated",   "label": "Platform Activated (ULTIMATE CONV.)", "order": 6},
+    {"key": "first_hedge",          "label": "First hedge executed",                "order": 7},
 ]
+# NOTE: "platform_activated" is the ULTIMATE CONVERSION INDICATOR.
+# It requires a confirmed mt5/mt4/ctrader validation with a persistent device row.
+# Desktop-only validation does NOT count. See: ANALYTICS/directives/platform-activation-indicator.md
 
 
 def _today():

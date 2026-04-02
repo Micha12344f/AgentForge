@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { createClient } from "@supabase/supabase-js";
+import { appendUnsubscribeHtml, buildUnsubscribeHeaders } from "./_unsubscribe";
 
 // Pool placeholder — keys with this email are "available" for claiming
 const POOL_PLACEHOLDER = "pool-unassigned@beta.hedgedge-internal";
@@ -210,7 +211,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const firstName = ((name || "Trader") as string).replace(/[<>&"']/g, "");
 
   try {
-    const html = buildKeyEmail(firstName, licenseKey);
+    const html = appendUnsubscribeHtml(buildKeyEmail(firstName, licenseKey), normalizedEmail);
 
     const r = await fetch("https://api.resend.com/emails", {
       method: "POST",
@@ -224,6 +225,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         reply_to: "reply@hedgedge.info",
         subject: "🔑 Your Beta Key — Activate Within 48 Hours",
         html,
+        headers: buildUnsubscribeHeaders(normalizedEmail),
       }),
     });
 

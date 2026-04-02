@@ -2,14 +2,10 @@
 """Send a personalized beta feedback check-in to current external beta users."""
 
 import argparse
-import hashlib
-import hmac
 import os
 import re
 import sys
-import requests
 from datetime import datetime, timezone
-from urllib.parse import quote
 
 
 def _find_workspace_root() -> str:
@@ -30,6 +26,7 @@ from dotenv import load_dotenv
 load_dotenv(os.path.join(WORKSPACE_ROOT, ".env"), override=True)
 
 from shared.notion_client import log_task
+from shared.resend_client import RecipientUnsubscribedError, send_email
 from shared.supabase_client import get_supabase
 
 try:
@@ -42,8 +39,6 @@ CAL_LINK = "https://cal.eu/hedgedge/30min"
 FROM_ADDR = "Hedge Edge <hello@hedgedge.info>"
 REPLY_TO = "reply@hedgedge.info"
 POOL_PLACEHOLDER = "pool-unassigned@beta.hedgedge-internal"
-RESEND_API_KEY = os.getenv("RESEND_API_KEY", "")
-UNSUBSCRIBE_SECRET = os.getenv("UNSUBSCRIBE_SECRET", "")
 INTERNAL_DOMAINS = {"hedgeedge.com", "hedge-edge.com", "hedgedge.info"}
 INTERNAL_EMAILS = {
     "sossionryan@gmail.com",
@@ -79,32 +74,6 @@ def _recipient_name_map(limit: int = 300) -> dict[str, dict]:
     except Exception:
         return {}
     return {row["email"].strip().lower(): row for row in recipients}
-
-
-def _build_unsubscribe_token(email: str) -> str:
-    if not UNSUBSCRIBE_SECRET:
-        return ""
-    return hmac.new(
-        UNSUBSCRIBE_SECRET.encode("utf-8"),
-        email.lower().strip().encode("utf-8"),
-        hashlib.sha256,
-    ).hexdigest()
-
-
-def _build_unsubscribe_api_url(email: str) -> str:
-    token = _build_unsubscribe_token(email)
-    if not token:
-        return ""
-    email_clean = email.lower().strip()
-    return f"https://hedgedge.info/api/handle-unsubscribe?email={quote(email_clean)}&token={token}"
-
-
-def _build_unsubscribe_url(email: str) -> str:
-    token = _build_unsubscribe_token(email)
-    if not token:
-        return ""
-    email_clean = email.lower().strip()
-    return f"https://hedgedge.info/unsubscribe?email={quote(email_clean)}&token={token}"
 
 
 def fetch_current_beta_users(include_internal: bool = False) -> list[dict]:
@@ -187,9 +156,6 @@ def build_text(user: dict) -> str:
     else:
         intro = "Wanted to check in now that you have beta access and see how your experience with Hedge Edge is going so far."
 
-    unsubscribe_url = _build_unsubscribe_url(user["email"])
-    unsubscribe_line = f"\n\nUnsubscribe: {unsubscribe_url}" if unsubscribe_url else ""
-
     return (
         f"{greeting}\n\n"
         f"{intro}\n\n"
@@ -200,47 +166,23 @@ def build_text(user: dict) -> str:
         "Best,\n"
         "Ryan\n\n"
         "Reply directly to this email if you'd rather send feedback asynchronously."
-        f"{unsubscribe_line}"
     )
 
 
 def send_text_email(user: dict) -> dict:
-    if not RESEND_API_KEY:
-        raise RuntimeError("RESEND_API_KEY not set in .env")
-
-    unsubscribe_api_url = _build_unsubscribe_api_url(user["email"])
-    headers = None
-    if unsubscribe_api_url:
-        headers = {
-            "List-Unsubscribe": f"<{unsubscribe_api_url}>",
-            "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
-        }
-
-    payload = {
-        "from": FROM_ADDR,
-        "to": [user["email"]],
-        "subject": build_subject(user.get("first_name", "")),
-        "text": build_text(user),
-        "reply_to": REPLY_TO,
-        "tags": [
+    return send_email(
+        to=user["email"],
+        subject=build_subject(user.get("first_name", "")),
+        text=build_text(user),
+        from_addr=FROM_ADDR,
+        reply_to=REPLY_TO,
+        tags=[
             {"name": "campaign", "value": "beta-feedback-checkin"},
             {"name": "cohort", "value": "current-beta"},
         ],
-    }
-    if headers:
-        payload["headers"] = headers
-
-    response = requests.post(
-        "https://api.resend.com/emails",
-        headers={
-            "Authorization": f"Bearer {RESEND_API_KEY}",
-            "Content-Type": "application/json",
-        },
-        json=payload,
-        timeout=15,
+        include_unsubscribe=True,
+        respect_notion_unsubscribe=True,
     )
-    response.raise_for_status()
-    return response.json()
 
 
 def main() -> int:
@@ -289,6 +231,7 @@ def main() -> int:
 
     print()
     sent = []
+    skipped = []
     failed = []
     for user in recipients:
         try:
@@ -296,18 +239,24 @@ def main() -> int:
             resend_id = result.get("id", "")
             sent.append({"email": user["email"], "resend_id": resend_id})
             print(f"  Sent to {user['email']}  resend_id={resend_id}")
+        except RecipientUnsubscribedError as exc:
+            skipped.append({"email": user["email"], "reason": str(exc)})
+            print(f"  SKIPPED {user['email']}  reason={exc}")
         except Exception as exc:
             failed.append({"email": user["email"], "error": str(exc)})
             print(f"  FAILED {user['email']}  error={exc}")
 
-    summary = f"Sent {len(sent)} beta feedback email(s); failed={len(failed)}"
+    summary = f"Sent {len(sent)} beta feedback email(s); skipped={len(skipped)}; failed={len(failed)}"
     log_task(
         "Marketing",
         "beta-feedback-outreach",
         status="Complete" if not failed else "In Progress",
         priority="P2",
         output_summary=summary,
-        error="; ".join(f"{row['email']}: {row['error']}" for row in failed),
+        error="; ".join(
+            [f"{row['email']}: {row['error']}" for row in failed]
+            + [f"{row['email']}: {row['reason']}" for row in skipped]
+        ),
     )
 
     print()

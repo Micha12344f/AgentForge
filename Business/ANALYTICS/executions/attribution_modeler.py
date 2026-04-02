@@ -122,7 +122,7 @@ def main():
     elif args.action == "summary":
         summary()
 
-    log_task("Analytics", "attribution", args.action, "success")
+    log_task("Analytics", f"attribution/{args.action}", "Complete", "P2")
 
 
 if __name__ == "__main__":

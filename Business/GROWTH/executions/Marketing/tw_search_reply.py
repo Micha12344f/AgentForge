@@ -40,6 +40,7 @@ if _WS_ROOT not in sys.path:
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__))))
 from dotenv import load_dotenv
 load_dotenv(os.path.join(_WS_ROOT, ".env"))
+load_dotenv(os.path.join(_WS_ROOT, "Business", "GROWTH", "resources", ".env"), override=True)
 
 import nodriver as uc
 from nodriver.cdp import input_ as cdp_input

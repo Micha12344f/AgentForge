@@ -1,0 +1,15 @@
+FROM mcr.microsoft.com/playwright/python:v1.58.0-jammy
+
+WORKDIR /app
+
+COPY Business/GROWTH/executions/Marketing/linkedin_bot_requirements.txt /tmp/linkedin-bot-requirements.txt
+RUN pip install --no-cache-dir -r /tmp/linkedin-bot-requirements.txt
+
+COPY Business /app/Business
+COPY shared /app/shared
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONPATH=/app \
+    PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+
+CMD ["python", "Business/GROWTH/executions/Marketing/linkedin_bot_service.py"]

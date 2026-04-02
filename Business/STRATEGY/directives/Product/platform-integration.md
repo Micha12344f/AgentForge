@@ -85,6 +85,15 @@ Write a platform integration spec in Notion with:
 - Multi-account mapping: If 3 prop accounts trade EURUSD simultaneously, how are hedges distributed across personal accounts?
 - Lot size normalization across platforms with different precision
 
+**Platform Activation Telemetry** (MANDATORY for all platform integrations):
+- Every platform EA/cBot MUST send `platform` (mt5/mt4/ctrader), `device_id`, `accountId`, `broker`, and `instance_name` on every validation call
+- Platform Activation is the **ultimate conversion indicator** — a user is only truly converted when they have a confirmed platform validation with a persistent device row
+- Desktop-only validation (`platform = desktop` or `platform = unknown`) does NOT count as activation
+- Future: implement explicit `ea_connected` event distinct from license validation, fired when the EA successfully attaches to a chart
+- Future: capture `chart_symbol` (e.g. EURUSD) to confirm active trading setup
+- See `ANALYTICS/directives/platform-activation-indicator.md` for the canonical definition, confidence tiers, and verification checklist
+- Rollout gates for new platforms MUST include Platform Activation Rate thresholds: ≥30% at closed alpha, ≥60% at GA
+
 **Compliance Layer**:
 - Each platform integration must include prop firm rule checking:
   - Maximum daily drawdown proximity check before allowing new hedges
@@ -121,6 +130,7 @@ Each platform integration follows a phased rollout:
 - Multi-account support enabled
 - Edge case testing: partial closes, SL/TP modifications, broker disconnects
 - Daily monitoring of hedge success rate and latency
+- **Platform Activation Rate must reach ≥30%** among alpha testers (activation = mt5/mt4/ctrader validation with persistent device, NOT desktop-only)
 - Feedback collected via dedicated Discord thread
 
 **Phase 3 - Open Beta (4-6 weeks)**:
@@ -134,6 +144,7 @@ Each platform integration follows a phased rollout:
 - Landing page updated with platform support
 - IB broker partnerships confirmed for the platform
 - Support documentation published
+- **Platform Activation Rate must reach ≥60%** across all users on this platform
 
 ### 5. Edge Case Resolution
 

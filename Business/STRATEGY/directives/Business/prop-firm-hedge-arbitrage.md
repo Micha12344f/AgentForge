@@ -23,6 +23,17 @@ Quantify the economic advantage of hedging prop firm challenges using a determin
 - When refreshing the competitive landscape of prop firm challenge economics
 - When preparing investor materials that demonstrate the product's value proposition
 
+## Execution Rule
+
+Run challenge hedge workflows from the terminal only.
+
+```bash
+python Business/STRATEGY/executions/propmatch_scraper.py --action scrape-challenges
+python Business/STRATEGY/executions/hedge_arbitrage_model.py --action full
+```
+
+Treat notebooks under `resources/PropFirmData/` as reference-only artifacts. If portfolio, Monte Carlo, or add-on screening logic still exists only in a notebook, port it into terminal-side Python before using it for live work.
+
 ## Input Specification
 
 | Input | Type | Required | Description |
@@ -71,7 +82,7 @@ Quantify the economic advantage of hedging prop firm challenges using a determin
 | fee_original | float | 545.00 |
 | currency | string | "USD" |
 
-For instant-funded rows (`steps_label = "Instant"`), `profit_targets` will often be empty because there is no challenge target before funding. Those rows are modelled separately in `instant-funded-hedge-model.md` and `resources/PropFirmData/instant_funded_hedge_model.ipynb`.
+For instant-funded rows (`steps_label = "Instant"`), `profit_targets` will often be empty because there is no challenge target before funding. Those rows are modelled separately in `instant-funded-hedge-model.md`; `resources/PropFirmData/type_c_instant_funded_hedge.ipynb` is reference-only and not part of the live workflow.
 
 ### Phase 2: Phase-Based Fee-Insurance Modelling
 
@@ -139,6 +150,26 @@ Rank all scraped challenges by:
 
 Group by account size tier. Output as markdown table + JSON.
 
+#### 2g — Terminal Portfolio Layer (Current Operating Standard)
+
+The base execution model lives in `executions/hedge_arbitrage_model.py`, and the live portfolio workflow must also run from terminal-side Python. `executions/notebook_review_adjustment.py` provides review-adjusted EV / payout / efficiency overlays reused by the terminal portfolio layer. `resources/PropFirmData/type_a_challenge_insurance.ipynb` remains reference-only.
+
+Current operating rules:
+
+- Default ranking uses `EV_review_adj` whenever review data exists; raw `EV` is secondary
+- Static pair portfolios must be **size-matched**; default ceiling is 2.5x between the two account sizes
+- Pair EV must be computed from the **two winner states**:
+
+```text
+pair_ev = avg(review_adjusted_payout_A, review_adjusted_payout_B)
+          - single_challenge_cost_A
+          - single_challenge_cost_B
+```
+
+- Do not sum both funded payouts as if both sides cash out on the same cycle
+- For users who already hold a challenge account, treat the held account cost as sunk and rank add-on accounts by: fewer steps first, then median pair EV, then payout asymmetry, then size fit
+- A valid portfolio layer should support pair frontier, Monte Carlo VaR / CVaR, and sequential deployment drawdown analysis from terminal scripts or terminal-side Python modules
+
 ### Phase 3: Report Generation
 
 1. Produce per-size markdown reports with full workings
@@ -150,10 +181,12 @@ Group by account size tier. Output as markdown table + JSON.
 
 - `executions/propmatch_scraper.py` — Playwright-based PropMatch challenge scraper
 - `executions/hedge_arbitrage_model.py` — Deterministic EV, break-even payout, funded target sensitivity, capital requirements, comparison matrix
+- `executions/notebook_review_adjustment.py` — review-adjusted EV / payout / efficiency overlays used by the terminal portfolio layer
 
 ## Resources
 
 - `resources/PropFirmData/` — Scraped JSON data, model outputs, comparison matrices
+- `resources/PropFirmData/type_a_challenge_insurance.ipynb` — FX Type A reference notebook only; do not run it for live workflows
 - `resources/Product/hedging-explained.md` — Hedge mechanics reference
 - `resources/hedge-edge-business-context.md` — Prop firm economics (fees, failure rates, payout splits)
 
@@ -165,6 +198,9 @@ Group by account size tier. Output as markdown table + JSON.
 - [ ] Break-even payout % is positive and below funded target for profitable firms
 - [ ] Capital requirements are positive and scale with account size
 - [ ] Comparison matrix ranks challenges with all expected columns
+- [ ] Review-adjusted EV columns are available when review metadata exists
+- [ ] Static portfolio pairs in the terminal portfolio layer respect size matching and winner-state averaging
+- [ ] No notebook execution is used for live FX challenge analysis
 - [ ] Hand-verified example matches (e.g., The5ers 100K: fee ≈ $518, target = 13%, DD = 10%, split = 80%)
 - [ ] Full pipeline (scrape → model → compare → report) completes end-to-end
 - [ ] All outputs saved to `resources/PropFirmData/` in both markdown and JSON

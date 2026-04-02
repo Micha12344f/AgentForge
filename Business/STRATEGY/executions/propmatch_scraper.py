@@ -6,11 +6,12 @@ Comprehensive scraper for propfirmmatch.com.
 Extracts FX challenges, Futures, firm details, and rules.
 
 Actions:
-  --action scrape-challenges   FX challenge table (all steps + pagination)
-  --action scrape-futures      Futures challenge table
-  --action scrape-firms        Firm detail pages (leverage, rules, variants)
-  --action scrape-rules        Prop firm rules pages
-  --action scrape-all          All scrapers in sequence
+  --action scrape-challenges      FX challenge table (all steps + pagination)
+  --action scrape-futures         Futures challenge table
+  --action scrape-firms           Firm detail pages (leverage, rules, variants)
+  --action scrape-rules           Prop firm rules pages
+  --action scrape-missing-panels  Re-scrape panels for quarantined rows (NULL drawdown_type)
+  --action scrape-all             All scrapers in sequence
 
 Flags:
   --login        Pause for manual Google login before scraping
@@ -41,9 +42,9 @@ CHALLENGES_URL = f"{BASE_URL}/prop-firm-challenges"
 FUTURES_URL = f"{BASE_URL}/futures/prop-firm-challenges"
 RULES_URL = f"{BASE_URL}/prop-firm-rules"
 
-STEP_TYPES = ["1_Step", "2_Steps", "3_Steps", "Instant"]
+STEP_TYPES = ["1_Step", "2_Steps", "3_Steps", "4_Steps", "Instant"]
 FUTURES_ACCOUNT_SIZES = [25000, 50000, 75000, 100000, 150000, 200000, 250000, 300000]
-MAX_PAGES_DEFAULT = 10
+MAX_PAGES_DEFAULT = 100
 PAGE_DELAY = 2.0
 
 
@@ -90,15 +91,27 @@ def _parse_fee(text: str) -> tuple[float | None, float | None, str]:
 
 
 def _parse_size(text: str) -> int | None:
-    """Parse '100K' or '$100,000' into integer."""
-    text = text.strip().upper()
-    m = re.search(r'(\d+)K', text)
-    if m:
-        return int(m.group(1)) * 1000
-    m = re.search(r'[\d,]+', text.replace(',', ''))
-    if m:
-        val = int(m.group())
-        return val * 1000 if val < 1000 else val
+    """Parse account-size labels like '100K', '2.5K', '625S', or '$100,000'."""
+    text = (text or "").strip().upper()
+    if not text:
+        return None
+
+    compact = text.replace(",", "").replace("$", "").strip()
+
+    suffix_match = re.search(r'(\d+(?:\.\d+)?)\s*([KMS])\b', compact)
+    if suffix_match:
+        value = float(suffix_match.group(1))
+        suffix = suffix_match.group(2)
+        if suffix == 'K':
+            return int(round(value * 1000))
+        if suffix == 'M':
+            return int(round(value * 1_000_000))
+        if suffix == 'S':
+            return int(round(value))
+
+    number_match = re.search(r'\d+(?:\.\d+)?', compact)
+    if number_match:
+        return int(round(float(number_match.group())))
     return None
 
 
@@ -127,8 +140,14 @@ def _parse_consistency(text: str) -> dict:
 # Browser management
 # ──────────────────────────────────────────────
 
-def _launch_browser(pw):
-    """Launch Chromium with persistent profile for login state."""
+def _launch_browser(pw, cdp_url=None):
+    """Launch Chromium with persistent profile, or connect to existing browser via CDP."""
+    if cdp_url:
+        browser = pw.chromium.connect_over_cdp(cdp_url)
+        ctx = browser.contexts[0] if browser.contexts else browser.new_context()
+        page = ctx.pages[0] if ctx.pages else ctx.new_page()
+        return ctx, page
+
     os.makedirs(PROFILE_DIR, exist_ok=True)
     ctx = pw.chromium.launch_persistent_context(
         user_data_dir=PROFILE_DIR,
@@ -352,6 +371,293 @@ def _disable_discounts(page) -> bool:
     return toggled
 
 
+def _set_discount_toggle(page, enabled: bool) -> bool:
+    """Best-effort attempt to force the Apply Discount toggle into a target state."""
+    labels = ["Apply Discount", "Discount", "Discounts", "Promo", "Promos", "Coupon", "Coupons"]
+
+    def _switch_state(el) -> bool | None:
+        try:
+            state = (el.get_attribute("data-state") or "").lower()
+            aria = (el.get_attribute("aria-checked") or "").lower()
+            checked = (el.get_attribute("checked") or "").lower()
+            if state in {"checked", "on", "true"} or aria == "true" or checked == "checked":
+                return True
+            if state in {"unchecked", "off", "false"} or aria == "false":
+                return False
+        except:
+            pass
+        return None
+
+    selectors = []
+    for label in labels:
+        selectors.extend([
+            f'[role="switch"]:near(:text("{label}"))',
+            f'div:has-text("{label}") >> [role="switch"]',
+            f'label:has-text("{label}") >> [role="switch"]',
+            f'button:has-text("{label}")',
+            f'text={label}',
+        ])
+
+    for sel in selectors:
+        try:
+            el = page.query_selector(sel)
+            if not el:
+                continue
+            current = _switch_state(el)
+            if current is None:
+                tag = (el.evaluate("el => el.tagName") or "").lower()
+                if tag == "input":
+                    current = bool(el.is_checked())
+                else:
+                    cls = (el.get_attribute("class") or "").lower()
+                    current = "active" in cls or "checked" in cls
+            if current != enabled:
+                el.scroll_into_view_if_needed()
+                el.click(timeout=5000)
+                time.sleep(1)
+            return True
+        except:
+            pass
+
+    return False
+
+
+def _get_discount_state(page) -> str:
+    """Infer whether the discount toggle is on or off."""
+    selectors = [
+        '[role="switch"]:near(:text("Apply Discount"))',
+        'div:has-text("Apply Discount") >> [role="switch"]',
+        'label:has-text("Apply Discount") >> [role="switch"]',
+    ]
+    for sel in selectors:
+        try:
+            el = page.query_selector(sel)
+            if not el:
+                continue
+            state = (el.get_attribute("data-state") or "").lower()
+            aria = (el.get_attribute("aria-checked") or "").lower()
+            if state in {"checked", "on", "true"} or aria == "true":
+                return "on"
+            if state in {"unchecked", "off", "false"} or aria == "false":
+                return "off"
+        except:
+            pass
+    return "unknown"
+
+
+def _get_ui_result_count(page) -> int | None:
+    """Read the visible challenge/result count from the page."""
+    for sel in [
+        'text=/Challenges\\s+\\d+/i',
+        'text=/Offers\\s+\\d+/i',
+    ]:
+        try:
+            el = page.query_selector(sel)
+            if el:
+                return _pi(el.inner_text())
+        except:
+            pass
+    try:
+        body = page.query_selector("body")
+        if body:
+            m = re.search(r'Challenges\s+(\d+)', body.inner_text(), re.I)
+            if m:
+                return int(m.group(1))
+    except:
+        pass
+    return None
+
+
+def _get_total_pages(page) -> int | None:
+    """Detect the total number of pages from pagination controls."""
+    max_page = None
+    candidate_roots = []
+    for sel in [
+        'nav',
+        'div',
+        'ul',
+    ]:
+        try:
+            for root in page.query_selector_all(sel):
+                text = (root.inner_text() or "").strip()
+                if "Next" in text or "Previous" in text:
+                    candidate_roots.append(root)
+        except:
+            pass
+
+    if not candidate_roots:
+        candidate_roots = [page]
+
+    for root in candidate_roots:
+        for sel in ['a[href*="page="]', 'button', 'a']:
+            try:
+                for el in root.query_selector_all(sel):
+                    text = (el.inner_text() or "").strip()
+                    if text.isdigit() and len(text) <= 3:
+                        page_num = int(text)
+                        max_page = page_num if max_page is None else max(max_page, page_num)
+            except:
+                pass
+    return max_page
+
+
+def _parse_bool_text(text: str) -> bool | None:
+    text = (text or "").strip().lower()
+    if text in {"yes", "allowed", "true"}:
+        return True
+    if text in {"no", "not allowed", "false"}:
+        return False
+    return None
+
+
+def _parse_money_value(text: str) -> float | None:
+    return _pf(text)
+
+
+def _parse_day_count(text: str) -> int | None:
+    return _pi(text)
+
+
+def _parse_platform_list(text: str) -> list[str]:
+    if not text:
+        return []
+    parts = [p.strip() for p in re.split(r'[|,]', text) if p.strip()]
+    return parts
+
+
+def _parse_total_allocation(text: str) -> int | None:
+    if not text:
+        return None
+    m = re.search(r'\$\s*([\d,]+)', text)
+    if m:
+        return int(m.group(1).replace(',', ''))
+    return _parse_size(text)
+
+
+def _read_panel_value(block: str, label: str) -> str | None:
+    pattern = rf'{re.escape(label)}\s*(.+?)(?=\n[A-Z][A-Za-z\'\- ]+:|\Z)'
+    m = re.search(pattern, block, re.S)
+    if m:
+        return " ".join(m.group(1).split())
+    return None
+
+
+def _locate_detail_panel(page):
+    selectors = [
+        '[role="dialog"]',
+        'aside',
+        'div[class*="fixed"][class*="right"]',
+        'div[class*="drawer"]',
+    ]
+    for sel in selectors:
+        try:
+            panels = page.query_selector_all(sel)
+            for panel in panels[::-1]:
+                text = (panel.inner_text() or "").strip()
+                if "Program Name:" in text or "Challenge Trading Overview" in text or "Payout Overview" in text:
+                    return panel
+        except:
+            pass
+    return None
+
+
+def _close_detail_panel(page):
+    for sel in [
+        '[role="dialog"] button[aria-label="Close"]',
+        'aside button[aria-label="Close"]',
+        'button:has-text("Close")',
+        'button svg',
+    ]:
+        try:
+            btn = page.query_selector(sel)
+            if btn:
+                btn.click(timeout=3000)
+                time.sleep(0.5)
+                return True
+        except:
+            pass
+    try:
+        page.keyboard.press("Escape")
+        time.sleep(0.5)
+        return True
+    except:
+        return False
+
+
+def _scrape_row_detail(page, row_el) -> dict:
+    """Open a row detail panel and extract structured fields."""
+    detail = {}
+    try:
+        row_el.scroll_into_view_if_needed()
+    except:
+        pass
+
+    opened = False
+    for target in [row_el, row_el.query_selector("td"), row_el.query_selector("button"), row_el.query_selector("a")]:
+        if not target:
+            continue
+        try:
+            target.click(timeout=5000)
+            time.sleep(0.8)
+            panel = _locate_detail_panel(page)
+            if panel:
+                opened = True
+                break
+        except:
+            pass
+
+    if not opened:
+        detail["_panel_error"] = "open_failed"
+        return detail
+
+    panel = _locate_detail_panel(page)
+    if not panel:
+        detail["_panel_error"] = "panel_not_found"
+        return detail
+
+    try:
+        block = panel.inner_text()
+    except Exception as exc:
+        detail["_panel_error"] = f"panel_read_failed: {exc}"
+        return detail
+
+    detail["program_name"] = _read_panel_value(block, "Program Name:")
+    detail["max_loss_type"] = _read_panel_value(block, "Max Loss Type:")
+    detail["daily_drawdown_reset_type"] = _read_panel_value(block, "Daily Drawdown Reset Type:")
+    detail["min_trading_days"] = _parse_day_count(_read_panel_value(block, "Min Trading Days:") or "")
+    detail["time_limit_days"] = _parse_day_count(_read_panel_value(block, "Time Limit:") or "")
+
+    lev_text = _read_panel_value(block, "Max Leverage:") or ""
+    if lev_text:
+        m_eval = re.search(r'Evaluation\s*-\s*(1:\d+)', lev_text, re.I)
+        m_funded = re.search(r'Funded\s*-\s*(1:\d+)', lev_text, re.I)
+        if m_eval:
+            detail["leverage_eval"] = m_eval.group(1)
+        if m_funded:
+            detail["leverage_funded"] = m_funded.group(1)
+
+    detail["news_trading"] = _parse_bool_text(_read_panel_value(block, "News-Trading:") or "")
+    detail["copy_trading"] = _parse_bool_text(_read_panel_value(block, "Copy-Trading:") or "")
+    detail["eas_allowed"] = _parse_bool_text(_read_panel_value(block, "EA's:") or "")
+    detail["weekend_holding"] = _parse_bool_text(_read_panel_value(block, "Weekend Holding:") or "")
+    detail["overnight_holding"] = _parse_bool_text(_read_panel_value(block, "Overnight Holding:") or "")
+    detail["stop_loss_required"] = _parse_bool_text(_read_panel_value(block, "Stop-Loss Required:") or "")
+    detail["activation_fee"] = _parse_money_value(_read_panel_value(block, "Activation Fee:") or "")
+    detail["reset_fee_text"] = _read_panel_value(block, "Reset Fee:")
+    detail["profit_split_panel"] = _parse_money_value(_read_panel_value(block, "Profit Split:") or "")
+    detail["refundable_fee"] = _parse_bool_text(_read_panel_value(block, "Refundable Fee:") or "")
+    detail["payout_frequency_panel"] = _read_panel_value(block, "Payout Frequency:")
+    detail["country"] = _read_panel_value(block, "Country:")
+    detail["platforms"] = _parse_platform_list(_read_panel_value(block, "Platform Available:") or "")
+    detail["program_type"] = _read_panel_value(block, "Program Type:")
+    detail["max_allocation_per_challenge"] = _read_panel_value(block, "Max Allocation per Challenge:")
+    detail["total_max_allocation"] = _parse_total_allocation(_read_panel_value(block, "Total Max Allocation:") or "")
+    detail["_panel_scraped_at"] = datetime.now(timezone.utc).isoformat()
+
+    _close_detail_panel(page)
+    return {k: v for k, v in detail.items() if v not in (None, [], "")}
+
+
 # ──────────────────────────────────────────────
 # Column detection & row parsing
 # ──────────────────────────────────────────────
@@ -491,14 +797,21 @@ def _parse_table_row(cells, col_map, asset_class: str = "forex") -> dict | None:
         "rating": rating,
         "reviews": reviews,
         "account_size": _parse_size(size_text),
-        "steps": steps_val or len(profit_targets) or 1,
+        "steps": steps_val if steps_val is not None else (len(profit_targets) or 1),
         "steps_label": steps_text,
+        "profit_target_raw": targets_text,
         "profit_targets": profit_targets,
+        "daily_drawdown_raw": _cell_text(cells, col_map, "daily_loss"),
         "daily_drawdown_pct": _pf(_cell_text(cells, col_map, "daily_loss")),
+        "max_drawdown_raw": _cell_text(cells, col_map, "max_loss"),
         "max_drawdown_pct": _pf(_cell_text(cells, col_map, "max_loss")),
         "pt_dd_ratio": _cell_text(cells, col_map, "pt_dd") or None,
+        "pt_dd_raw": _cell_text(cells, col_map, "pt_dd") or None,
+        "profit_split_raw": _cell_text(cells, col_map, "profit_split"),
         "profit_split_pct": _pf(_cell_text(cells, col_map, "profit_split")),
         "payout_timing": _cell_text(cells, col_map, "payout_freq") or None,
+        "payout_frequency_raw": _cell_text(cells, col_map, "payout_freq") or None,
+        "price_raw": fee_text,
         "fee_discounted": fee_disc,
         "fee_original": fee_orig,
         "fee_assumed": fee_assumed,
@@ -557,6 +870,20 @@ def _scrape_table_pages(page, base_url: str, max_pages: int, asset_class: str = 
     """Extract all rows using direct URL navigation for pagination."""
     all_rows = []
     seen_page_signatures = set()
+    detected_total_pages = None
+    ui_result_count = None
+
+    try:
+        ui_result_count = _get_ui_result_count(page)
+    except:
+        ui_result_count = None
+    try:
+        detected_total_pages = _get_total_pages(page)
+    except:
+        detected_total_pages = None
+
+    if detected_total_pages:
+        max_pages = min(max_pages, detected_total_pages)
 
     for page_num in range(1, max_pages + 1):
         # Page 1 is already loaded; pages 2+ navigate directly via URL
@@ -569,7 +896,10 @@ def _scrape_table_pages(page, base_url: str, max_pages: int, asset_class: str = 
                 print(f"    Page {page_num}: navigation failed ({e}), stopping")
                 break
             if reapply_discounts:
-                _disable_discounts(page)
+                _set_discount_toggle(page, enabled=False)
+
+        if page_num == 1 and reapply_discounts:
+            _set_discount_toggle(page, enabled=False)
 
         table_el, headers, col_map = _detect_columns(page)
         if not table_el or not col_map:
@@ -600,18 +930,32 @@ def _scrape_table_pages(page, base_url: str, max_pages: int, asset_class: str = 
             seen_page_signatures.add(page_signature)
 
         count = 0
-        for row_el in row_els:
+        discount_state = _get_discount_state(page)
+        for row_idx, row_el in enumerate(row_els, 1):
             cells = row_el.query_selector_all("td")
             if len(cells) < 5:
                 continue
             parsed = _parse_table_row(cells, col_map, asset_class)
             if parsed and parsed.get("firm"):
+                parsed["discount_state"] = discount_state
+                parsed["_scrape"] = {
+                    "page_number": page_num,
+                    "total_pages_detected": detected_total_pages,
+                    "ui_result_count": ui_result_count,
+                    "row_position": row_idx,
+                    "page_signature": page_signature,
+                    "source_url": base_url,
+                    "scraped_at": datetime.now(timezone.utc).isoformat(),
+                }
+                detail = _scrape_row_detail(page, row_el)
+                if detail:
+                    parsed.update(detail)
                 all_rows.append(parsed)
                 count += 1
 
         print(f"    Page {page_num}: {count} challenges")
 
-        if count < 10 or page_num >= max_pages:
+        if page_num >= max_pages:
             break
 
     return all_rows
@@ -641,7 +985,7 @@ def _scrape_fx_challenges(page, max_pages: int, login: bool) -> list[dict]:
     if logged_in:
         print("  Logged in — enabling custom columns ...")
         _setup_custom_columns(page)
-        _disable_discounts(page)
+        _set_discount_toggle(page, enabled=False)
         _wait_table(page)
     else:
         print("  Not logged in — using default columns (no Drawdown Type)")
@@ -660,7 +1004,7 @@ def _scrape_fx_challenges(page, max_pages: int, login: bool) -> list[dict]:
         try:
             _goto(page, url)
             if logged_in:
-                _disable_discounts(page)
+                _set_discount_toggle(page, enabled=False)
         except Exception as e:
             print(f"    ⚠ Failed to load {step_label}: {e}")
             continue
@@ -674,7 +1018,15 @@ def _scrape_fx_challenges(page, max_pages: int, login: bool) -> list[dict]:
     seen = set()
     unique = []
     for c in all_challenges:
-        key = (c["firm"], c.get("steps_label", ""), c.get("account_size", 0))
+        key = (
+            c["firm"],
+            c.get("steps_label", ""),
+            c.get("account_size", 0),
+            c.get("program_name", ""),
+            c.get("drawdown_type", ""),
+            c.get("payout_timing", ""),
+            c.get("fee_original", 0),
+        )
         if key not in seen:
             seen.add(key)
             unique.append(c)
@@ -692,7 +1044,7 @@ def _scrape_fx_challenges(page, max_pages: int, login: bool) -> list[dict]:
 # ──────────────────────────────────────────────
 
 def _scrape_futures(page, max_pages: int) -> list[dict]:
-    """Scrape futures challenge table across all account sizes."""
+    """Scrape futures challenge table across all step types (like FX scraper)."""
     print(f"\n{'─' * 50}")
     print(f"  📊 FUTURES CHALLENGE SCRAPER")
     print(f"{'─' * 50}")
@@ -702,11 +1054,11 @@ def _scrape_futures(page, max_pages: int) -> list[dict]:
 
     all_challenges = []
 
-    for size in FUTURES_ACCOUNT_SIZES:
-        size_label = f"${size // 1000}K"
-        print(f"\n  ── {size_label} ──")
+    for step_type in STEP_TYPES:
+        step_label = step_type.replace("_", " ")
+        print(f"\n  ── {step_label} ──")
 
-        filters = {"accountSize": [size]}
+        filters = {"program": [step_type]}
         filter_json = json.dumps(filters, separators=(',', ':'))
         url = f"{FUTURES_URL}?filters={quote(filter_json)}"
 
@@ -714,19 +1066,27 @@ def _scrape_futures(page, max_pages: int) -> list[dict]:
             _goto(page, url)
             _disable_discounts(page)
         except Exception as e:
-            print(f"    ⚠ Failed to load {size_label}: {e}")
+            print(f"    ⚠ Failed to load {step_label}: {e}")
             continue
 
         rows = _scrape_table_pages(page, url, max_pages, "futures",
                                    reapply_discounts=True)
-        print(f"    → {len(rows)} challenges for {size_label}")
+        print(f"    → {len(rows)} challenges for {step_label}")
         all_challenges.extend(rows)
 
-    # Deduplicate
+    # Deduplicate: (firm, steps_label, account_size, program_name, drawdown_type, payout_timing, fee_original)
     seen = set()
     unique = []
     for c in all_challenges:
-        key = (c["firm"], c.get("steps_label", ""), c.get("account_size", 0))
+        key = (
+            c["firm"],
+            c.get("steps_label", ""),
+            c.get("account_size", 0),
+            c.get("program_name", ""),
+            c.get("drawdown_type", ""),
+            c.get("payout_timing", ""),
+            c.get("fee_original", 0),
+        )
         if key not in seen:
             seen.add(key)
             unique.append(c)
@@ -921,9 +1281,10 @@ def _save_csv(challenges: list[dict], prefix: str, ts: str) -> str:
                 row[k] = json.dumps(v)
         flat.append(row)
 
-    fieldnames = list(flat[0].keys())
+    all_keys = dict.fromkeys(k for row in flat for k in row.keys())
+    fieldnames = list(all_keys)
     with open(path, 'w', encoding='utf-8', newline='') as f:
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer = csv.DictWriter(f, fieldnames=fieldnames, extrasaction='ignore')
         writer.writeheader()
         writer.writerows(flat)
     return path
@@ -1013,10 +1374,12 @@ def action_scrape_challenges(args):
 def action_scrape_futures(args):
     """Scrape Futures challenge data."""
     from playwright.sync_api import sync_playwright
+    cdp_url = getattr(args, 'cdp', None)
     with sync_playwright() as pw:
-        ctx, page = _launch_browser(pw)
+        ctx, page = _launch_browser(pw, cdp_url=cdp_url)
         futures = _scrape_futures(page, args.max_pages)
-        ctx.close()
+        if not cdp_url:
+            ctx.close()
 
     if not futures:
         print("\n  ⚠ No futures challenges scraped.")
@@ -1109,6 +1472,180 @@ def action_scrape_rules(args):
     print(f"\n  ✅ Rules scraped → {os.path.basename(json_path)}")
     log_task(AGENT, "propmatch-scrape-rules", "Complete", "P3",
              f"Rules scraped → {os.path.basename(json_path)}")
+
+
+def action_scrape_missing_panels(args):
+    """
+    Re-scrape detail panels for rows that have NULL drawdown_type AND NULL max_loss_type.
+    Loads the latest challenges JSON, finds target rows via the model DB quarantine list,
+    navigates to each firm's Instant filter page, opens the matching row panels,
+    patches the JSON in-place, and saves a new timestamped JSON.
+    """
+    from playwright.sync_api import sync_playwright
+    import sqlite3
+
+    # ── 1. Load quarantine targets from model DB ──
+    db_path = os.path.join(DATA_DIR, "propmatch_model_input.db")
+    if not os.path.isfile(db_path):
+        print("  ✘ propmatch_model_input.db not found — run build_model_input_db.py first")
+        return
+
+    conn = sqlite3.connect(db_path)
+    conn.row_factory = sqlite3.Row
+    targets = conn.execute(
+        "SELECT firm, account_size, program_name FROM model_challenges "
+        "WHERE hedgeability_reason = 'instant_unknown_drawdown_type' "
+        "ORDER BY firm, account_size"
+    ).fetchall()
+    conn.close()
+
+    if not targets:
+        print("  ✅ No quarantined rows — nothing to do")
+        return
+
+    # Build lookup: firm_slug_key -> set of account_sizes
+    target_map: dict[str, set] = {}
+    for t in targets:
+        key = t["firm"].lower().strip()
+        target_map.setdefault(key, set()).add(t["account_size"])
+
+    print(f"  Targets: {len(targets)} rows across {len(target_map)} firms")
+    for firm, sizes in sorted(target_map.items()):
+        print(f"    {firm}: {sorted(sizes)}")
+
+    # ── 2. Load latest JSON ──
+    json_files = glob.glob(os.path.join(DATA_DIR, "propmatch_challenges_*.json"))
+    if not json_files:
+        print("  ✘ No challenges JSON found")
+        return
+    latest = max(json_files, key=os.path.getmtime)
+    print(f"\n  Base JSON: {os.path.basename(latest)}")
+    with open(latest, "r", encoding="utf-8") as f:
+        payload = json.load(f)
+    challenges = payload.get("challenges", [])
+
+    # ── 3. Browser session ──
+    patched = 0
+    with sync_playwright() as pw:
+        ctx, page = _launch_browser(pw)
+
+        logged_in = _is_logged_in(page)
+        if args.login:
+            logged_in = _prompt_login(page)
+            if logged_in:
+                _goto(page, CHALLENGES_URL)
+
+        # Navigate once to Instant filter (all firms together — firm URL param not supported)
+        filters = {"program": ["Instant"]}
+        filter_json = json.dumps(filters, separators=(",", ":"))
+        url = f"{CHALLENGES_URL}?filters={quote(filter_json)}"
+
+        try:
+            _goto(page, url)
+            if logged_in:
+                _setup_custom_columns(page)
+                _set_discount_toggle(page, enabled=False)
+            _wait_table(page)
+        except Exception as e:
+            print(f"  ✘ Failed to load Instant filter page: {e}")
+            ctx.close()
+            return
+
+        # Build a mutable copy of targets: firm_key -> {size -> False (not yet patched)}
+        remaining: dict[str, dict] = {
+            firm_key: {sz: False for sz in sizes}
+            for firm_key, sizes in target_map.items()
+        }
+
+        for page_num in range(1, 50):
+            if page_num > 1:
+                sep = "&" if "?" in url else "?"
+                try:
+                    _goto(page, f"{url}{sep}page={page_num}")
+                    if logged_in:
+                        _set_discount_toggle(page, enabled=False)
+                except Exception as e:
+                    print(f"  Page {page_num}: nav failed ({e}), stopping")
+                    break
+
+            table_el, headers, col_map = _detect_columns(page)
+            if not table_el or not col_map:
+                print(f"  Page {page_num}: no table detected, stopping")
+                break
+
+            row_els = table_el.query_selector_all("tbody tr")
+            if not row_els:
+                print(f"  Page {page_num}: empty table, stopping")
+                break
+
+            print(f"  Page {page_num}: {len(row_els)} rows")
+
+            for row_el in row_els:
+                cells = row_el.query_selector_all("td")
+                if len(cells) < 5:
+                    continue
+                parsed = _parse_table_row(cells, col_map, "forex")
+                if not parsed or not parsed.get("firm"):
+                    continue
+
+                row_firm = parsed["firm"].lower().strip()
+                row_size = parsed.get("account_size")
+
+                if row_firm not in remaining:
+                    continue
+                if row_size not in remaining[row_firm]:
+                    continue
+                if remaining[row_firm][row_size]:
+                    continue  # already patched this size
+
+                print(f"    Scraping panel: {parsed['firm']} ${row_size:,} ...", end=" ", flush=True)
+                detail = _scrape_row_detail(page, row_el)
+                mlt = detail.get("max_loss_type")
+                print(f"max_loss_type={mlt!r}")
+
+                if mlt:
+                    # Patch matching challenge in memory
+                    for c in challenges:
+                        if (
+                            c.get("firm", "").lower().strip() == row_firm
+                            and c.get("account_size") == row_size
+                            and not c.get("max_loss_type")
+                        ):
+                            c["max_loss_type"] = mlt
+                            for field in ("program_name", "daily_drawdown_reset_type",
+                                          "min_trading_days", "leverage_eval",
+                                          "leverage_funded", "news_trading",
+                                          "copy_trading", "eas_allowed",
+                                          "weekend_holding", "overnight_holding"):
+                                if field in detail and field not in c:
+                                    c[field] = detail[field]
+                            patched += 1
+                            remaining[row_firm][row_size] = True
+                            break
+
+            # Stop early if all targets are patched
+            if all(done for sizes_done in remaining.values() for done in sizes_done.values()):
+                print("  All targets patched — stopping early")
+                break
+
+        ctx.close()
+
+    # ── 4. Save patched JSON ──
+    ts = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+    payload["challenges"] = challenges
+    payload["panel_patch_at"] = datetime.now(timezone.utc).isoformat()
+    payload["panel_patch_count"] = patched
+    out_path = _save_json(payload, "propmatch_challenges", ts)
+
+    print(f"\n{'=' * 60}")
+    print(f"  ✅ PANEL PATCH COMPLETE")
+    print(f"     Rows patched:  {patched}")
+    print(f"     Output JSON:   {os.path.basename(out_path)}")
+    print(f"{'=' * 60}")
+    print(f"\n  Next: python normalize_challenges.py && python build_model_input_db.py")
+
+    log_task(AGENT, "propmatch-patch-panels", "Complete", "P2",
+             f"Patched {patched} missing panels → {os.path.basename(out_path)}")
 
 
 def action_scrape_all(args):
@@ -1208,6 +1745,7 @@ ACTIONS = {
     "scrape-futures": action_scrape_futures,
     "scrape-firms": action_scrape_firms,
     "scrape-rules": action_scrape_rules,
+    "scrape-missing-panels": action_scrape_missing_panels,
     "scrape-all": action_scrape_all,
 }
 
@@ -1220,5 +1758,7 @@ if __name__ == "__main__":
                         help=f"Max pages per filter combo (default: {MAX_PAGES_DEFAULT})")
     parser.add_argument("--input", default=None,
                         help="Input JSON file (for scrape-firms)")
+    parser.add_argument("--cdp", default=None,
+                        help="CDP endpoint URL to connect to existing browser (e.g. http://localhost:9222)")
     args = parser.parse_args()
     ACTIONS[args.action](args)

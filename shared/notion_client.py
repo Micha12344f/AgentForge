@@ -26,6 +26,26 @@ load_env_for_source()
 
 
 logger = logging.getLogger(__name__)
+_WS_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+class NotionDatabaseUnavailableError(RuntimeError):
+    """Raised when a configured Notion database cannot be queried or written."""
+
+    def __init__(
+        self,
+        db_key: str,
+        db_id: str,
+        message: str,
+        *,
+        archived: bool = False,
+        in_trash: bool = False,
+    ) -> None:
+        super().__init__(message)
+        self.db_key = db_key
+        self.db_id = db_id
+        self.archived = archived
+        self.in_trash = in_trash
 
 
 # ──────────────────────────────────────────────
@@ -33,19 +53,20 @@ logger = logging.getLogger(__name__)
 # ──────────────────────────────────────────────
 class _NotionRateLimiter:
     """
-    Token-bucket rate limiter for Notion API.
-    Notion allows 3 requests/second per integration token.
-    We target 2.8 req/s to maintain a small safety margin.
-    Thread-safe for concurrent usage.
+    Process-local rate limiter for the Notion API.
+    Notion documents an average limit of 3 requests/second per integration token,
+    with occasional bursts allowed and HTTP 429 + Retry-After for throttling.
+    We target 2.5 req/s and maintain a shared cooldown window after 429s.
     """
-    _MAX_RPS = 2.8           # Requests per second (safety margin below 3)
-    _MIN_INTERVAL = 1.0 / _MAX_RPS  # ~0.357 s between requests
-    _RETRY_MAX = 5           # Max retries on 429
+    _MAX_RPS = 2.5
+    _MIN_INTERVAL = 1.0 / _MAX_RPS
+    _RETRY_MAX = 6
     _RETRY_BASE = 1.0        # Base backoff seconds
 
     def __init__(self):
         self._lock = threading.Lock()
         self._last_request_time = 0.0
+        self._cooldown_until = 0.0
         self.total_requests = 0
         self.total_retries = 0
         self.total_rate_limits = 0
@@ -54,12 +75,30 @@ class _NotionRateLimiter:
         """Block until it's safe to make the next Notion API request."""
         with self._lock:
             now = time.monotonic()
-            elapsed = now - self._last_request_time
-            if elapsed < self._MIN_INTERVAL:
-                sleep_for = self._MIN_INTERVAL - elapsed
+            next_allowed = max(
+                self._last_request_time + self._MIN_INTERVAL,
+                self._cooldown_until,
+            )
+            if now < next_allowed:
+                sleep_for = next_allowed - now
                 time.sleep(sleep_for)
             self._last_request_time = time.monotonic()
             self.total_requests += 1
+
+    def apply_backoff(self, seconds: float) -> None:
+        if seconds <= 0:
+            return
+        with self._lock:
+            self._cooldown_until = max(
+                self._cooldown_until,
+                time.monotonic() + seconds,
+            )
+
+    def record_retry(self, *, rate_limited: bool) -> None:
+        with self._lock:
+            self.total_retries += 1
+            if rate_limited:
+                self.total_rate_limits += 1
 
     def stats(self) -> dict:
         return {
@@ -77,11 +116,53 @@ def notion_rate_limiter_stats() -> dict:
     return _rate_limiter.stats()
 
 
+def _notion_token() -> str:
+    token = os.getenv("NOTION_API_KEY") or os.getenv("NOTION_TOKEN")
+    if token:
+        return token
+
+    mcp_path = os.path.join(_WS_ROOT, ".vscode", "mcp.json")
+    if os.path.exists(mcp_path):
+        with open(mcp_path, encoding="utf-8") as handle:
+            mcp = json.load(handle)
+        token = (
+            mcp.get("servers", {})
+            .get("makenotion/notion-mcp-server", {})
+            .get("env", {})
+            .get("NOTION_TOKEN")
+        )
+        if token:
+            return token
+
+    raise RuntimeError(
+        "No Notion token found. Set NOTION_API_KEY in .env "
+        "or NOTION_TOKEN in .vscode/mcp.json"
+    )
+
+
+def _notion_headers() -> dict[str, str]:
+    return {
+        "Authorization": f"Bearer {_notion_token()}",
+        "Notion-Version": _NOTION_VERSION,
+        "Content-Type": "application/json",
+    }
+
+
+def _retry_backoff_seconds(retry_after: Optional[str], attempt: int) -> float:
+    if retry_after:
+        try:
+            return max(float(retry_after), _rate_limiter._MIN_INTERVAL)
+        except ValueError:
+            pass
+    return _rate_limiter._RETRY_BASE * (2 ** attempt)
+
+
 def notion_request(
     method: str,
     url: str,
     headers: Optional[dict] = None,
     json: Optional[dict] = None,
+    params: Optional[dict] = None,
     timeout: int = 30,
 ) -> _requests_lib.Response:
     """
@@ -94,6 +175,7 @@ def notion_request(
         url: Full Notion API URL
         headers: Request headers (Authorization + Notion-Version)
         json: Request body
+        params: Query-string parameters
         timeout: Request timeout in seconds
 
     Returns:
@@ -102,15 +184,24 @@ def notion_request(
     Raises:
         requests.HTTPError: After exhausting retries or on non-429 errors
     """
+    last_response: Optional[_requests_lib.Response] = None
+    request_headers = headers or _notion_headers()
+
     for attempt in range(_rate_limiter._RETRY_MAX):
         _rate_limiter.wait()
         try:
             resp = getattr(_requests_lib, method.lower())(
-                url, headers=headers, json=json, timeout=timeout,
+                url,
+                headers=request_headers,
+                json=json,
+                params=params,
+                timeout=timeout,
             )
         except (_requests_lib.exceptions.ReadTimeout, _requests_lib.exceptions.ConnectionError) as exc:
             if attempt < _rate_limiter._RETRY_MAX - 1:
-                backoff = _rate_limiter._RETRY_BASE * (2 ** attempt)
+                backoff = _retry_backoff_seconds(None, attempt)
+                _rate_limiter.record_retry(rate_limited=False)
+                _rate_limiter.apply_backoff(backoff)
                 logger.warning(
                     "Notion timeout/connection error (attempt %d/%d) — retrying in %.1fs: %s",
                     attempt + 1, _rate_limiter._RETRY_MAX, backoff, exc,
@@ -120,31 +211,29 @@ def notion_request(
                 continue
             raise
 
+        last_response = resp
         if resp.status_code != 429:
             return resp
 
         # ── Handle 429 rate limit ──
-        _rate_limiter.total_rate_limits += 1
-        _rate_limiter.total_retries += 1
-        retry_after = resp.headers.get("Retry-After")
-        if retry_after:
-            try:
-                backoff = float(retry_after)
-            except ValueError:
-                backoff = _rate_limiter._RETRY_BASE * (2 ** attempt)
-        else:
-            backoff = _rate_limiter._RETRY_BASE * (2 ** attempt)
+        _rate_limiter.record_retry(rate_limited=True)
+        backoff = _retry_backoff_seconds(resp.headers.get("Retry-After"), attempt)
+        _rate_limiter.apply_backoff(backoff)
 
         logger.warning(
             "Notion 429 rate-limited (attempt %d/%d) — retrying in %.1fs",
             attempt + 1, _rate_limiter._RETRY_MAX, backoff,
         )
         print(f"  ⏳ Notion rate limit hit — waiting {backoff:.1f}s (attempt {attempt + 1}/{_rate_limiter._RETRY_MAX})")
+        if attempt == _rate_limiter._RETRY_MAX - 1:
+            break
         time.sleep(backoff)
 
     # Exhausted retries — raise the last 429
-    resp.raise_for_status()
-    return resp  # unreachable, but keeps type checkers happy
+    if last_response is None:
+        raise RuntimeError("Notion request failed without a response")
+    last_response.raise_for_status()
+    return last_response
 
 
 # ──────────────────────────────────────────────
@@ -158,33 +247,99 @@ def get_notion() -> Client:
     """Return a cached Notion client. Reads NOTION_API_KEY from .env."""
     global _client
     if _client is None:
-        token = os.getenv("NOTION_API_KEY") or os.getenv("NOTION_TOKEN")
-        if not token:
-            # Fallback: read from mcp.json
-            mcp_path = os.path.join(_ws_root, ".vscode", "mcp.json")
-            if os.path.exists(mcp_path):
-                with open(mcp_path) as f:
-                    mcp = json.load(f)
-                token = (
-                    mcp.get("servers", {})
-                    .get("makenotion/notion-mcp-server", {})
-                    .get("env", {})
-                    .get("NOTION_TOKEN")
-                )
-            if not token:
-                raise RuntimeError(
-                    "No Notion token found. Set NOTION_API_KEY in .env "
-                    "or NOTION_TOKEN in .vscode/mcp.json"
-                )
+        token = _notion_token()
         # Pin to 2022-06-28 — the 2025-09-03 version removes properties from
         # databases.retrieve(), breaking schema-aware add_row/update_row.
         import httpx as _httpx
+
+        class _RateLimitedHTTPXClient(_httpx.Client):
+            def send(self, request, *args, **kwargs):
+                _rate_limiter.wait()
+                return super().send(request, *args, **kwargs)
+
         _client = Client(
             auth=token,
             notion_version="2022-06-28",
-            client=_httpx.Client(timeout=30.0),
+            client=_RateLimitedHTTPXClient(timeout=30.0),
         )
     return _client
+
+
+def _notion_api_json(
+    method: str,
+    path: str,
+    *,
+    json: Optional[dict] = None,
+    params: Optional[dict] = None,
+    timeout: int = 30,
+) -> dict[str, Any]:
+    response = notion_request(
+        method,
+        f"{_API_BASE}/{path.lstrip('/')}",
+        json=json,
+        params=params,
+        timeout=timeout,
+    )
+    response.raise_for_status()
+    return response.json()
+
+
+def _plain_text(parts: list[dict[str, Any]] | None) -> str:
+    return "".join(part.get("plain_text", "") for part in (parts or []))
+
+
+def _database_unavailable_error(db_key: str, *, operation: str) -> NotionDatabaseUnavailableError:
+    db_id = DATABASES.get(db_key)
+    if not db_id:
+        raise ValueError(f"Unknown database key: {db_key}")
+
+    resp = notion_request(
+        "get",
+        f"{_API_BASE}/databases/{db_id}",
+        timeout=30,
+    )
+
+    if resp.status_code == 200:
+        payload = resp.json()
+        title = _plain_text(payload.get("title")) or db_key
+        archived = bool(payload.get("archived"))
+        in_trash = bool(payload.get("in_trash"))
+        if archived or in_trash:
+            status_parts = []
+            if archived:
+                status_parts.append("archived")
+            if in_trash:
+                status_parts.append("in trash")
+            status_text = " and ".join(status_parts)
+            return NotionDatabaseUnavailableError(
+                db_key,
+                db_id,
+                (
+                    f"Notion database '{db_key}' ('{title}') exists but is {status_text}. "
+                    f"Restore it in Notion or update shared/notion_client.py DATABASES before retrying the {operation}."
+                ),
+                archived=archived,
+                in_trash=in_trash,
+            )
+        return NotionDatabaseUnavailableError(
+            db_key,
+            db_id,
+            (
+                f"Notion database '{db_key}' ('{title}') is reachable via retrieve, but the {operation} endpoint returned 404. "
+                "Check whether the integration lost query/write access or the object was migrated in Notion."
+            ),
+            archived=archived,
+            in_trash=in_trash,
+        )
+
+    return NotionDatabaseUnavailableError(
+        db_key,
+        db_id,
+        (
+            f"Notion database '{db_key}' ({db_id}) returned 404 during {operation}. "
+            "The database ID may be stale or the integration may no longer have access."
+        ),
+    )
 
 
 # ──────────────────────────────────────────────
@@ -368,13 +523,11 @@ def _get_schema(db_key: str) -> dict:
     if db_key in _schema_cache and (now - _schema_cache_ts.get(db_key, 0)) < _SCHEMA_TTL:
         return _schema_cache[db_key]
 
-    notion = get_notion()
     db_id = DATABASES.get(db_key)
     if not db_id:
         raise ValueError(f"Unknown database key: {db_key}")
 
-    _rate_limiter.wait()  # Count schema fetch toward rate limit
-    schema = notion.databases.retrieve(database_id=db_id)["properties"]
+    schema = _notion_api_json("get", f"databases/{db_id}")["properties"]
     _schema_cache[db_key] = schema
     _schema_cache_ts[db_key] = now
     return schema
@@ -416,7 +569,6 @@ def add_row(db_key: str, properties: dict[str, Any]) -> dict:
             "Churn Rate": 0.03,
         })
     """
-    notion = get_notion()
     db_id = DATABASES.get(db_key)
     if not db_id:
         raise ValueError(f"Unknown database key: {db_key}. Available: {list(DATABASES.keys())}")
@@ -438,12 +590,14 @@ def add_row(db_key: str, properties: dict[str, Any]) -> dict:
         else:
             print(f"  ⚠️  Unsupported property type '{prop_type}' for '{prop_name}'")
 
-    _rate_limiter.wait()
-    page = notion.pages.create(
-        parent={"type": "database_id", "database_id": db_id},
-        properties=notion_props,
+    return _notion_api_json(
+        "post",
+        "pages",
+        json={
+            "parent": {"type": "database_id", "database_id": db_id},
+            "properties": notion_props,
+        },
     )
-    return page
 
 
 # ──────────────────────────────────────────────
@@ -472,13 +626,6 @@ def query_db(
     if not db_id:
         raise ValueError(f"Unknown database key: {db_key}")
 
-    token = os.getenv("NOTION_API_KEY") or os.getenv("NOTION_TOKEN")
-    headers = {
-        "Authorization": f"Bearer {token}",
-        "Notion-Version": _NOTION_VERSION,
-        "Content-Type": "application/json",
-    }
-
     body: dict = {"page_size": page_size}
     if filter:
         body["filter"] = filter
@@ -490,8 +637,11 @@ def query_db(
         resp = notion_request(
             "post",
             f"{_API_BASE}/databases/{db_id}/query",
-            headers=headers, json=body, timeout=60,
+            json=body,
+            timeout=60,
         )
+        if resp.status_code == 404:
+            raise _database_unavailable_error(db_key, operation="query")
         resp.raise_for_status()
         data = resp.json()
         for page in data["results"]:
@@ -557,7 +707,6 @@ def update_row(page_id: str, db_key: str, properties: dict[str, Any]) -> dict:
     Returns:
         The updated Notion page object.
     """
-    notion = get_notion()
     db_id = DATABASES.get(db_key)
     if not db_id:
         raise ValueError(f"Unknown database key: {db_key}")
@@ -574,13 +723,103 @@ def update_row(page_id: str, db_key: str, properties: dict[str, Any]) -> dict:
         if builder:
             notion_props[prop_name] = builder(value)
 
-    _rate_limiter.wait()
-    return notion.pages.update(page_id=page_id, properties=notion_props)
+    return _notion_api_json(
+        "patch",
+        f"pages/{page_id}",
+        json={"properties": notion_props},
+    )
+
+
+def list_block_children(block_id: str, page_size: int = 100) -> list[dict[str, Any]]:
+    """List block children through the guarded HTTP path so 429 handling is consistent."""
+    params: dict[str, Any] = {"page_size": min(page_size, 100)}
+    results: list[dict[str, Any]] = []
+
+    while True:
+        data = _notion_api_json(
+            "get",
+            f"blocks/{block_id}/children",
+            params=params,
+            timeout=60,
+        )
+        results.extend(data.get("results", []))
+        if not data.get("has_more"):
+            return results
+        params["start_cursor"] = data.get("next_cursor")
 
 
 # ──────────────────────────────────────────────
 # Utility: log_task
 # ──────────────────────────────────────────────
+
+def batch_add_rows(
+    db_key: str,
+    rows: list[dict[str, Any]],
+    *,
+    label: str = "rows",
+) -> dict:
+    """
+    Add multiple rows to a Notion database with optimised rate-limit handling.
+
+    Pre-caches the schema once (instead of per-row), then pushes each row
+    sequentially through the rate limiter.  Returns a summary dict.
+
+    Args:
+        db_key:  Key from DATABASES dict.
+        rows:    List of {property_name: value} dicts (same format as add_row).
+        label:   Human-readable noun for progress messages (e.g. "leads").
+
+    Returns:
+        {"added": [...page objects...], "errors": [...(row, msg)...], "stats": {...}}
+    """
+    db_id = DATABASES.get(db_key)
+    if not db_id:
+        raise ValueError(f"Unknown database key: {db_key}")
+
+    # ── Warm the schema cache once for the entire batch ──
+    schema = _get_schema(db_key)
+
+    added: list[dict] = []
+    errors: list[tuple[dict, str]] = []
+    total = len(rows)
+
+    for i, properties in enumerate(rows, 1):
+        notion_props = {}
+        for prop_name, value in properties.items():
+            if prop_name not in schema:
+                continue
+            prop_type = schema[prop_name]["type"]
+            builder = PROP_BUILDERS.get(prop_type)
+            if builder:
+                built = builder(value)
+                if built is not None:
+                    notion_props[prop_name] = built
+
+        try:
+            page = _notion_api_json(
+                "post",
+                "pages",
+                json={
+                    "parent": {"type": "database_id", "database_id": db_id},
+                    "properties": notion_props,
+                },
+            )
+            added.append(page)
+            print(f"  [{i:>3}/{total}] ✅ added ({label})")
+        except Exception as exc:
+            errors.append((properties, str(exc)))
+            print(f"  [{i:>3}/{total}] ❌ {exc}")
+
+    stats = _rate_limiter.stats()
+    print(f"\n{'='*50}")
+    print(f"Batch complete — ✅ {len(added)} added, ❌ {len(errors)} failed")
+    print(f"API stats: {stats['total_requests']} requests, "
+          f"{stats['total_rate_limits']} rate-limits hit, "
+          f"{stats['total_retries']} retries")
+    print(f"{'='*50}")
+
+    return {"added": added, "errors": errors, "stats": stats}
+
 
 def log_task(
     agent: str,
@@ -590,8 +829,12 @@ def log_task(
     output_summary: str = "",
     error: str = "",
 ) -> dict:
-    """Log an agent task execution to the Orchestrator Task Log."""
-    return add_row("task_log", {
+    """Log an agent task execution to the Orchestrator Task Log.
+
+    Task logging is treated as best-effort so a missing/archived task log does not
+    break the business workflow that just completed.
+    """
+    properties = {
         "Task":           task,
         "Agent":          agent,
         "Status":         status,
@@ -600,4 +843,16 @@ def log_task(
         "Completed":      datetime.now().isoformat() if status == "Complete" else "",
         "Output Summary": output_summary[:2000],
         "Error":          error[:2000],
-    })
+    }
+    try:
+        return add_row("task_log", properties)
+    except NotionDatabaseUnavailableError as exc:
+        print(f"  ⚠️  {exc}")
+        return {"skipped": True, "database": "task_log", "reason": str(exc)}
+    except _requests_lib.HTTPError as exc:
+        response = getattr(exc, "response", None)
+        if response is not None and response.status_code == 404:
+            diagnostic = _database_unavailable_error("task_log", operation="write")
+            print(f"  ⚠️  {diagnostic}")
+            return {"skipped": True, "database": "task_log", "reason": str(diagnostic)}
+        raise

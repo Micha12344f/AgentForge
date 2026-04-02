@@ -16,6 +16,7 @@ def retry_subprocess(
     max_retries: int = 2,
     task_label: str = "",
     timeout: int = 300,
+    non_retry_exit_codes: set[int] | None = None,
 ) -> subprocess.CompletedProcess:
     """Run a subprocess with retry logic on non-zero exit codes.
 
@@ -24,6 +25,7 @@ def retry_subprocess(
         max_retries: Number of retry attempts after first failure.
         task_label:  Label for log messages.
         timeout:     Per-attempt timeout in seconds.
+        non_retry_exit_codes: Exit codes that should fail fast without retries.
 
     Returns a CompletedProcess (may have non-zero returncode on final failure).
     """
@@ -38,6 +40,8 @@ def retry_subprocess(
                 timeout=timeout,
             )
             if result.returncode == 0:
+                return result
+            if non_retry_exit_codes and result.returncode in non_retry_exit_codes:
                 return result
             last_result = result
             if attempt < max_retries:

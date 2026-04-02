@@ -4,6 +4,22 @@
 
 This directive governs the consolidated hedge model analysis that spans all three Hedge Edge asset classes (CFD/Forex challenges, Futures challenges, and Instant-Funded accounts). It defines how to run, interpret, and maintain the unified analysis pipeline.
 
+## Request Routing
+
+Before running any model, classify the request by account state:
+
+| Request State | Correct Model Family | Primary Assets |
+|---|---|---|
+| User is **shopping challenge accounts** | FX / Futures **Type A** | `type_a_challenge_insurance.ipynb`, `type_a_futures_insurance.ipynb` |
+| User already has a **funded challenge account** and wants continuation / recovery | FX / Futures **Type B or Type C** | `type_b_funded_recovery.ipynb`, `type_c_funded_surplus.ipynb`, futures Type B/C notebooks |
+| User is evaluating or already holds an **instant-funded** account | **Instant-Funded first-payout / hedge-now** | `type_c_instant_funded_hedge.ipynb` |
+
+Routing guardrails:
+
+- Do not send an already-funded-account request into challenge-entry ranking
+- Do not treat instant-funded as a challenge product with empty phase targets; route it to the dedicated instant-funded model
+- If a user asks for an immediate hedge counterpart for a live funded account, prefer the funded or instant-funded models over budget-only challenge screening
+
 ---
 
 ## Scope
@@ -41,6 +57,7 @@ Always use the **latest file by modification time** — the analysis scripts use
 - For **trailing** DD: insured base compounds with each daily resize
 - For **static** DD: costs are linear
 - EV = funded_payout - total_cost
+- Notebook operating layer now uses review-adjusted EV for FX ranking plus size-matched static pair analysis for portfolio construction
 - Best use: single-attempt assessment with no funded continuation
 
 ### Type B — Funded Recovery
@@ -60,9 +77,9 @@ Always use the **latest file by modification time** — the analysis scripts use
 
 ### Instant-Funded First-Payout
 - Single-phase model: no evaluation hedge, trades from day 1
-- Target: 5% first payout; consistency rules drive minimum trading days
+- Target: notebook default is currently 8% funded payout target; consistency rules / minimum trading days still drive timing friction
 - Capital: (peak_hedge_notional / 100) x 1.5
-- Best use: firms offering instant-funded accounts without evaluation
+- Best use: firms offering instant-funded accounts without evaluation, plus hedge-now counterpart ranking for users who already hold a funded account
 
 ---
 
@@ -95,7 +112,7 @@ Always use the **latest file by modification time** — the analysis scripts use
 ### Instant-Funded
 | Parameter | Default | Notes |
 |-----------|---------|-------|
-| First payout target | 5% | |
+| First payout target | 8% | Current `type_c_instant_funded_hedge.ipynb` default |
 | Spread | 3 pips | |
 | Base trading days | 5 | Min before payout |
 | Leverage | 100x | For capital calc |
@@ -141,6 +158,8 @@ The script auto-detects the latest JSON files for each asset class. No flags nee
 4. **Use Instant-Funded** for capital-light, quick-cycle opportunities
 5. **Minimum bar**: only target challenges where EV > $50 (reduces noise)
 6. **Always sort by `capital_efficiency`** as a secondary sort for equal EVs
+7. **FX portfolio construction must stay size-matched** -- static pairs should stay within the configured size-ratio ceiling and use winner-state averaging, not dual-payout summation
+8. **Existing funded / instant-funded account requests route to Type C instant-funded analysis** -- prefer static, fast-payout, different-firm counterparts before larger EV but slower / noisier alternatives
 
 ---
 
@@ -166,11 +185,11 @@ The script auto-detects the latest JSON files for each asset class. No flags nee
 | `type_a_futures_insurance.ipynb` | Futures Type A interactive model |
 | `type_b_futures_recovery.ipynb` | Futures Type B interactive model |
 | `type_c_futures_surplus.ipynb` | Futures Type C interactive model |
-| `instant_funded_hedge_model.ipynb` | Instant-funded first-payout model |
+| `type_c_instant_funded_hedge.ipynb` | Instant-funded first-payout and hedge-now counterpart model |
 | `futures_hedge_model.ipynb` | General futures reference notebook |
 | `consolidated_report.py` | Script that runs all 7 models and exports PDF |
 | `HedgeEdge_Consolidated_Report_*.pdf` | Latest generated PDF report |
 | `_charts/*.png` | Individual chart exports from consolidated run |
 | `propmatch_challenges_*.json` | Latest scraped FX/CFD challenge data |
 | `propmatch_futures_*.json` | Latest scraped futures challenge data |
-| `instant_funded_hedge_model_*.json` | Cached instant-funded model outputs |
+| `propmatch_model_input.db` | Model-input database backing FX, futures, and instant-funded notebook views |

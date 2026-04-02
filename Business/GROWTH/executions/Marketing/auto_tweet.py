@@ -34,11 +34,13 @@ sys.path.insert(0, str(ROOT))
 
 from dotenv import load_dotenv
 load_dotenv(ROOT / ".env")
+load_dotenv(ROOT / "Business" / "GROWTH" / "resources" / ".env", override=True)
 
-DEMOS_FILE = ROOT / "Content Engine Agent" / "fine-tune" / "tweet_demos_100.json"
-STATE_FILE = ROOT / "Content Engine Agent" / "fine-tune" / "auto_tweet_state.json"
-LOGO_PATH  = ROOT / "assets" / "Hedge-Edge-Logo.png"
-X_MANAGER  = ROOT / "Content Engine Agent" / ".agents" / "skills" / "x-management" / "execution" / "x_manager.py"
+GROWTH_RES = ROOT / "Business" / "GROWTH" / "resources" / "Marketing"
+DEMOS_FILE = GROWTH_RES / "x-pipeline" / "tweet_demos_100.json"
+STATE_FILE = GROWTH_RES / "x-pipeline" / "auto_tweet_state.json"
+LOGO_PATH  = GROWTH_RES / "x-assets" / "Hedge-Edge-Logo.png"
+X_MANAGER  = ROOT / "Business" / "GROWTH" / "executions" / "Marketing" / "x_manager.py"
 AUTO_TYPES = {"funny_meme", "gif_meme", "viral_hook", "industry_take", "stat_truth", "uncomfortable_truth", "direct_cta"}
 
 
@@ -107,7 +109,7 @@ def resolve_image(demo):
     if not image_needed or image_type in ("none", None):
         return None, "no image"
 
-    LIB = ROOT / "assets" / "library"
+    LIB = ROOT / "Business" / "GROWTH" / "resources" / "Marketing" / "x-assets" / "library"
     MANIFEST = LIB / "manifest.json"
     if MANIFEST.exists():
         with open(MANIFEST, encoding="utf-8") as f:

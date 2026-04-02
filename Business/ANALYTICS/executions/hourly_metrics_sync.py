@@ -168,11 +168,10 @@ def collect_email_stats() -> dict:
 def enrich_email_sends_from_resend() -> None:
     """Pull latest delivery events from Resend and update Notion email_sends."""
     print("  [2/7] Enriching email_sends from Resend delivery data …")
+    _EMAIL_SYSTEM_DIR = os.path.join(
+        _WS, "Business", "GROWTH", "executions", "Marketing", "email_marketing",
+    )
     try:
-        _EMAIL_SYSTEM_DIR = os.path.join(
-            _WS, "agents", "GROWTH", "Marketing Agent",
-            ".agents", "skills", "email-marketing", "execution",
-        )
         sys.path.insert(0, _EMAIL_SYSTEM_DIR)
         from email_system import enrich_notion_from_resend
         enrich_notion_from_resend()
@@ -180,10 +179,6 @@ def enrich_email_sends_from_resend() -> None:
     except Exception as e:
         print(f"    ⚠️  Resend enrichment failed (non-fatal): {e}")
     finally:
-        _EMAIL_SYSTEM_DIR = os.path.join(
-            _WS, "agents", "GROWTH", "Marketing Agent",
-            ".agents", "skills", "email-marketing", "execution",
-        )
         if _EMAIL_SYSTEM_DIR in sys.path:
             sys.path.remove(_EMAIL_SYSTEM_DIR)
 
@@ -195,11 +190,10 @@ def sync_resend_unsubs_to_notion() -> None:
     unsubscribes are a separate flag that must be synced independently.
     """
     print("  [2b/7] Syncing Resend audience unsubscribes → Notion …")
+    _EMAIL_SYSTEM_DIR = os.path.join(
+        _WS, "Business", "GROWTH", "executions", "Marketing", "email_marketing",
+    )
     try:
-        _EMAIL_SYSTEM_DIR = os.path.join(
-            _WS, "agents", "GROWTH", "Marketing Agent",
-            ".agents", "skills", "email-marketing", "execution",
-        )
         sys.path.insert(0, _EMAIL_SYSTEM_DIR)
         from email_system import sync_resend_unsubs_to_notion as _sync_unsubs
         _sync_unsubs()
@@ -207,10 +201,6 @@ def sync_resend_unsubs_to_notion() -> None:
     except Exception as e:
         print(f"    ⚠️  Resend unsub sync failed (non-fatal): {e}")
     finally:
-        _EMAIL_SYSTEM_DIR = os.path.join(
-            _WS, "agents", "GROWTH", "Marketing Agent",
-            ".agents", "skills", "email-marketing", "execution",
-        )
         if _EMAIL_SYSTEM_DIR in sys.path:
             sys.path.remove(_EMAIL_SYSTEM_DIR)
 

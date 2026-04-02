@@ -39,6 +39,15 @@ Run tasks via: `python Business/STRATEGY/executions/run.py --task <task-name>`
 - FCA COBS 4 — financial promotions must be fair, clear, not misleading
 - Never promise guaranteed returns — Hedge Edge is a risk-management tool
 
+## Notebook Access — Timeout Fallback
+
+When working with any `.ipynb` notebook in `resources/PropFirmData/` (or any Strategy resource path):
+
+1. **Attempt** `read/getNotebookSummary` first.
+2. **If it appears stuck** (no response after the first tool round-trip, or the tool call does not return), **do not retry** — immediately abandon it and fall back to `read/readFile` on the `.ipynb` file directly.
+3. When reading an `.ipynb` via `readFile`, extract cell source by parsing the `"source"` field of each `"cells"` entry in the JSON. Read in batches (e.g. lines 1–200, then 200–400) until you have all cell code.
+4. Never block progress waiting for `getNotebookSummary` — notebook context obtained via `readFile` is equally valid and preferred when summary is unavailable.
+
 ## Rules
 
 1. Stay within Strategy domain work unless Orchestrator explicitly decomposes a broader task to you

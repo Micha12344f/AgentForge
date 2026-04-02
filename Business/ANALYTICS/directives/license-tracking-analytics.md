@@ -27,22 +27,27 @@ activation, cadence, device, and error signals.
 
 1. License registry: key, email, plan, status, expiry
 2. Activation check: first successful validation per key
-3. Last active: most recent `license_devices.last_seen_at`
-4. Usage cadence: distinct active days across a rolling window
-5. Device fleet: platform, broker, account, version per active device
-6. Error signals: failed validations grouped by key and error code
-7. Customer health: unified support-facing status per customer
+3. **Platform Activation check: first successful validation with `platform ∈ {mt5, mt4, ctrader}` + persistent device row (see `platform-activation-indicator.md`) — this is the ULTIMATE CONVERSION INDICATOR**
+4. Last active: most recent `license_devices.last_seen_at`
+5. Usage cadence: distinct active days across a rolling window
+6. Device fleet: platform, broker, account, version per active device
+7. Error signals: failed validations grouped by key and error code
+8. Customer health: unified support-facing status per customer (must incorporate Platform Activation status)
 
 ## Health Logic
 
 | Condition | Health label | Meaning |
 |----------|--------------|---------|
 | `activated_at == NEVER` | `NOT ACTIVATED` | User has a key but has never opened the app |
-| `days_since_last_active > 7` | `CHURNING` | Previously active user has gone stale |
+| `platform_activated == false` AND `days_since_key > 7` | `NEEDS_ONBOARDING_HELP` | Desktop opened but EA never connected to chart — highest-priority onboarding gap |
+| `platform_activated == true` AND `days_since_last_active > 7` | `CHURNING` | Was platform-activated but has gone stale |
 | `errors_30d > 10` | `NEEDS SUPPORT` | Repeated failures indicate setup or product friction |
-| `days_active_30d >= 5` | `HEALTHY` | Customer is using the app regularly |
-| `days_active_30d >= 1` | `WARMING UP` | User is active but not yet habitual |
+| `platform_activated == true` AND `days_active_30d >= 5` | `HEALTHY` | Customer is using the product on a trading platform regularly |
+| `platform_activated == true` AND `days_active_30d >= 1` | `WARMING UP` | Platform-activated but not yet habitual |
+| `platform_activated == false` AND has desktop validations | `DESKTOP_ONLY` | App opened but EA not connected — not truly converted |
 | otherwise | `DORMANT` | No successful activity in the window |
+
+> **Critical distinction**: A user with only `desktop` or `unknown` validations is `DESKTOP_ONLY`, not `HEALTHY`. Platform Activation (`mt5`/`mt4`/`ctrader` with persistent device) is the true conversion gate. See `platform-activation-indicator.md`.
 
 ## Execution Scripts
 

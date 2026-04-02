@@ -25,9 +25,12 @@ _AGENT_DIR = os.path.dirname(os.path.abspath(__file__))
 _WORKSPACE = os.path.abspath(os.path.join(_AGENT_DIR, *(['..'] * 3)))
 sys.path.insert(0, _WORKSPACE)
 
-from shared.notion_client import query_db, log_task
+from shared.notion_client import NotionDatabaseUnavailableError, log_task, query_db
 from shared.alerting import send_alert
 from shared.llm_router import chat as routed_chat
+
+
+CONFIG_EXIT_CODE = 2
 
 
 def _delta_str(current, previous) -> str:
@@ -276,4 +279,8 @@ if __name__ == "__main__":
     parser.add_argument("--action", required=True,
                         choices=["daily-report", "latest", "weekly-report"])
     args = parser.parse_args()
-    {"daily-report": daily_report, "latest": latest, "weekly-report": weekly_report}[args.action]()
+    try:
+        {"daily-report": daily_report, "latest": latest, "weekly-report": weekly_report}[args.action]()
+    except NotionDatabaseUnavailableError as exc:
+        print(f"❌ {exc}")
+        sys.exit(CONFIG_EXIT_CODE)

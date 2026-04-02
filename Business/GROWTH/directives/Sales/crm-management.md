@@ -25,6 +25,10 @@ New Lead → Qualified (MQL) → Sales Qualified (SQL) → Demo Scheduled → Pr
 | Stage | enum | Sales pipeline |
 | Created | datetime | Supabase auto |
 | Last Activity | datetime | Event tracking |
+| **Platform Activated** | **boolean** | **Supabase `license_validation_logs` + `license_devices` (mt5/mt4/ctrader with persistent device = true)** |
+| **Activation Confidence** | **enum** | **confirmed / probable / desktop_only / never_seen (from `ANALYTICS/directives/platform-activation-indicator.md`)** |
+
+> **Platform Activation** is the **ultimate conversion indicator**. A lead with `Platform Activated = true` has proven product usage on a live trading platform. Desktop app opens do NOT count. Leads should not be marked as converted until Platform Activation is confirmed.
 
 ## Hygiene Rules
 

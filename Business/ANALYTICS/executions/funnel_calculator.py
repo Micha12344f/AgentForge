@@ -36,15 +36,31 @@ from shared.notion_client import query_db, add_row, log_task
 # Email Funnel
 # ──────────────────────────────────────────────
 def calculate_email_funnel() -> dict:
-    """Calculate email funnel: sent → delivered → opened → clicked → replied."""
+    """Calculate email funnel: sent → delivered → opened → clicked → replied.
+
+    Counts are cumulative: a lead whose Last Email Status is "clicked" is
+    also counted as delivered and opened, because those stages must have
+    happened for the lead to reach the current status.
+    """
     print("  [Email Funnel] Querying leads DB for email stats ...")
     rows = query_db("email_sends", page_size=100)
+
+    # Cumulative progression: higher statuses imply all earlier stages happened.
+    _PROGRESSION = {
+        "delivered": {"delivered"},
+        "opened":    {"delivered", "opened"},
+        "clicked":   {"delivered", "opened", "clicked"},
+    }
 
     stages = {"sent": 0, "delivered": 0, "opened": 0, "clicked": 0, "replied": 0, "bounced": 0}
     for row in rows:
         status = (row.get("Last Email Status") or "").lower()
-        if status in stages:
-            stages[status] += 1
+        implied = _PROGRESSION.get(status)
+        if implied:
+            for s in implied:
+                stages[s] += 1
+        elif status == "bounced":
+            stages["bounced"] += 1
         has_replied = row.get("Has Replied", False)
         if has_replied:
             stages["replied"] += 1
@@ -116,7 +132,7 @@ def main():
     elif args.action == "signup-funnel":
         result = calculate_signup_funnel()
 
-    log_task("Analytics", "funnel-calc", args.action, "success")
+    log_task("Analytics", f"funnel-calc/{args.action}", "Complete", "P2")
 
 
 if __name__ == "__main__":

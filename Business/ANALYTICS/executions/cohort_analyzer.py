@@ -141,7 +141,7 @@ def main():
         print()
         churn_analysis()
 
-    log_task("Analytics", "cohort", args.action, "success")
+    log_task("Analytics", f"cohort/{args.action}", "Complete", "P2")
 
 
 if __name__ == "__main__":

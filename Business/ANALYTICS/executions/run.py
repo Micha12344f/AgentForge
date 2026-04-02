@@ -7,8 +7,8 @@ Routes analytics tasks to execution scripts.
 Usage:
     python "Analytics Agent/run.py" --list-tasks
     python "Analytics Agent/run.py" --status
-    python "Analytics Agent/run.py" --task kpi-snapshot --action weekly-report
-    python "Analytics Agent/run.py" --task funnel-calc --action snapshot
+    python "Analytics Agent/run.py" --task report --action weekly
+    python "Analytics Agent/run.py" --task notion-report --action weekly
 """
 
 import sys
@@ -24,6 +24,35 @@ if sys.stdout.encoding and sys.stdout.encoding.lower().startswith("cp"):
 # ── Ensure workspace root is on sys.path ──────────────────────
 _AGENT_DIR = os.path.dirname(os.path.abspath(__file__))
 _WORKSPACE = os.path.dirname(os.path.dirname(os.path.dirname(_AGENT_DIR)))
+
+
+def _workspace_python() -> str | None:
+    candidates = [
+        os.path.join(_WORKSPACE, ".venv", "Scripts", "python.exe"),
+        os.path.join(_WORKSPACE, ".venv", "bin", "python"),
+    ]
+    for candidate in candidates:
+        if os.path.isfile(candidate):
+            return candidate
+    return None
+
+
+def _bootstrap_workspace_python() -> None:
+    preferred = _workspace_python()
+    if not preferred:
+        return
+    current = os.path.abspath(sys.executable).lower()
+    target = os.path.abspath(preferred).lower()
+    if current == target:
+        return
+    result = subprocess.run(
+        [preferred, os.path.abspath(__file__), *sys.argv[1:]],
+        check=False,
+    )
+    sys.exit(result.returncode)
+
+
+_bootstrap_workspace_python()
 sys.path.insert(0, _WORKSPACE)
 
 from shared.notion_client import log_task
@@ -43,7 +72,7 @@ TASKS: dict[str, dict] = {
     },
     "kpi-snapshot": {
         "script": os.path.join(_AGENT_DIR, "kpi_snapshot.py"),
-        "description": "Take KPI snapshots, weekly reports, and trend analysis",
+        "description": "Read or write mirrored KPI snapshot tables in Notion for dashboard maintenance",
     },
     "license-track": {
         "script": os.path.join(_AGENT_DIR, "license_tracking_report.py"),
@@ -70,8 +99,12 @@ TASKS: dict[str, dict] = {
         "description": "Cohort retention analysis, LTV estimation, churn patterns",
     },
     "report": {
+        "script": os.path.join(_AGENT_DIR, "strategic_report.py"),
+        "description": "Strategic direct-source analytics reports from GA4, Supabase, Resend, and Creem",
+    },
+    "notion-report": {
         "script": os.path.join(_AGENT_DIR, "report_automator.py"),
-        "description": "Automated daily/weekly/monthly business reports",
+        "description": "Legacy Notion-backed daily/weekly/monthly reports from mirrored dashboard data",
     },
     "beta-email-parse": {
         "script": os.path.join(_AGENT_DIR, "beta_email_parser.py"),
@@ -90,7 +123,7 @@ TASKS: dict[str, dict] = {
 # ──────────────────────────────────────────────
 _TASK_KEYWORDS: dict[str, list[str]] = {
     "email-template-audit": ["template audit", "email template", "full template", "template content", "email body", "subject line audit", "template metrics"],
-    "kpi-snapshot":  ["kpi", "snapshot", "metric", "weekly report", "dashboard"],
+    "kpi-snapshot":  ["kpi snapshot", "notion snapshot", "dashboard mirror", "mirrored kpi", "notion kpi"],
     "license-track": ["license", "customer health", "activation", "device fleet", "validation error"],
     "funnel-calc":   ["funnel", "conversion rate", "drop-off", "cohort metric"],
     "ab-test":       ["a/b", "ab test", "experiment", "variant"],
@@ -98,7 +131,8 @@ _TASK_KEYWORDS: dict[str, list[str]] = {
     "conversion-track": ["conversion", "signup", "beta signup", "new user", "user_attribution"],
     "beta-email-parse": ["beta email", "resend beta", "beta key email", "hot lead", "cross-check", "sanity check"],
     "cohort":        ["cohort", "retention", "ltv", "churn", "lifetime"],
-    "report":        ["report", "daily report", "monthly report", "business report"],
+    "report":        ["report", "analytical report", "weekly report", "7 day report", "7-day report", "executive briefing", "business report", "strategic report"],
+    "notion-report": ["notion report", "notion weekly report", "legacy report", "dashboard report"],
     "link-track":    ["utm", "short link", "link track"],
 }
 
@@ -152,15 +186,16 @@ def cmd_status() -> None:
 # Default action for each task when Discord sends generic "run"
 _DEFAULT_ACTIONS: dict[str, str] = {
     "email-template-audit": "summary",
-    "kpi-snapshot":  "weekly-report",
+    "kpi-snapshot":  "latest",
     "license-track": "dashboard",
     "funnel-calc":   "snapshot",
-    "ab-test":       "status",
-    "attribution":   "report",
+    "ab-test":       "list",
+    "attribution":   "summary",
     "conversion-track": "recent",
     "beta-email-parse": "scan",
-    "cohort":        "report",
-    "report":        "generate",
+    "cohort":        "summary",
+    "report":        "weekly",
+    "notion-report": "weekly",
     "link-track":    "list-links",
 }
 
@@ -186,6 +221,7 @@ def cmd_run(task: str, action: str, extra: list[str]) -> None:
         cmd,
         max_retries=2,
         task_label=f"{AGENT_NAME}/{task}/{action}",
+        non_retry_exit_codes={2},
     )
 
     status = "Complete" if result.returncode == 0 else "Error"

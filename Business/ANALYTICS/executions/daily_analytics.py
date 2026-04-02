@@ -31,18 +31,13 @@ from dotenv import load_dotenv
 load_dotenv(os.path.join(_WS, ".env"), override=True)
 
 import requests
-from shared.notion_client import DATABASES, add_row, query_db, log_task
+from shared.notion_client import DATABASES, add_row, query_db, log_task, notion_request
 
 
 # ──────────────────────────────────────────────
 # Config
 # ──────────────────────────────────────────────
 RESEND_AUDIENCE_ID = "17895b10-363b-47d7-9784-477131568f7f"
-
-# Path to email system enrichment
-_EMAIL_SYSTEM_DIR = os.path.join(
-    _WS, "Business", "GROWTH", "executions", "Marketing", "email_marketing",
-)
 
 
 def _resend_headers() -> dict:
@@ -103,7 +98,8 @@ def get_email_stats(report_date: str) -> dict:
         body: dict[str, Any] = {"page_size": 100}
         if cursor:
             body["start_cursor"] = cursor
-        r = requests.post(
+        r = notion_request(
+            "post",
             f"https://api.notion.com/v1/databases/{db_id}/query",
             headers=h, json=body, timeout=60,
         )
@@ -265,7 +261,8 @@ def update_email_sequence_stats(email_stats: dict) -> None:
         payload: dict[str, Any] = {"page_size": 100}
         if cursor:
             payload["start_cursor"] = cursor
-        r = requests.post(
+        r = notion_request(
+            "post",
             f"https://api.notion.com/v1/databases/{seq_db_id}/query",
             headers=h, json=payload, timeout=60,
         )
@@ -364,7 +361,8 @@ def update_email_sequence_stats(email_stats: dict) -> None:
             }
 
         try:
-            resp = requests.patch(
+            resp = notion_request(
+                "patch",
                 f"https://api.notion.com/v1/pages/{page_id}",
                 headers=h, json={"properties": update_props}, timeout=60,
             )
@@ -551,7 +549,8 @@ def get_lead_stats() -> dict:
         body: dict[str, Any] = {"page_size": 100}
         if cursor:
             body["start_cursor"] = cursor
-        r = requests.post(
+        r = notion_request(
+            "post",
             f"https://api.notion.com/v1/databases/{db_id}/query",
             headers=h, json=body, timeout=60,
         )

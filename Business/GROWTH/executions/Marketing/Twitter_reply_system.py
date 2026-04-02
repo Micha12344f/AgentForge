@@ -39,6 +39,7 @@ if _WS_ROOT not in sys.path:
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__))))
 from dotenv import load_dotenv
 load_dotenv(os.path.join(_WS_ROOT, ".env"))
+load_dotenv(os.path.join(_WS_ROOT, "Business", "GROWTH", "resources", ".env"), override=True)
 
 # Import humanization layer
 from tw_humanize import (

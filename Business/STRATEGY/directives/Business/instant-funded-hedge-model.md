@@ -40,6 +40,25 @@ to:
 - When deciding whether a higher upfront fee is justified by immediate funded access
 - When stress-testing instant-funded offers with trailing DD or consistency rules
 - When producing research or positioning content around first-payout recovery
+- When the user already has a funded / instant-funded account and needs an immediate hedge counterpart
+
+## Existing Funded Account / Hedge-Now Workflow
+
+When the user already holds the first funded account, the question changes again:
+
+- Do **not** re-run the challenge notebook logic
+- Treat the held account's entry fee as sunk for this decision
+- Optimise only the new counterpart account
+
+Current workflow:
+
+1. Refresh FX + instant-funded rows with `executions/propmatch_scraper.py --action scrape-challenges`
+2. Materialise hedgeability flags and instant-funded views with `executions/build_model_input_db.py`
+3. Run `resources/PropFirmData/type_c_instant_funded_hedge.ipynb`
+4. Filter to: different firm, hedgeable rows only, size ratio no wider than 2.5x, static preferred over trailing
+5. Rank by: static first, payout speed / minimum days, size proximity, EV, then upfront fee
+
+Validated operating note (Mar 2026): for an externally held FundingPips 30k funded account, the best hedge-now counterpart under a $500 upfront-fee cap was Instant Funding 25k static (`fee ≈ $169`, `EV ≈ $1,197`, `capital_needed ≈ $671`, payout on demand). The best EV under the same cap was Instant Funding 50k static (`fee ≈ $289`, `EV ≈ $2,711`, `capital_needed ≈ $1,555`). Treat this as a dated screen result, not a permanent ranking.
 
 ## Input Specification
 
@@ -47,7 +66,7 @@ to:
 |-------|------|----------|-------------|
 | Data file | JSON | Yes | Scraped FX challenge data from `propmatch_scraper.py --action scrape-challenges` |
 | filter | string | Yes | Keep rows where `steps_label = "Instant"` |
-| first_payout_target_pct | float | No | Gross funded profit target before withdrawal split (default: `0.05` = 5%) |
+| first_payout_target_pct | float | No | Gross funded profit target before withdrawal split (current notebook default: `0.08` = 8%) |
 | spread_cost_pct | float | No | Round-trip hedge friction as a percent of notional (default: `0.0003`) |
 | base_trading_days | int | No | Minimum funded trading days assumed to reach first payout (default: `5`) |
 | consistency_threshold | float | No | Optional override for consistency-rule stress tests |
@@ -191,11 +210,13 @@ Rank instant-funded offers by:
 ## Execution Scripts
 
 - `executions/propmatch_scraper.py --action scrape-challenges` - FX challenge data including `steps_label = Instant`
-- `resources/PropFirmData/instant_funded_hedge_model.ipynb` - Interactive notebook for instant-funded accounts
+- `executions/build_model_input_db.py` - rebuilds `propmatch_model_input.db` and the instant-funded views / hedgeability flags consumed by the notebook
+- `resources/PropFirmData/type_c_instant_funded_hedge.ipynb` - interactive notebook for instant-funded first-payout modelling and hedge-now counterpart ranking
 
 ## Resources
 
 - `resources/PropFirmData/propmatch_challenges_*.json` - Scraped FX challenge data with instant-funded rows included
+- `resources/PropFirmData/propmatch_model_input.db` - model input database with `v_instant_model`, `v_instant_model_eligible`, and `v_model_inputs`
 - `directives/Business/prop-firm-hedge-arbitrage.md` - Base FX challenge modelling directive
 - `resources/Product/hedging-explained.md` - Hedge mechanics reference
 
@@ -207,5 +228,6 @@ Rank instant-funded offers by:
 - [ ] Static and trailing DD are modelled separately
 - [ ] Missing consistency fields default cleanly to no-rule instead of breaking the model
 - [ ] Notebook ranks accounts by first-payout EV and break-even payout percentage
+- [ ] Existing-account "hedge now" screens can rank a new counterpart without treating the held account as a fresh purchase
 - [ ] Sensitivity analysis covers payout target and consistency-rule stress testing
 - [ ] Outputs are saved to `resources/PropFirmData/`

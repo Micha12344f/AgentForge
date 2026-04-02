@@ -1,0 +1,24 @@
+services:
+  linkedin-leads-bot:
+    container_name: hedgeedge-linkedin-leads-bot
+    build:
+      context: ../../../../
+      dockerfile: Business/GROWTH/executions/Marketing/Dockerfile.linkedin-bot
+    command: ["python", "Business/GROWTH/executions/Marketing/linkedin_bot_service.py"]
+    environment:
+      PORT: "8091"
+      HEDGE_ENV_FILE: "/app/.env.linkedin-bot"
+      LINKEDIN_BOT_ACCOUNTS: "ryan,mahmud"
+      LINKEDIN_BOT_LOOKBACK_DAYS: "7"
+      LINKEDIN_BOT_INTERVAL_HOURS: "24"
+      LINKEDIN_BOT_RUN_ON_START: "true"
+    volumes:
+      - ../../../../:/app
+    restart: unless-stopped
+    shm_size: "1gb"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8091/health', timeout=5).read()"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s

@@ -15,7 +15,7 @@ Usage:
 import sys
 import os
 import argparse
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timezone
 
 if sys.stdout.encoding and sys.stdout.encoding.lower().startswith("cp"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -28,8 +28,11 @@ sys.path.insert(0, _WORKSPACE)
 from dotenv import load_dotenv
 load_dotenv(os.path.join(_WORKSPACE, ".env"), override=True)
 
-from shared.notion_client import query_db, log_task
+from shared.notion_client import NotionDatabaseUnavailableError, log_task, query_db
 from shared.alerting import send_alert
+
+
+CONFIG_EXIT_CODE = 2
 
 
 def _get_latest_kpi() -> dict:
@@ -135,14 +138,18 @@ def main():
     parser.add_argument("--action", required=True, choices=["daily", "weekly", "monthly"])
     args = parser.parse_args()
 
-    if args.action == "daily":
-        report = daily_report()
-    elif args.action == "weekly":
-        report = weekly_report()
-    elif args.action == "monthly":
-        report = monthly_report()
+    try:
+        if args.action == "daily":
+            report = daily_report()
+        elif args.action == "weekly":
+            report = weekly_report()
+        elif args.action == "monthly":
+            report = monthly_report()
+    except NotionDatabaseUnavailableError as exc:
+        print(f"❌ {exc}")
+        sys.exit(CONFIG_EXIT_CODE)
 
-    log_task("Analytics", "report", args.action, "success", notes=report[:200])
+    log_task("Analytics", f"report/{args.action}", "Complete", "P2", report[:200])
 
 
 if __name__ == "__main__":

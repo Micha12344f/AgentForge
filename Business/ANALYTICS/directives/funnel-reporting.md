@@ -7,7 +7,10 @@
 ```
 Email funnel:   Sent → Delivered → Opened → Clicked → Replied
 Signup funnel:  Lead → Demo Booked → Demo Completed → Trial → Paid
+Activation funnel:  Beta Claim → Key Issued → Desktop Opened → ★ Platform Activated ★ → First Hedge → Retained
 ```
+
+> **Platform Activation** (★) is the **ultimate conversion indicator**. It is the only stage that proves the user connected an EA/cBot to a live trading platform. Desktop app validation alone does NOT count. See `directives/platform-activation-indicator.md` for the canonical definition and confidence tiers.
 
 ## Current Data Sources
 
@@ -21,6 +24,9 @@ Signup funnel:  Lead → Demo Booked → Demo Completed → Trial → Paid
 | Demo Booked → Demo Completed | Notion `demo_log` | Show-up rate |
 | Demo Completed → Trial | Not yet wired in current execution | Placeholder |
 | Trial → Paid | Not yet wired in current execution | Placeholder |
+| Key Issued → Desktop Opened | Supabase `license_validation_logs` (`platform = desktop`) | Desktop open rate |
+| **Desktop Opened → Platform Activated** | **Supabase `license_validation_logs` (`platform IN mt5/mt4/ctrader`) + `license_devices`** | **Platform Activation Rate — ULTIMATE CONVERSION** |
+| Platform Activated → First Hedge | Not yet wired — requires hedge event logging | Placeholder |
 
 ## Current Execution Behavior
 

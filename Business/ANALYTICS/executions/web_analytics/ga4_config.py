@@ -1,8 +1,9 @@
 """Path setup and shared imports for Hedge Edge GA4 access."""
 
+import os
 import sys
 
-_WS_ROOT = r"C:\Users\sossi\Desktop\Business\Orchestrator Hedge Edge"
+_WS_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", ".."))
 if _WS_ROOT not in sys.path:
     sys.path.insert(0, _WS_ROOT)
 

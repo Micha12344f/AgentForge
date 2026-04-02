@@ -26,7 +26,7 @@ _WORKSPACE = os.path.dirname(os.path.dirname(os.path.dirname(_EXEC_DIR)))
 if _WORKSPACE not in sys.path:
     sys.path.insert(0, _WORKSPACE)
 
-from shared.notion_client import get_notion, query_db
+from shared.notion_client import list_block_children, query_db
 
 
 TEXT_BLOCK_TYPES = {
@@ -53,12 +53,11 @@ def _extract_rich_text(block: dict) -> str:
 
 
 def _read_template_bodies() -> dict[str, str]:
-    client = get_notion()
     rows = query_db("email_sequences")
     bodies: dict[str, str] = {}
     for row in rows:
         page_id = row["_id"]
-        blocks = client.blocks.children.list(block_id=page_id).get("results", [])
+        blocks = list_block_children(page_id)
         content_parts: list[str] = []
         for block in blocks:
             text = _extract_rich_text(block)

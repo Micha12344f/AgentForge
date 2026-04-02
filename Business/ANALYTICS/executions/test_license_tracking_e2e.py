@@ -65,7 +65,8 @@ def main() -> None:
     assert summary["total_licenses"] == len(bundle.licenses)
     assert summary["active_licenses"] <= summary["total_licenses"]
     assert set(bundle.health["health"].unique()).issubset(
-        {"HEALTHY", "WARMING UP", "NOT ACTIVATED", "NEEDS SUPPORT", "CHURNING", "DORMANT"}
+        {"HEALTHY", "WARMING UP", "NOT ACTIVATED", "NEEDS_ONBOARDING_HELP",
+         "DESKTOP_ONLY", "NEEDS SUPPORT", "CHURNING", "DORMANT"}
     )
 
     print("License tracking E2E passed")
