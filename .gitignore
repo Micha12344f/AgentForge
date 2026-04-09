@@ -1,0 +1,30 @@
+# Environment variables (never commit secrets)
+.env
+Business/*/resources/.env
+Business/*/resources/*/.env
+!.env.example
+!Business/*/resources/.env.example
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# Node
+node_modules/
+.vite/
+
+# IDE
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temp
+tmp/
