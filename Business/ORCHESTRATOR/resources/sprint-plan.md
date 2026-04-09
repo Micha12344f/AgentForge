@@ -1,7 +1,7 @@
 # AgentForge — 14-Day Blitz Sprint Plan
 
 > **Status**: ACTIVE
-> **Start Date**: TBD (set when sprint begins)
+> **Start Date**: April 9, 2026 (Day 1)
 > **Origin**: idea-002 (Departmental Agents in Public for SMEs) from Hedge Edge strategy pipeline
 
 ---

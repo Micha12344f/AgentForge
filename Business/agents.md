@@ -39,8 +39,8 @@ Each department's `SKILL.md` is the entry point. Read it to understand what skil
 
 ```
 Business/
-├── ENGINEERING/         Core tech — agent framework, integrations, approval engine, eval harness
-│   └── SKILL.md         Skills: agent executor, tool integrations, approval flows, eval/observability, multi-agent orchestration
+├── ENGINEERING/         Agent factory — builds AI agents from scratch using smolagents + MCP
+│   └── SKILL.md         Skills: requirements elicitation, agent design, MCP integration planning, API doc research, evaluation design, safety boundaries, web research
 │
 ├── PRODUCT/             Product management — customer discovery, requirements, roadmap, feedback
 │   └── SKILL.md         Skills: customer interviews, use case mapping, requirements, roadmap, feedback loops
@@ -52,7 +52,7 @@ Business/
 │   └── SKILL.md         Skills: case studies, technical posts, social content, open source releases
 │
 └── ORCHESTRATOR/        Central nervous system — sprint coordination, routing, cross-department workflows
-    └── SKILL.md         Skills: sprint management, agent routing, task decomposition, status reporting
+    └── SKILL.md         Skills: sprint management, agent routing, task decomposition, status reporting, VPS connectivity
 ```
 
 ---
@@ -63,8 +63,25 @@ Business/
 |--------|---------|
 | `shared/` | Shared Python/JS libraries used by all departments |
 | `tmp/` | Temporary scratchpad — not persistent |
-| `.github/agents/` | VS Code Copilot agent definitions (one per department) |
+| `.github/agents/` | VS Code Copilot agent definitions and tool assignments for department agents |
+| `.github/skills/` | VS Code Copilot workspace skills loaded on demand |
 | `.env` | Master environment variables (all API keys) |
+
+---
+
+## VS Code Capability Matrix
+
+The workspace ships with role-scoped VS Code custom agents under `.github/agents/`. Tool access follows least privilege, with the **Orchestrator** holding the broadest access so cross-department work stays coordinated.
+
+| Agent | VS Code Capability Profile | Notes |
+|-------|----------------------------|-------|
+| **Orchestrator** | `agent`, `execute`, `read`, `edit`, `search`, `web`, `todo`, `memory`, `vscode/extensions`, `vscode/getProjectSetupInfo`, `vscode/askQuestions` | Highest-power agent. Owns delegation, coordination, setup discovery, extension research, and escalation. |
+| **Engineering** | `execute`, `read`, `edit`, `search`, `web`, `todo`, `memory`, `vscode/extensions`, `vscode/getProjectSetupInfo`, `vscode/askQuestions` | Agent factory. Builds AI agents from scratch using smolagents + MCP. Always asks clarifying questions before building. Hands registration to Orchestrator. |
+| **Delivery** | `execute`, `read`, `edit`, `search`, `web`, `todo`, `memory`, `vscode/extensions` | Can deploy and operate systems, but release coordination stays with Orchestrator. |
+| **Product** | `read`, `edit`, `search`, `web`, `todo`, `memory`, `vscode/askQuestions` | No terminal access by default. Optimised for discovery, specs, and prioritisation. |
+| **Content** | `read`, `edit`, `search`, `web`, `todo`, `memory` | No terminal access by default. Optimised for drafting from real project artefacts. |
+
+Each department agent includes a handoff back to **Orchestrator** so users can move back to central coordination without re-explaining context.
 
 ---
 
@@ -88,6 +105,7 @@ Business/
 | GitHub | Code, releases, CI/CD | `.env` |
 | Vercel | Web hosting | `.env` |
 | Railway | Always-on services | `.env` |
+| VPS / SSH | Remote host access, diagnostics, manual deploy fallback | `.env` |
 | HubSpot | CRM integration target | `ENGINEERING/resources/.env` |
 | Slack | Communication integration target | `ENGINEERING/resources/.env` |
 | Google Workspace | Gmail/Drive/Calendar integration target | `ENGINEERING/resources/.env` |

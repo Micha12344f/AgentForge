@@ -1,143 +1,129 @@
 ---
 name: engineering
-description: "Engineering Agent — core technical agent for AgentForge. Builds the agent framework, integrations, approval engine, evaluation harness, and multi-agent orchestration system."
+description: "Engineering Agent — builds AI agents from scratch inside the AgentForge workspace. Uses smolagents as the default runtime, plans MCP integrations, designs evals, enforces safety boundaries, and researches current AI engineering standards."
 ---
 
 # ENGINEERING — Skill Command Sheet
 
-> **Adopt this department to gain**: Agent framework development, tool integration building, approval engine design, evaluation and observability systems, and multi-agent orchestration architecture.
+> **Adopt this department to gain**: Agent design and scaffolding, requirements elicitation, smolagents runtime wiring, MCP integration planning, API documentation research, evaluation design, safety and sandboxing, and web-based technology research.
 
-> **Governance**: Engineering owns engineering content. Orchestrator alone owns cross-department DOE restructuring.
+> **Governance**: Engineering owns agent-building content. Orchestrator alone owns cross-department DOE restructuring and `agents.md` / `SKILL.md` registration.
 
 ---
 
 ## Skills
 
-### Skill 1 — Agent Executor Framework
+### Skill 1 — Requirements Elicitation
 | Layer | Path |
 |-------|------|
-| Directive | `directives/agent-executor.md` |
-| Executions | `executions/agent_executor.py` |
-| Resources | `resources/architecture-decisions.md` |
-| Use for | Building the core single-agent executor: task decomposition, tool calling, structured output, error recovery |
+| Directive | `directives/agent-builder.md` (Section: Requirements) |
+| Resources | `resources/agent-builder-checklist.md` |
+| Use for | Cutting through vague requests to extract precise agent requirements before any design work begins |
 
 **What this covers**:
-- Single-agent executor that takes a task, decomposes into steps, calls tools, returns structured output
-- Trace log format (JSON): every decision, tool call, result, latency, cost
-- Error recovery: retry, fallback, escalate
-- Prompt engineering and reliability patterns
+- Mandatory question protocol: who, what outcome, what systems, what data, what risk, what exists, what success looks like, what it must never do
+- Agent Card completion: name, department, purpose, agency level, risk tier, owner
+- Decision Gate: determining whether the workflow actually needs an agent or should be a script/router
+- Never-assume policy: the agent always asks before building
 
-### Skill 2 — Tool Integrations
+### Skill 2 — Agent Design (smolagents-first)
 | Layer | Path |
 |-------|------|
-| Directive | `directives/integrations.md` |
-| Executions | `executions/integrations/` |
-| Resources | `resources/integration-specs/` |
-| Use for | Building production-grade integration clients for target business tools |
-
-**Target integrations (5 core)**:
-1. **HubSpot CRM** — contacts, deals, lifecycle events, webhooks
-2. **Slack** — messages, channels, slash commands, interactive messages
-3. **Google Workspace** — Gmail send/read, Drive file ops, Calendar CRUD
-4. **Asana or Linear** — tasks, projects, status updates, webhooks
-5. **Stripe or Xero** — invoices, payments, reconciliation events
-
-**Per integration**:
-- Working CRUD + auth + rate-limit handling
-- Integration test suite: mock + live sandbox
-- Auth flow documentation: OAuth2, API key, service account
-
-### Skill 3 — Approval Engine (Human-in-the-Loop)
-| Layer | Path |
-|-------|------|
-| Directive | `directives/approval-engine.md` |
-| Executions | `executions/approval_engine.py` |
-| Resources | `resources/approval-patterns.md` |
-| Use for | Building trust checkpoints into every agent workflow |
+| Directive | `directives/agent-builder.md` (Sections: Design Process, Workflow Patterns, System Prompt) |
+| Resources | `resources/agent-builder-checklist.md` |
+| Use for | Designing agents using smolagents as the default runtime, selecting workflow patterns, and writing system prompts |
 
 **What this covers**:
-- Approval queue service: API + Slack-based approval UI
-- Agent SDK function: `await_approval(action, context, urgency)`
-- Audit log: timestamps, approver identity, decision, rationale
-- Timeout + escalation: no response in X minutes → escalate to next approver
+- `CodeAgent` as default runtime; `ToolCallingAgent` only when code execution is unnecessary
+- Tool set design: ≤ 7 tools, non-overlapping descriptions, typed I/O, auth, rate limits
+- Workflow pattern selection: code agent → tool-calling → graph → event-driven → multi-agent
+- System prompt skeleton: identity, tools block, workflow instructions, guardrails, handoff rules
+- Artifact pack generation: `.agent.md`, directive, execution stub, eval cases, reference docs
 
-### Skill 4 — Evaluation & Observability
+### Skill 3 — MCP Integration Planning
 | Layer | Path |
 |-------|------|
-| Directive | `directives/eval-observability.md` |
-| Executions | `executions/eval_harness.py` `executions/tracing_service.py` |
-| Resources | `resources/eval-test-cases/` |
-| Use for | Measuring agent performance, debugging failures, tracking costs |
+| Directive | `directives/agent-builder.md` (Section: MCP Strategy) |
+| Executions | `executions/agentforge_mcp_server.py` |
+| Resources | `resources/agent-builder-checklist.md` |
+| Use for | Planning and building MCP integrations for agent tools: pre-built servers, wrappers, or custom FastMCP servers |
 
 **What this covers**:
-- Tracing service: every agent action logged (input, output, latency, cost, outcome, approval status)
-- Evaluation harness: define expected outcomes per task, run agent, compare, score pass/fail
-- Summary reports: pass rate, failure categories, cost per task, latency distribution
-- Regression alerting: pass rate drops below threshold → alert
+- MCP strategy decision matrix: pre-built official → pre-built aggregator → custom AgentForge → hybrid wrapper
+- Searching MCP registries (glama.ai, smithery.ai, modelcontextprotocol/servers) for existing servers
+- Scaffolding custom MCP servers with `FastMCP` from the Python MCP SDK
+- smolagents integration: `MCPClient` and `ToolCollection.from_mcp()` with `structured_output=True`
+- Transport selection: `streamable-http` for deployed, `stdio` for local development
 
-### Skill 5 — Multi-Agent Orchestration
+### Skill 4 — API Documentation Research & Scraping
 | Layer | Path |
 |-------|------|
-| Directive | `directives/multi-agent-orchestration.md` |
-| Executions | `executions/orchestrator_engine.py` |
-| Resources | `resources/dag-patterns.md` |
-| Use for | Coordinating multiple agents on end-to-end workflows |
+| Directive | `directives/agent-builder.md` (Section: MCP Strategy) |
+| Use for | Researching API documentation for target systems to design tools or scaffold MCP servers |
 
 **What this covers**:
-- DAG-based multi-agent orchestrator with shared state object
-- Failure handling: node failure preserves completed work, retries or escalates
-- Agent handoffs: clear ownership, conflict resolution
-- End-to-end workflow execution across integrations
+- Web-searching official API docs for target SaaS/services
+- Fetching and analyzing API references: endpoints, auth patterns, rate limits, data schemas
+- Extracting the minimum viable API surface an agent needs
+- Documenting auth flows, required scopes, and rate limit strategies in agent reference resources
+
+### Skill 5 — Evaluation Design
+| Layer | Path |
+|-------|------|
+| Directive | `directives/agent-builder.md` (Section: Evaluation Cases) |
+| Resources | `resources/agent-builder-checklist.md` |
+| Use for | Designing evaluation test suites that ship with every agent |
+
+**What this covers**:
+- Minimum 8 eval cases per agent: 3 happy-path, 2 edge, 1 refusal, 1 multi-step, 1 failure-recovery
+- Structured case format: id, input, expected_behaviour, pass_criteria, tools_expected
+- Evals test agent judgment, not just tool correctness
+- Trace-based evaluation: verify trace schema compliance, cost tracking, latency bounds
+
+### Skill 6 — Safety & Execution Boundaries
+| Layer | Path |
+|-------|------|
+| Directive | `directives/agent-builder.md` (Section: Anti-Patterns, Course-to-Production Gap) |
+| Resources | `resources/agent-builder-checklist.md` |
+| Use for | Defining what agents must never do, sandboxing code execution, and mapping risk tiers to approval flows |
+
+**What this covers**:
+- Explicit refusal boundaries per agent
+- Max-step limits, timeouts, and cost caps
+- Code execution risk classification: `LocalPythonExecutor` = dev-only; production = Docker, E2B, Modal, Blaxel, Pyodide+Deno
+- Risk tier → approval mapping: low=self-serve, medium=peer review, high=human-in-the-loop, critical=multi-party sign-off
+- Import allow-lists, output size limits, and execution timeouts for code agents
+
+### Skill 7 — Web Research (Current Standards)
+| Layer | Path |
+|-------|------|
+| Directive | (no dedicated directive — this is an operational stance applied to all other skills) |
+| Use for | Verifying framework versions, MCP server availability, and AI engineering best practices before making design decisions |
+
+**What this covers**:
+- Searching official docs, GitHub repos, HuggingFace docs, and ModelContextProtocol spec before framework decisions
+- Verifying MCP server maintenance status and compatibility before recommending
+- Staying current with smolagents releases, MCP SDK updates, and AI engineering standards
+- Preferring reputable sources over cached knowledge for rapidly evolving technologies
 
 ---
 
-## Sprint Tasks (14-Day Blitz)
+## File Map
 
-### Day 1–2: Agent Core + First Integrations
+| Path | Purpose |
+|------|---------|
+| `directives/agent-builder.md` | Master SOP for designing and scaffolding agents |
+| `executions/agent_builder.py` | smolagents runtime scaffold with MCP client wiring |
+| `executions/agentforge_mcp_server.py` | Custom FastMCP server skeleton for shared capabilities |
+| `resources/agent-builder-checklist.md` | Quick-reference checklist for every agent build |
 
-**Morning — Agent Executor**:
-- [ ] Single-agent executor: takes a task, decomposes into steps, calls tools, returns structured output
-- [ ] Trace log format (JSON): every decision, tool call, result, latency, cost
-- [ ] Error recovery: retry, fallback, escalate
+---
 
-**Afternoon — Integrations (start 3 of 5)**:
-- [ ] HubSpot CRM client: contacts, deals, lifecycle events, webhooks
-- [ ] Slack client: messages, channels, slash commands, interactive messages
-- [ ] Google Workspace client: Gmail send/read, Drive file ops, Calendar CRUD
+## Agent Build Workflow (Summary)
 
-**Checkpoint**: Agent can execute a 3-step task using real tools and produce a trace. 3 integrations have working CRUD + auth + rate-limit handling.
+```
+Request → Elicit Requirements → Decision Gate → Design → Build Artifacts → Validate → Hand Off
+         (Skill 1)             (Skill 1)       (Skills 2-6)  (Skill 2)     (Skill 5-6)  (Orchestrator)
+```
 
-### Day 3–4: Remaining Integrations + Approval Engine
-
-**Morning — Integrations (finish)**:
-- [ ] Asana or Linear client: tasks, projects, status updates, webhooks
-- [ ] Stripe or Xero client: invoices, payments, reconciliation events
-- [ ] Integration test suite: mock + live sandbox for all 5
-- [ ] Auth flow docs: OAuth2, API key, service account per integration
-
-**Afternoon — Human-in-the-Loop**:
-- [ ] Approval queue service: API + Slack-based approval UI
-- [ ] Agent SDK function: `await_approval(action, context, urgency)`
-- [ ] Audit log: timestamps, approver identity, decision, rationale
-- [ ] Timeout + escalation: no response in X minutes → escalate to next approver
-
-**Checkpoint**: 5 production-grade integrations ready. Approval engine working: agent pauses → human approves in Slack → agent resumes → trace logged.
-
-### Day 7–9: Multi-Agent Orchestration
-
-**Build**: Multi-agent system where 3+ agents coordinate on a real end-to-end workflow.
-
-**Target workflow**: New client signed →
-1. Agent A reads deal from HubSpot, creates project in Asana
-2. Agent B drafts welcome email in Gmail, pauses for approval
-3. Agent C schedules kickoff in Google Calendar
-4. Agent D posts internal summary in Slack
-5. Orchestrator tracks DAG completion, handles failures
-
-**Deliverables**:
-- [ ] DAG-based multi-agent orchestrator with shared state object
-- [ ] Failure handling: node failure preserves completed work, retries or escalates
-- [ ] End-to-end demo running on real sandbox accounts (not mocks)
-- [ ] All runs traced and scored through the eval harness
-
-**Checkpoint**: Full pipeline runs: HubSpot → Asana → Gmail (approval) → Calendar → Slack. Every step traced, scored, auditable.
+Every step uses **Skill 7 (Web Research)** as needed to verify current standards.

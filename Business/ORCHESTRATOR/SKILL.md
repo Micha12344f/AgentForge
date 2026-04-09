@@ -5,7 +5,7 @@ description: "Orchestrator Agent — master coordinator for the AgentForge 14-da
 
 # ORCHESTRATOR — Skill Command Sheet
 
-> **Adopt this department to gain**: Sprint management, task routing, cross-department coordination, task decomposition, progress tracking, and daily rhythm enforcement.
+> **Adopt this department to gain**: Sprint management, task routing, cross-department coordination, task decomposition, progress tracking, daily rhythm enforcement, and VPS access coordination.
 
 > **Governance**:
 > - **DOE owner**: Orchestrator is the only department allowed to reorganise files across `Business/` so the DOE pattern stays coherent.
@@ -33,7 +33,7 @@ description: "Orchestrator Agent — master coordinator for the AgentForge 14-da
 
 | Intent | Route To |
 |--------|----------|
-| Agent framework, integrations, approval engine, eval | ENGINEERING |
+| Build an agent, agent design, scaffolding, MCP integration, agent eval | ENGINEERING |
 | Customer discovery, requirements, roadmap, feedback | PRODUCT |
 | Deployment, monitoring, infrastructure, tracing | DELIVERY |
 | Blog post, case study, social content, open source | CONTENT |
@@ -57,6 +57,19 @@ description: "Orchestrator Agent — master coordinator for the AgentForge 14-da
 |-------|------|
 | Directive | `directives/blocker-resolution.md` |
 | Use for | Detecting, triaging, and resolving blockers that threaten sprint progress |
+
+### Skill 6 — VPS Connectivity & Remote Operations
+| Layer | Path |
+|-------|------|
+| Directive | `directives/vps-connectivity.md` |
+| Resources | `resources/connection-reference.md`, `resources/.env.example` |
+| Use for | Establishing SSH access from this workspace, validating remote reachability, and coordinating safe diagnostics or VPS deploy steps |
+
+**What this covers**:
+- SSH access based on the root `.env` values
+- Connection probing before interactive login
+- Safe remote inspection and log checks
+- Coordinated production changes with DELIVERY when required
 
 ---
 
@@ -117,5 +130,5 @@ description: "Orchestrator Agent — master coordinator for the AgentForge 14-da
 | ALL | Task routing, status aggregation, blocker resolution | Task status updates |
 | ENGINEERING | Sprint priorities, integration sequence | Build progress, technical blockers |
 | PRODUCT | Customer interview scheduling, pipeline reviews | Discovery insights, feedback data |
-| DELIVERY | Deployment go/no-go decisions | Health metrics, incident reports |
+| DELIVERY | Deployment go/no-go decisions, remote-access coordination | Health metrics, incident reports |
 | CONTENT | Content scheduling, publish decisions | Content drafts, artefact readiness |
