@@ -16,6 +16,7 @@ Use this routing layer before picking a hedge workflow:
 
 | User Request Type | Route To | Primary Docs / Assets | Use When |
 |---|---|---|---|
+| **New business idea / evaluate idea / brainstorm** | **Skill 20 — Due Diligence & Idea Validation** | `directives/Business/idea-mandate-memo.md`, `directives/Business/due-diligence-workflow.md`, `resources/idea-evaluation-TEMPLATE.md`, `resources/IdeaPipeline/pipeline-tracker.md` | User proposes a new business idea, asks to evaluate feasibility, wants to brainstorm concepts, or asks "should I build this?" |
 | **Challenge request** | **Skill 15 — Prop Firm Hedge Arbitrage** | `directives/Business/prop-firm-hedge-arbitrage.md`, `executions/hedge_arbitrage_model.py`, `resources/PropFirmData/type_a_challenge_insurance.ipynb` | User is comparing challenge accounts, asking what challenge to buy, building challenge pairs, or adding a new challenge around an existing challenge account |
 | **Funded challenge request** | **Skill 15 — Type B / Type C funded continuation** | `resources/PropFirmData/type_b_funded_recovery.ipynb`, `resources/PropFirmData/type_c_funded_surplus.ipynb` | User already passed a challenge and wants funded-phase recovery, continuation, survival, or surplus protection |
 | **Instant-funded request** | **Skill 17 — Instant Funded Hedge Model** | `directives/Business/instant-funded-hedge-model.md`, `executions/build_model_input_db.py`, `resources/PropFirmData/type_c_instant_funded_hedge.ipynb` | User wants first-payout analysis for an instant-funded offer, or already holds a funded / instant-funded account and needs a hedge now |
@@ -187,6 +188,31 @@ If budget = $500:
   - Phase 1 hedge loss ≈ $399 × (8%/5%) = ~$638 total stack after phase 1
   - Exceeds $500 budget on total cost basis → disqualified unless user has separate trading capital buffer
 - Flag which challenges genuinely fit within $500 **including hedge costs**, not just fee
+
+#### Skill 20 — Due Diligence & Idea Validation Pipeline
+
+> **MANDATORY WORKFLOW** — Apply this skill whenever a user asks: "I have a business idea", "should I build this?", "evaluate this idea", "new business concept", "is this worth pursuing?", or any variant where a new business idea is being proposed or evaluated. Also applies when the user asks to generate, brainstorm, or compare business ideas.
+
+- **Mandate**: `directives/Business/idea-mandate-memo.md` — binding objectives (4), constraints (3), and targeted action plan; every idea must pass this filter before entering Gate 0
+- **Directive**: `directives/Business/due-diligence-workflow.md` — the full 5-gate workflow (Gate 0 Capture → Gate 1 Quick Kill → Gate 2 Deep Research → Gate 3 Full Business Case → Gate 4 Contained Test)
+- **Template**: `resources/idea-evaluation-TEMPLATE.md` — reusable evaluation document; copy to `resources/IdeaPipeline/idea-{NNN}-{short-name}.md` for each new idea
+- **Tracker**: `resources/IdeaPipeline/pipeline-tracker.md` — master pipeline status for all ideas under evaluation
+- **Reference model**: `directives/Business/What is Hede Edge.md` — the quality standard for Gate 3 full business case output
+- **Executions** (leverage existing Skill 3 tools):
+  - `executions/deep_researcher.py --mode research` — market sizing, TAM/SAM/SOM research
+  - `executions/competitor_intel.py --action matrix` — competitive landscape mapping
+  - `executions/competitor_intel.py --action moat` — structural moat assessment per competitor
+  - `executions/swot_analyzer.py` — SWOT, PESTEL, Porter's 5 Forces for new verticals
+  - `executions/trend_scanner.py` — identify timing advantages and market shifts
+  - `executions/investor_wisdom.py` — stress-test idea against Buffett/Munger/Thiel principles
+- **Non-negotiable entry criteria** (all 5 must pass before Gate 1):
+  1. Credible path to B2B/prosumer recurring revenue
+  2. Not dependent on a single platform's TOS for survival
+  3. Plausible path to data moat, network effect, or regulatory barrier
+  4. Customer cost of problem > $1,000/year
+  5. Buildable to MVP in ≤ 3 months lean effort
+- **Gate kill rates**: ~90% at Gate 1, ~70% at Gate 2, ~50% at Gate 3. This is by design — kill fast, kill cheap.
+- **Output**: Each surviving idea produces a full business case document at `directives/Business/{short-name}-business-case.md` matching the rigour of the Hedge Edge write-up
 
 ---
 

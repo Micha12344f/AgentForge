@@ -1,8 +1,11 @@
 .env
+env.txt
 ga4-key.json
 Business/*/resources/.env
+Business/*/resources/*/.env
 !.env.example
 !Business/*/resources/.env.example
+!Business/*/resources/*/.env.example
 
 # LinkedIn browser session (contains auth tokens — never commit)
 **/.linkedin_session.json
