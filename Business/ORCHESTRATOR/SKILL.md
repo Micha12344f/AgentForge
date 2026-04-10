@@ -71,6 +71,24 @@ description: "Orchestrator Agent — master coordinator for the AgentForge 14-da
 - Safe remote inspection and log checks
 - Coordinated production changes with DELIVERY when required
 
+### Skill 7 — Skill Builder (Meta-Skill)
+| Layer | Path |
+|-------|------|
+| Directive | `directives/skill-builder.md` |
+| Executions | `executions/skill_builder.py` |
+| Resources | `resources/skill-builder-templates.md` |
+| Use for | Creating new DOE-compliant skills for any department agent (including Orchestrator itself) |
+
+**What this covers**:
+- Scaffolding full skill packs: directive + execution script + resource files
+- Validating skill specs before creation (slug format, department existence, required fields)
+- Generating directives that document all file paths for executions and resources
+- Generating Python execution stubs following AgentForge patterns
+- Generating resource files from templates
+- Appending new skill entries to the target department's SKILL.md (always last)
+- Works for any department: ENGINEERING, PRODUCT, DELIVERY, CONTENT, ORCHESTRATOR
+- Can be run interactively via CLI or imported programmatically by an agent
+
 ---
 
 ## Sprint Tasks (14-Day Blitz)

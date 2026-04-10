@@ -1,11 +1,11 @@
 ---
 name: engineering
-description: "Engineering Agent — builds AI agents from scratch inside the AgentForge workspace. Uses smolagents as the default runtime, plans MCP integrations, designs evals, enforces safety boundaries, and researches current AI engineering standards."
+description: "Engineering Agent — builds AI agents and shared MCP runtimes, including remote deployment to Linux and WSL2-backed Docker environments."
 ---
 
 # ENGINEERING — Skill Command Sheet
 
-> **Adopt this department to gain**: Agent design and scaffolding, requirements elicitation, smolagents runtime wiring, MCP integration planning, API documentation research, evaluation design, safety and sandboxing, and web-based technology research.
+> **Adopt this department to gain**: Agent design and scaffolding, requirements elicitation, smolagents runtime wiring, MCP integration planning, API documentation research, evaluation design, safety and sandboxing, web-based technology research, remote server access for agent infrastructure, and Dockerized MCP deployment on Linux or WSL2-backed runtimes.
 
 > **Governance**: Engineering owns agent-building content. Orchestrator alone owns cross-department DOE restructuring and `agents.md` / `SKILL.md` registration.
 
@@ -106,6 +106,37 @@ description: "Engineering Agent — builds AI agents from scratch inside the Age
 - Staying current with smolagents releases, MCP SDK updates, and AI engineering standards
 - Preferring reputable sources over cached knowledge for rapidly evolving technologies
 
+### Skill 8 — Remote Server Access (Cloudflare/SSH)
+| Layer | Path |
+|-------|------|
+| Directive | `directives/remote-server-access.md` |
+| Executions | `executions/server_access_probe.py` |
+| Resources | `../ORCHESTRATOR/resources/connection-reference.md` |
+| Use for | Reaching the configured server through direct SSH or a Cloudflare-backed SSH alias to inspect Windows, Linux, or WSL2-backed runtime state before MCP deployment |
+
+**What this covers**:
+- Searching the workspace `.env` for SSH host, user, port, and key path without exposing secrets
+- Preferring a local `~/.ssh/config` alias when it uses `ProxyCommand ... cloudflared access ssh`
+- Running a non-interactive probe first, then switching to OS-specific inspection commands
+- Distinguishing between Windows-side access, WSL2 Ubuntu runtime access, and pure Linux host access
+- Distinguishing between Docker being installed and Docker engine actually being reachable
+- Snapshotting tunnel state, runtime state, and container state before any restart, deploy, or container change
+
+### Skill 9 — Dockerized MCP Deployment
+| Layer | Path |
+|-------|------|
+| Directive | `directives/dockerized-mcp-deployment.md` |
+| Executions | `executions/mcp_container_scaffold.py` |
+| Resources | `resources/agent-builder-checklist.md` |
+| Use for | Packaging custom FastMCP servers into hardened Docker containers and deploying them to the configured server |
+
+**What this covers**:
+- Production transport defaults for custom MCP servers: `streamable-http`, `stateless_http=True`, `json_response=True`
+- Health endpoint patterns by mounting FastMCP into an ASGI app instead of relying on the raw MCP path alone
+- Container hardening defaults: non-root, read-only filesystem, no Docker socket mount, dropped capabilities, resource limits, runtime secrets
+- Docker Compose service scaffolding for shared MCP deployments
+- WSL2-backed deployment gates: on Windows hosts, no rollout until `wsl -e docker version` succeeds against the Ubuntu runtime; prefer Linux containers for Python MCP services
+
 ---
 
 ## File Map
@@ -113,8 +144,12 @@ description: "Engineering Agent — builds AI agents from scratch inside the Age
 | Path | Purpose |
 |------|---------|
 | `directives/agent-builder.md` | Master SOP for designing and scaffolding agents |
+| `directives/remote-server-access.md` | SOP for reaching the configured server safely before MCP deployment |
+| `directives/dockerized-mcp-deployment.md` | SOP for packaging and deploying custom MCP servers in Docker |
 | `executions/agent_builder.py` | smolagents runtime scaffold with MCP client wiring |
 | `executions/agentforge_mcp_server.py` | Custom FastMCP server skeleton for shared capabilities |
+| `executions/server_access_probe.py` | Renders safe SSH probe and inspection commands for direct or Cloudflare-backed access |
+| `executions/mcp_container_scaffold.py` | Renders Dockerfile and Compose scaffolds for custom MCP services |
 | `resources/agent-builder-checklist.md` | Quick-reference checklist for every agent build |
 
 ---

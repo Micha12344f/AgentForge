@@ -6,7 +6,7 @@ Use this during every agent build to ensure nothing is missed.
 
 ## Requirements Elicitation (NEVER SKIP)
 
-- [ ] Read `Business/ENGINEERING/directives/agent-builder.md` (Section 0)
+- [ ] Read `Business/engineering/directives/agent-builder.md` (Section 0)
 - [ ] **Who is the end user?** — answered and documented
 - [ ] **What is the specific outcome?** — precise, not vague
 - [ ] **What systems does it touch?** — exact SaaS tools, APIs, databases listed
@@ -118,7 +118,7 @@ Use this during every agent build to ensure nothing is missed.
 - [ ] `Business/{DEPT}/executions/{name}.py` — created (smolagents wiring)
 - [ ] `Business/{DEPT}/resources/eval-{name}.yaml` — created
 - [ ] `Business/{DEPT}/resources/{name}-reference.md` — created (includes source URLs from research)
-- [ ] `Business/ENGINEERING/executions/{name}_mcp.py` — created when MCP capability should be shared
+- [ ] `Business/engineering/executions/{name}_mcp.py` — created when MCP capability should be shared
 
 ## Review Gate
 

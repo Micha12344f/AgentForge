@@ -296,7 +296,7 @@ The builder produces these files:
 | Execution stub | `Business/{DEPT}/executions/{name}.py` | Starter `smolagents` code with tool definitions and agent setup |
 | Eval cases | `Business/{DEPT}/resources/eval-{name}.yaml` | Test cases for the eval harness |
 | Resource docs | `Business/{DEPT}/resources/{name}-reference.md` | API docs, auth flows, integration notes |
-| Optional MCP server | `Business/ENGINEERING/executions/{name}_mcp.py` | Shared MCP surface when the capability should be reused by multiple agents or external MCP clients |
+| Optional MCP server | `Business/engineering/executions/{name}_mcp.py` | Shared MCP surface when the capability should be reused by multiple agents or external MCP clients |
 
 ### Step 8 — Review and Activate
 

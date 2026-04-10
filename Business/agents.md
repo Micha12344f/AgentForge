@@ -39,7 +39,7 @@ Each department's `SKILL.md` is the entry point. Read it to understand what skil
 
 ```
 Business/
-├── ENGINEERING/         Agent factory — builds AI agents from scratch using smolagents + MCP
+├── engineering/         Agent factory — builds AI agents from scratch using smolagents + MCP
 │   └── SKILL.md         Skills: requirements elicitation, agent design, MCP integration planning, API doc research, evaluation design, safety boundaries, web research
 │
 ├── PRODUCT/             Product management — customer discovery, requirements, roadmap, feedback
@@ -76,7 +76,7 @@ The workspace ships with role-scoped VS Code custom agents under `.github/agents
 | Agent | VS Code Capability Profile | Notes |
 |-------|----------------------------|-------|
 | **Orchestrator** | `agent`, `execute`, `read`, `edit`, `search`, `web`, `todo`, `memory`, `vscode/extensions`, `vscode/getProjectSetupInfo`, `vscode/askQuestions` | Highest-power agent. Owns delegation, coordination, setup discovery, extension research, and escalation. |
-| **Engineering** | `execute`, `read`, `edit`, `search`, `web`, `todo`, `memory`, `vscode/extensions`, `vscode/getProjectSetupInfo`, `vscode/askQuestions` | Agent factory. Builds AI agents from scratch using smolagents + MCP. Always asks clarifying questions before building. Hands registration to Orchestrator. |
+| **Engineering** | `execute`, `read`, `edit`, `search`, `web`, `todo`, `memory`, `vscode/extensions`, `vscode/getProjectSetupInfo`, `vscode/askQuestions` | Agent factory. Builds AI agents from scratch using smolagents + MCP, can inspect configured servers for MCP runtime health, and can package custom MCPs for container deployment. Wider infrastructure ownership stays with Delivery. |
 | **Delivery** | `execute`, `read`, `edit`, `search`, `web`, `todo`, `memory`, `vscode/extensions` | Can deploy and operate systems, but release coordination stays with Orchestrator. |
 | **Product** | `read`, `edit`, `search`, `web`, `todo`, `memory`, `vscode/askQuestions` | No terminal access by default. Optimised for discovery, specs, and prioritisation. |
 | **Content** | `read`, `edit`, `search`, `web`, `todo`, `memory` | No terminal access by default. Optimised for drafting from real project artefacts. |
@@ -106,11 +106,11 @@ Each department agent includes a handoff back to **Orchestrator** so users can m
 | Vercel | Web hosting | `.env` |
 | Railway | Always-on services | `.env` |
 | VPS / SSH | Remote host access, diagnostics, manual deploy fallback | `.env` |
-| HubSpot | CRM integration target | `ENGINEERING/resources/.env` |
-| Slack | Communication integration target | `ENGINEERING/resources/.env` |
-| Google Workspace | Gmail/Drive/Calendar integration target | `ENGINEERING/resources/.env` |
-| Asana/Linear | Project management integration target | `ENGINEERING/resources/.env` |
-| Stripe/Xero | Payment/invoicing integration target | `ENGINEERING/resources/.env` |
+| HubSpot | CRM integration target | `engineering/resources/.env` |
+| Slack | Communication integration target | `engineering/resources/.env` |
+| Google Workspace | Gmail/Drive/Calendar integration target | `engineering/resources/.env` |
+| Asana/Linear | Project management integration target | `engineering/resources/.env` |
+| Stripe/Xero | Payment/invoicing integration target | `engineering/resources/.env` |
 
 ---
 
