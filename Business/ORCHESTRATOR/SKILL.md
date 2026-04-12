@@ -37,6 +37,7 @@ description: "Orchestrator Agent — master coordinator for the AgentForge 14-da
 | Customer discovery, requirements, roadmap, feedback | PRODUCT |
 | Deployment, monitoring, infrastructure, tracing | DELIVERY |
 | Blog post, case study, social content, open source | CONTENT |
+| Business thesis, competitor research, market analysis, regulatory research, idea vetting | RESEARCH |
 | Sprint status, coordination, routing, structure | ORCHESTRATOR (self) |
 
 ### Skill 3 — Task Decomposition

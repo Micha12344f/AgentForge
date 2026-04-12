@@ -51,6 +51,9 @@ Business/
 ├── CONTENT/             Public building — blog posts, case studies, open source, social media
 │   └── SKILL.md         Skills: case studies, technical posts, social content, open source releases
 │
+├── RESEARCH/            Business thesis factory — vets ideas, researches competitors, produces investor-grade PDFs
+│   └── SKILL.md         Skills: business thesis creation, competitor research, regulatory research, market sizing, web scraping, PDF generation
+│
 └── ORCHESTRATOR/        Central nervous system — sprint coordination, routing, cross-department workflows
     └── SKILL.md         Skills: sprint management, agent routing, task decomposition, status reporting, VPS connectivity
 ```
@@ -80,6 +83,7 @@ The workspace ships with role-scoped VS Code custom agents under `.github/agents
 | **Delivery** | `execute`, `read`, `edit`, `search`, `web`, `todo`, `memory`, `vscode/extensions` | Can deploy and operate systems, but release coordination stays with Orchestrator. |
 | **Product** | `read`, `edit`, `search`, `web`, `todo`, `memory`, `vscode/askQuestions` | No terminal access by default. Optimised for discovery, specs, and prioritisation. |
 | **Content** | `read`, `edit`, `search`, `web`, `todo`, `memory` | No terminal access by default. Optimised for drafting from real project artefacts. |
+| **Research** | `execute`, `read`, `edit`, `search`, `web`, `todo`, `memory`, `vscode/askQuestions` | Business thesis factory. Vets AI wrapper and MCP-tool ideas with zero bias, scrapes competitor websites, interprets regulatory documents, generates PDF deliverables. Terminal access for PDF generation. |
 
 Each department agent includes a handoff back to **Orchestrator** so users can move back to central coordination without re-explaining context.
 

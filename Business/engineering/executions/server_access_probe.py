@@ -50,7 +50,7 @@ def render_ssh_command(target: SshTarget, remote_command: str) -> str:
 
 
 def render_probe_bundle(target: SshTarget, operating_system: str) -> list[str]:
-    commands = [render_ssh_command(target, "echo connected"), render_ssh_command(target, "whoami")]
+    commands = [render_ssh_command(target, "whoami"), render_ssh_command(target, "hostname")]
 
     if operating_system == "windows":
         commands.extend(

@@ -6,26 +6,32 @@ Establish safe, repeatable VPS access from this workspace for diagnostics, log i
 ## Source Of Truth
 
 - Root `.env`: `SSH_HOST`, `SSH_USER`, `SSH_PORT`, `SSH_KEY_PATH`
+- Local `~/.ssh/config`: preferred when the working path is a Cloudflare Access alias
 - `resources/connection-reference.md`: connection pattern, command templates, verification order
 - `.env.example` and `resources/.env.example`: required placeholders only, never live credentials
 
 ## Preferred Workflow
 
-1. Read the root `.env` and confirm the SSH values are present.
+1. Read the root `.env` if it exists and confirm the SSH values are present. If the file is missing, incomplete, or the direct path is stale, inspect the local `~/.ssh/config` for the active alias instead of blocking on `.env`.
 2. Verify local prerequisites before connecting:
    - `ssh` is available in PowerShell
+   - `cloudflared` is available if the alias uses Cloudflare Access
    - the configured key path exists locally
-   - host, user, and port are populated and plausible
-3. Start with a non-interactive connectivity probe:
+   - host, user, and port are populated and plausible when using the direct path
+3. If the alias is fronted by Cloudflare Access and the session may be expired, prime the local Access session first:
 
 ```powershell
-ssh -o BatchMode=yes -o ConnectTimeout=10 -i "<key-path>" -p <port> <user>@<host> "hostname"
+cloudflared access login --quiet --auto-close https://<ssh-app-host>
 ```
 
-4. Use an interactive SSH session only after the probe succeeds.
-5. Prefer read-only inspection first: working directory, host identity, running containers or services, recent logs, and health endpoints.
-6. Snapshot current state before any restart or deploy: process or container status, current release or commit if available, and recent logs.
-7. Production changes stay coordinated with DELIVERY unless the user explicitly asks Orchestrator to execute them directly.
+4. Start with a non-interactive connectivity probe:
+   - Alias path: `ssh -o BatchMode=yes -o ConnectTimeout=15 <alias> "whoami"`
+   - Direct path: `ssh -o BatchMode=yes -o ConnectTimeout=15 -i "<key-path>" -p <port> <user>@<host> "hostname"`
+5. If the first alias probe opens a browser or appears to hang, complete browser auth and rerun the same non-interactive probe before opening a shell.
+6. Use an interactive SSH session only after the probe succeeds.
+7. Prefer read-only inspection first: working directory, host identity, running containers or services, recent logs, and health endpoints.
+8. Snapshot current state before any restart or deploy: process or container status, current release or commit if available, and recent logs.
+9. Production changes stay coordinated with DELIVERY unless the user explicitly asks Orchestrator to execute them directly.
 
 ## Safe Deploy Sequence
 
