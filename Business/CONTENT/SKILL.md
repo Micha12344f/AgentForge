@@ -1,11 +1,11 @@
 ---
 name: content
-description: "Content Agent — public building, case studies, technical blog posts, social media content, and open source releases for AgentForge."
+description: "Content Agent — public building, case studies, technical blog posts, social media content, open source releases, and LinkedIn API integration for AgentForge."
 ---
 
 # CONTENT — Skill Command Sheet
 
-> **Adopt this department to gain**: Case study writing, technical blog posts, short-form social content, open source release management, and public building strategy.
+> **Adopt this department to gain**: Case study writing, technical blog posts, short-form social content, open source release management, public building strategy, and full LinkedIn API access (posts, images, videos, comments, reactions, analytics).
 
 > **Governance**: Content owns content creation material. Orchestrator alone owns cross-department DOE restructuring.
 
@@ -51,6 +51,42 @@ Everything built should be documented publicly where possible. This is not marke
 | Directive | `directives/open-source.md` |
 | Resources | `resources/oss-checklist.md` |
 | Use for | Releasing non-proprietary components publicly (integration clients, eval harness, approval engine) |
+
+### Skill 5 — LinkedIn API
+| Layer | Path |
+|-------|------|
+| Directive | `directives/linkedin-api.md` |
+| Execution | `executions/linkedin_api.py` |
+| Resources | Root `.env` (LINKEDIN_ACCESS_TOKEN), `shared/linkedin_oauth.py` (re-auth flow) |
+| Use for | Full LinkedIn API access: create/edit/delete posts (text, image, video, article), upload media, comment, react, read engagement analytics, manage comment threads. Use this skill whenever a task involves publishing to LinkedIn or reading LinkedIn data. |
+
+**Capabilities**:
+- **Posts**: text, image, video, article, reshare, poll, multi-image — full CRUD
+- **Media upload**: images (JPG/PNG/GIF) and videos (MP4, multi-part, captions, thumbnails)
+- **Comments**: create, reply, edit, delete, mention, image-in-comment
+- **Reactions**: LIKE, PRAISE, EMPATHY, INTEREST, APPRECIATION, ENTERTAINMENT
+- **Analytics**: engagement summaries via Social Metadata API (reaction counts, comment counts)
+- **Thread moderation**: enable/disable comments on any owned post
+
+### Skill 6 — Apollo Prospecting API
+| Layer | Path |
+|-------|------|
+| Directive | `directives/apollo-prospecting.md` |
+| Execution | `executions/apollo_api.py` |
+| Resources | Root `.env` (APOLLO_API_KEY) |
+| Use for | Prospect research, company enrichment by domain, contact CRM management, and ICP qualification. Use this skill whenever a task involves finding company data, enriching prospects, or managing the outbound pipeline. |
+
+**Capabilities** (Free plan — verified 2026-04-15):
+- **Organization Enrichment**: full firmographic profile by domain (industry, headcount, revenue, tech stack, funding, keywords) — 1 credit/call
+- **Contact CRM**: create, update, and search contacts in Apollo — free
+- **Account Search**: search your saved accounts — free
+- **People Search** *(paid plan required)*: search Apollo's 210M+ database by title, seniority, location, company size, tech stack
+- **People Enrichment** *(paid plan required)*: get email/phone for a specific person
+- **Org Search** *(paid plan required)*: search company database with advanced filters
+
+**Auth**: `x-api-key` header. Key in root `.env` as `APOLLO_API_KEY`.
+
+**Credit budget**: 100/month (Free plan). Never burn >10 credits in a single automated run without user confirmation.
 
 ---
 

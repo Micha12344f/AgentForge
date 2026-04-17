@@ -28,3 +28,7 @@ Thumbs.db
 
 # Temp
 tmp/
+
+# Standalone repos (have their own git remotes)
+Meesix website/
+shared/google-ads-mcp/

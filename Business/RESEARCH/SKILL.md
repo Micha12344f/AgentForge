@@ -124,3 +124,35 @@ For these products, the following stress tests are **mandatory** in every thesis
 6. **Draft review** — present key findings and risk flags before PDF generation
 7. **PDF generation** — run `Business/RESEARCH/executions/build_thesis_pdf.py` to produce the final PDF
 8. **Output** — PDF saved to `Business/RESEARCH/resources/outputs/<company-slug>-thesis-<YYYY-MM>.pdf`
+
+### Skill 6 — Investor Vetting
+| Layer | Path |
+|-------|------|
+| Directive | `directives/investor-vetting.md` |
+| Executions | `executions/vet_business_idea.py` |
+| Resources | `resources/buffett-investor-corpus.md` |
+| Use for | Vetting business ideas against Buffett-grade investor standards derived from partnership and shareholder letters |
+
+**What this covers**:
+- Thesis-type classification (compounder, mispricing, control unlock, special situation)
+- 10-dimension screening rubric with PASS / MARGINAL / FAIL scoring
+- Red flag detection drawn from Buffett's recurring warnings across 60+ years of letters
+- 8 core vetting questions with evidence-based answers required
+- Reading existing thesis PDFs from `resources/outputs/` via the execution script for second-opinion reviews
+- AI wrapper and MCP-tool ideas also get the mandatory stress tests from the main SKILL.md
+- Verdict output: STRONG / MARGINAL / WEAK with basis, key risk, and recommended action
+
+### Skill 7 — Network Intelligence & Opportunity Matching
+| Layer | Path |
+|-------|------|
+| Directive | `directives/network-intelligence.md` |
+| Executions | `executions/network_capture.py` |
+| Resources | `resources/Network/network.db`, `resources/Network/` |
+| Use for | Persisting relevant people found during research, enriching their profiles from public sources, and matching them against active opportunities, theses, or wedges |
+
+**What this covers**:
+- Capturing people as durable research assets instead of ephemeral notes
+- Storing connectors, buyers, operators, experts, investors, and partner candidates in `network.db`
+- Recording source URLs, snippets, and profile summaries for each person
+- Creating opportunity records and scoring people against them with rationale and next steps
+- Reusing the same network memory across future research runs so thesis work compounds over time

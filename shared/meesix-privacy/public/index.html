@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meesix — Legal</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: #0A0000;
+            color: rgba(255,255,255,0.75);
+            line-height: 1.7;
+            font-size: 16px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        /* Subtle background glow */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80vw;
+            height: 60vh;
+            background: radial-gradient(ellipse, rgba(141,3,3,0.12) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        header {
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            padding: 1.25rem 2rem;
+            backdrop-filter: blur(20px);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: rgba(10,0,0,0.85);
+        }
+        header .wrap {
+            max-width: 780px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        header .logo {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: #fff;
+            text-decoration: none;
+            letter-spacing: 0.02em;
+        }
+        header nav a {
+            color: rgba(255,255,255,0.4);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+        header nav a:hover { color: rgba(255,255,255,0.8); }
+        main {
+            max-width: 780px;
+            margin: 6rem auto;
+            padding: 0 2rem;
+            text-align: center;
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            color: #fff;
+            letter-spacing: -0.01em;
+        }
+        .tagline {
+            color: rgba(255,255,255,0.4);
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+        }
+        .links {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .links a {
+            display: block;
+            padding: 1.75rem 2.5rem;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            text-decoration: none;
+            color: #fff;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+        .links a:hover {
+            border-color: rgba(141,3,3,0.5);
+            background: rgba(141,3,3,0.08);
+            box-shadow: 0 8px 40px -8px rgba(141,3,3,0.25);
+            transform: translateY(-2px);
+        }
+        .links a span {
+            display: block;
+            font-weight: 400;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.35);
+            margin-top: 0.4rem;
+        }
+        footer {
+            border-top: 1px solid rgba(255,255,255,0.06);
+            text-align: center;
+            padding: 2rem;
+            color: rgba(255,255,255,0.25);
+            font-size: 0.85rem;
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="wrap">
+            <a href="/" class="logo">Meesix</a>
+            <nav>
+                <a href="/privacy">Privacy Policy</a>
+                <a href="/terms">Terms of Service</a>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <h1>Meesix</h1>
+        <p class="tagline">Campaign validation before spend goes live.</p>
+        <div class="links">
+            <a href="/privacy">Privacy Policy <span>How we handle your data</span></a>
+            <a href="/terms">Terms of Service <span>Rules for using Meesix</span></a>
+        </div>
+    </main>
+    <footer>
+        &copy; 2026 Meesix B.V. All rights reserved.
+    </footer>
+</body>
+</html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy — Meesix</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: #0A0000;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.8;
+            font-size: 16px;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90vw;
+            height: 50vh;
+            background: radial-gradient(ellipse, rgba(141,3,3,0.10) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        header {
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            padding: 1.25rem 2rem;
+            backdrop-filter: blur(20px);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: rgba(10,0,0,0.85);
+        }
+        header .wrap {
+            max-width: 780px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        header .logo {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: #fff;
+            text-decoration: none;
+            letter-spacing: 0.02em;
+        }
+        header nav a {
+            color: rgba(255,255,255,0.4);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+        header nav a:hover { color: rgba(255,255,255,0.8); }
+        header nav a.active { color: rgba(255,255,255,0.8); }
+        main {
+            max-width: 780px;
+            margin: 3rem auto;
+            padding: 0 2rem 4rem;
+            position: relative;
+            z-index: 1;
+        }
+        h1 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            margin-bottom: 0.25rem;
+            color: #fff;
+            letter-spacing: -0.01em;
+        }
+        .effective {
+            color: rgba(255,255,255,0.3);
+            font-size: 0.9rem;
+            margin-bottom: 2.5rem;
+        }
+        h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-top: 2.75rem;
+            margin-bottom: 0.75rem;
+            color: rgba(255,255,255,0.9);
+        }
+        h3 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: rgba(255,255,255,0.85);
+        }
+        p, li { margin-bottom: 0.75rem; }
+        ul { padding-left: 1.5rem; }
+        li::marker { color: rgba(141,3,3,0.7); }
+        strong { color: rgba(255,255,255,0.9); font-weight: 600; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        th, td {
+            text-align: left;
+            padding: 0.7rem 1rem;
+            border: 1px solid rgba(255,255,255,0.08);
+            font-size: 0.95rem;
+        }
+        th {
+            background: rgba(255,255,255,0.04);
+            font-weight: 600;
+            color: rgba(255,255,255,0.8);
+        }
+        code {
+            background: rgba(255,255,255,0.06);
+            padding: 0.15em 0.45em;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: rgba(255,255,255,0.85);
+        }
+        a {
+            color: #FF6B6B;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        a:hover { color: #FF9B9B; }
+        footer {
+            border-top: 1px solid rgba(255,255,255,0.06);
+            text-align: center;
+            padding: 2rem;
+            color: rgba(255,255,255,0.25);
+            font-size: 0.85rem;
+            margin-top: 2rem;
+        }
+        @media (max-width: 600px) {
+            main { padding: 0 1rem 3rem; }
+            h1 { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="wrap">
+            <a href="/" class="logo">Meesix</a>
+            <nav>
+                <a href="/privacy" class="active">Privacy Policy</a>
+                <a href="/terms">Terms of Service</a>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <h1>Privacy Policy</h1>
+        <p class="effective">Effective date: April 16, 2026 &middot; Last updated: April 16, 2026</p>
+
+        <p>Meesix (&ldquo;we&rdquo;, &ldquo;us&rdquo;, &ldquo;our&rdquo;) operates the Meesix campaign validation platform (the &ldquo;Service&rdquo;). This Privacy Policy explains how we collect, use, store, share, and protect information when you use our Service, including data obtained through third-party integrations such as the LinkedIn Marketing API, Meta Ads API, and Google Ads API.</p>
+
+        <p>By using the Service you agree to the collection and use of information in accordance with this policy. If you do not agree, please do not use the Service.</p>
+
+        <h2>1. Information We Collect</h2>
+
+        <h3>1.1 Account Information</h3>
+        <p>When you register for Meesix, we collect your name, email address, company name, and role. This information is provided directly by you.</p>
+
+        <h3>1.2 LinkedIn Data (via LinkedIn Marketing API)</h3>
+        <p>When you connect your LinkedIn Ads account, we request permission to access certain data on your behalf through LinkedIn&rsquo;s OAuth 2.0 authorisation flow. The specific data scopes we request include:</p>
+        <table>
+            <thead><tr><th>Scope</th><th>Purpose</th></tr></thead>
+            <tbody>
+                <tr><td><code>r_ads</code></td><td>Read your ad account structure and campaign settings for validation</td></tr>
+                <tr><td><code>rw_ads</code></td><td>Manage campaigns on your behalf (only when you explicitly enable campaign management)</td></tr>
+                <tr><td><code>r_ads_reporting</code></td><td>Retrieve campaign performance data for reporting and recommendations</td></tr>
+                <tr><td><code>r_basicprofile</code></td><td>Identify you as the connected user (name, profile photo)</td></tr>
+                <tr><td><code>r_organization_admin</code></td><td>Access company page data associated with your ad accounts</td></tr>
+            </tbody>
+        </table>
+        <p>We only access the minimum data required to perform campaign validation and deliver the Service. We do not access your LinkedIn connections, messages, or personal content.</p>
+
+        <h3>1.3 Other Ad Platform Data</h3>
+        <p>If you connect Meta Ads or Google Ads accounts, we collect equivalent read-only campaign configuration data through those platforms&rsquo; official APIs, subject to the same principles described here.</p>
+
+        <h3>1.4 Usage Data</h3>
+        <p>We automatically collect basic usage data including pages visited, features used, validation runs performed, browser type, and IP address. We use this data to improve the Service and diagnose issues.</p>
+
+        <h2>2. How We Use Your Information</h2>
+        <p>We use the information we collect for the following purposes only:</p>
+        <ul>
+            <li><strong>Campaign validation</strong> — checking campaign settings against your configured rules and generating pass/warn/fail reports</li>
+            <li><strong>Approval workflows</strong> — routing validation results to your team via Slack and recording approval decisions</li>
+            <li><strong>Campaign management</strong> — executing campaign changes on your behalf only when you explicitly authorise and trigger each action</li>
+            <li><strong>Audit trail</strong> — maintaining a history of validation runs, findings, and decisions for your compliance records</li>
+            <li><strong>Service improvement</strong> — analysing aggregate, anonymised usage patterns to improve the product</li>
+            <li><strong>Customer support</strong> — responding to your requests and resolving issues</li>
+        </ul>
+        <p>We do <strong>not</strong> use your data for advertising, sell your data to third parties, or use LinkedIn data to target advertisements to any individual.</p>
+
+        <h2>3. How We Store Your Information</h2>
+
+        <h3>3.1 OAuth Tokens</h3>
+        <p>Access tokens and refresh tokens obtained through LinkedIn OAuth are stored encrypted at rest in our database. Tokens are used solely to make authorised API calls on your behalf. We never store your LinkedIn password.</p>
+
+        <h3>3.2 Campaign Data</h3>
+        <p>Campaign configuration data retrieved from ad platforms is stored only for the duration necessary to perform validation and maintain your audit history. Data is stored in a manner that allows us to identify, segregate, and selectively delete content associated with your account.</p>
+
+        <h3>3.3 Data Retention</h3>
+        <p>We retain your data for as long as your account is active or as needed to provide the Service. Validation history is retained for up to 24 months unless you request earlier deletion. When data is no longer required, it is securely deleted.</p>
+
+        <h2>4. How We Share Your Information</h2>
+        <p>We do not sell, rent, lease, or trade your personal information or LinkedIn data to third parties. We may share data only in these limited circumstances:</p>
+        <ul>
+            <li><strong>Service providers</strong> — trusted infrastructure providers (hosting, database, monitoring) that process data on our behalf under strict contractual obligations</li>
+            <li><strong>Your team members</strong> — other users within your Meesix workspace can see shared validation reports and audit history</li>
+            <li><strong>Legal requirements</strong> — if required by law, regulation, legal process, or governmental request</li>
+            <li><strong>Business transfer</strong> — in connection with a merger, acquisition, or sale of assets, with prior notice to you</li>
+        </ul>
+        <p>We never share LinkedIn content with third parties in a way that would allow them to aggregate or re-identify member data.</p>
+
+        <h2>5. Your Rights and Choices</h2>
+
+        <h3>5.1 Access and Portability</h3>
+        <p>You can request a copy of your personal data at any time by contacting us at <a href="mailto:privacy@meesix.com">privacy@meesix.com</a>.</p>
+
+        <h3>5.2 Correction</h3>
+        <p>You can update your account information through the Service at any time.</p>
+
+        <h3>5.3 Deletion</h3>
+        <p>You may request deletion of your data at any time by emailing <a href="mailto:privacy@meesix.com">privacy@meesix.com</a> or by closing your account. Upon receiving a deletion request, we will:</p>
+        <ul>
+            <li>Delete all LinkedIn data, OAuth tokens, and campaign data associated with your account</li>
+            <li>Delete your profile information and audit history</li>
+            <li>Complete deletion within 30 days of the request</li>
+        </ul>
+        <p>If you close your account, all data collected through the APIs on your behalf — including OAuth access tokens and member tokens — is deleted immediately, except where retention is required by law.</p>
+
+        <h3>5.4 Withdraw Consent</h3>
+        <p>You may withdraw your consent to our use of your LinkedIn data at any time by disconnecting your LinkedIn account from the Service. You can also revoke Meesix&rsquo;s access directly from your <a href="https://www.linkedin.com/psettings/permitted-services" target="_blank" rel="noopener">LinkedIn settings</a>. Upon withdrawal, we cease all further data collection and delete stored LinkedIn data within 30 days.</p>
+
+        <h3>5.5 GDPR Rights (EEA, UK, Switzerland)</h3>
+        <p>If you are located in the European Economic Area, the United Kingdom, or Switzerland, you have additional rights under the General Data Protection Regulation (GDPR), including the right to:</p>
+        <ul>
+            <li>Access your personal data</li>
+            <li>Rectify inaccurate data</li>
+            <li>Erase your data (&ldquo;right to be forgotten&rdquo;)</li>
+            <li>Restrict or object to processing</li>
+            <li>Data portability</li>
+            <li>Lodge a complaint with a supervisory authority</li>
+        </ul>
+        <p>Our legal basis for processing your data is your consent (provided through the OAuth authorisation flow) and our legitimate interest in providing the Service.</p>
+
+        <h2>6. Data Security</h2>
+        <p>We implement industry-standard security measures to protect your data, including:</p>
+        <ul>
+            <li>Encryption of data in transit (TLS 1.2+) and at rest</li>
+            <li>Access controls limiting data access to authorised personnel</li>
+            <li>Regular security reviews and vulnerability assessments</li>
+            <li>Secure credential storage — API secrets and tokens are never exposed in client-side code, URLs, or logs</li>
+        </ul>
+        <p>In the event of a security breach that may affect your data, we will notify you and LinkedIn within 24 hours of discovery, as required by LinkedIn&rsquo;s API Terms of Use and applicable law.</p>
+
+        <h2>7. Cookies and Tracking</h2>
+        <p>We use essential cookies required for the Service to function (session management, authentication state). We do not use advertising or third-party tracking cookies. We may use a privacy-respecting analytics service to understand aggregate usage patterns.</p>
+
+        <h2>8. Third-Party Services</h2>
+        <p>The Service integrates with third-party platforms (LinkedIn, Meta, Google) via their official APIs. Your use of those platforms is governed by their respective privacy policies:</p>
+        <ul>
+            <li><a href="https://www.linkedin.com/legal/privacy-policy" target="_blank" rel="noopener">LinkedIn Privacy Policy</a></li>
+            <li><a href="https://www.facebook.com/privacy/policy/" target="_blank" rel="noopener">Meta Privacy Policy</a></li>
+            <li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a></li>
+        </ul>
+
+        <h2>9. Children&rsquo;s Privacy</h2>
+        <p>The Service is not directed at individuals under the age of 18. We do not knowingly collect personal information from children. If we become aware that we have inadvertently collected data from a child, we will delete it promptly.</p>
+
+        <h2>10. International Data Transfers</h2>
+        <p>Your data may be processed in countries outside your country of residence, including the United States and the European Union. Where we transfer data outside the EEA, we rely on appropriate safeguards such as Standard Contractual Clauses approved by the European Commission.</p>
+
+        <h2>11. Changes to This Policy</h2>
+        <p>We may update this Privacy Policy from time to time. We will notify you of material changes by posting the updated policy on this page with a revised effective date, and by email if required. Continued use of the Service after changes constitutes acceptance of the updated policy.</p>
+
+        <h2>12. Contact Us</h2>
+        <p>If you have questions about this Privacy Policy, your data, or wish to exercise any of your rights, please contact us:</p>
+        <ul>
+            <li><strong>Email:</strong> <a href="mailto:privacy@meesix.com">privacy@meesix.com</a></li>
+            <li><strong>Company:</strong> Meesix B.V.</li>
+        </ul>
+    </main>
+    <footer>
+        &copy; 2026 Meesix B.V. All rights reserved.
+    </footer>
+</body>
+</html>
